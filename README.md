@@ -1,6 +1,6 @@
 # rust-based os comp 2022
 
-Welcome to the Summer Compus 2022 for rust-based OS.
+Welcome to OS Tutorial Summer of Code 2022（2022年开源操作系统夏令营）.
 ## Scheduling
 - NOTICE current [scheduling](./scheduling.md)!
 ## History
