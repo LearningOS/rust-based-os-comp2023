@@ -1,7 +1,12 @@
 # rust-based os comp 2022
 
+Welcome to the Summer Compus 2022 for rust-based OS.
+## Scheduling
+- NOTICE current [scheduling](./scheduling.md)!
+## History
+- [rust-based os comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
+- [rust-based os comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 ## Guide
-
 - Guide deployed version can be found [here](https://LearningOS.github.io/rCore-Tutorial-Guide-2022S/).
 - Source of Guide is in 'guide' DIR
 
@@ -9,6 +14,7 @@ First, you can read [Guide](https://LearningOS.github.io/rCore-Tutorial-Guide-20
 
 - setup development environment.
 - analyze and try os in ch1 and ch2.
+
 
 ## os reference framework
 The 'os[1-8]-ref' are the 'os[1-8]'  reference framework.  You can read and copy some codes into os[1-8]
