@@ -2,7 +2,7 @@
 
 Welcome to OS Tutorial Summer of Code 2022（2022年开源操作系统夏令营）.
 ## Scheduling
-- NOTICE current [scheduling](./scheduling.md)!
+- NOTICE current [scheduling](./scheduling.md)（2022年开源操作系统夏令营的计划安排）!
 ## History
 - [rust-based os comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [rust-based os comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
