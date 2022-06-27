@@ -5,6 +5,11 @@
 - Guide deployed version can be found [here](https://LearningOS.github.io/rCore-Tutorial-Guide-2022S/).
 - Source of Guide is in 'guide' DIR
 
+First, you can read [Guide](https://LearningOS.github.io/rCore-Tutorial-Guide-2022S/) to:
+
+- setup development environment.
+- analyze and try os in ch1 and ch2.
+
 ## os reference framework
 The 'os[1-8]-ref' are the 'os[1-8]'  reference framework.  You can read and copy some codes into os[1-8]
 
@@ -19,8 +24,8 @@ According to the  [Guide](https://LearningOS.github.io/rCore-Tutorial-Guide-2022
 - lab5 in 'os8' DIR
 
 ## Check your results
-- lab1: `make test3`
-- lab2 `make test4`
-- lab3 `make test5`
-- lab4 `make test6` and `make test7` 
-- lab5 `make test8` 
+- lab1: `make test3` for lab1
+- lab2: `make test4`  for lab2 
+- lab3: `make test5`  for lab3
+- lab4: `make test6`  &&  `make test7` for lab4 
+- lab5: `make test8`  for lab5 
