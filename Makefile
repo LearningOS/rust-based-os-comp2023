@@ -2,7 +2,18 @@ DOCKER_NAME ?= dinghao188/rcore-tutorial
 DIR := workplace
 .PHONY: docker build_docker
 
+
 test: test3 test4 test5 test6 test7 test8
+
+lab1: test3
+
+lab2: test4
+
+lab3: test5
+
+lab4: test6 test7
+
+lab5: test8
 
 setup:
 	rm -rf  ${DIR}

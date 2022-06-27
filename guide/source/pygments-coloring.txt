@@ -1,0 +1,32 @@
+Pygments 默认配色：
+Keyword.Constant 深绿加粗
+Keyword.Declaration 深绿加粗
+Keyword.Namespace 深绿加粗
+Keyword.Pseudo 浅绿
+Keyword.Reserved 深绿加粗
+Keyword.Type 樱桃红
+Name.Attribute 棕黄
+Name.Builtin 浅绿
+Name.Builtin.Pseudo 浅绿
+Name.Class 深蓝加粗
+Name.Constant 棕红
+Name.Decorator 浅紫
+Name.Entity 灰色
+Name.Exception 深红
+Name.Function 深蓝
+Name.Function.Magic 深蓝
+Name.Label 棕黄
+Name.Namespace 深蓝加粗
+Name.Other 默认黑色
+Name.Tag 深绿加粗
+Name.Variable 蓝黑
+
+
+通用寄存器 -> 棕黄 Name.Attribute
+CSR -> 棕红 Name.Constant
+指令 -> 浅紫 Name.Decorator
+伪指令 -> 樱桃红 Keyword.Type
+Directives -> 深蓝 Name.Function
+标签/剩余字面量 -> 浅绿 Name.Builtin
+数字 -> Number
+
