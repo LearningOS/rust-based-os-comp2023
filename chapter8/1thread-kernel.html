@@ -1,0 +1,853 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="锁机制" href="2lock.html" /><link rel="prev" title="引言" href="0intro.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>内核态的线程管理 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第八章：并发</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="id1">
+<h1>内核态的线程管理<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>线程概念<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>这里会结合与进程的比较来说明线程的概念。到本章之前，我们看到了进程这一抽象，操作系统让进程拥有相互隔离的虚拟的地址空间，
+让进程感到在独占一个虚拟的处理器。其实这只是操作系统通过时分复用和空分复用技术来让每个进程复用有限的物理内存和物理CPU。
+而线程是在进程内中的一个新的抽象。在没有线程之前，一个进程在一个时刻只有一个执行点（即程序计数器 (PC)
+寄存器保存的要执行指令的指针）。但线程的引入把进程内的这个单一执行点给扩展为多个执行点，即在进程中存在多个线程，
+每个线程都有一个执行点。而且这些线程共享进程的地址空间，所以可以不必采用相对比较复杂的 IPC 机制（一般需要内核的介入），
+而可以很方便地直接访问进程内的数据。</p>
+<p>在线程的具体运行过程中，需要有程序计数器寄存器来记录当前的执行位置，需要有一组通用寄存器记录当前的指令的操作数据，
+需要有一个栈来保存线程执行过程的函数调用栈和局部变量等，这就形成了线程上下文的主体部分。
+这样如果两个线程运行在一个处理器上，就需要采用类似两个进程运行在一个处理器上的调度/切换管理机制，
+即需要在一定时刻进行线程切换，并进行线程上下文的保存与恢复。这样在一个进程中的多线程可以独立运行，
+取代了进程，成为操作系统调度的基本单位。</p>
+<p>由于把进程的结构进行了细化，通过线程来表示对处理器的虚拟化，使得进程成为了管理线程的容器。
+在进程中的线程没有父子关系，大家都是兄弟，但还是有个老大。这个代表老大的线程其实就是创建进程（比如通过
+<code class="docutils literal notranslate"><span class="pre">fork</span></code> 系统调用创建进程）时，建立的第一个线程，它的线程标识符（TID）为 <code class="docutils literal notranslate"><span class="pre">0</span></code> 。</p>
+</div>
+<div class="section" id="id3">
+<h2>线程模型与重要系统调用<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>目前，我们只介绍本章实现的内核中采用的一种非常简单的线程模型。这个线程模型有三个运行状态：
+就绪态、运行态和等待态；共享所属进程的地址空间和其他共享资源（如文件等）；可被操作系统调度来分时占用CPU执行；
+可以动态创建和退出；可通过系统调用获得操作系统的服务。我们实现的线程模型建立在进程的地址空间抽象之上：
+每个线程都共享进程的代码段和和可共享的地址空间（如全局数据段、堆等），但有自己的独占的栈。
+线程模型需要操作系统支持一些重要的系统调用：创建线程、等待子线程结束等，来支持灵活的多线程应用。
+接下来会介绍这些系统调用的基本功能和设计思路。</p>
+<div class="section" id="id4">
+<h3>线程创建系统调用<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>在一个进程的运行过程中，进程可以创建多个属于这个进程的线程，每个线程有自己的线程标识符（TID，Thread Identifier）。
+系统调用 <code class="docutils literal notranslate"><span class="pre">thread_create</span></code> 的原型如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="sd">/// 功能：当前进程创建一个新的线程</span>
+<span class="linenos">2</span><span class="sd">/// 参数：entry 表示线程的入口函数地址</span>
+<span class="linenos">3</span><span class="sd">/// 参数：arg：表示线程的一个参数</span>
+<span class="linenos">4</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_thread_create</span><span class="p">(</span><span class="n">entry</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span>
+</pre></div>
+</div>
+<p>当进程调用 <code class="docutils literal notranslate"><span class="pre">thread_create</span></code> 系统调用后，内核会在这个进程内部创建一个新的线程，这个线程能够访问到进程所拥有的代码段，
+堆和其他数据段。但内核会给这个新线程分配一个它专有的用户态栈，这样每个线程才能相对独立地被调度和执行。
+另外，由于用户态进程与内核之间有各自独立的页表，所以二者需要有一个跳板页 <code class="docutils literal notranslate"><span class="pre">TRAMPOLINE</span></code>
+来处理用户态切换到内核态的地址空间平滑转换的事务。所以当出现线程后，在进程中的每个线程也需要有一个独立的跳板页
+<code class="docutils literal notranslate"><span class="pre">TRAMPOLINE</span></code> 来完成同样的事务。</p>
+<p>相比于创建进程的 <code class="docutils literal notranslate"><span class="pre">fork</span></code> 系统调用，创建线程不需要要建立新的地址空间，这是二者之间最大的不同。
+另外属于同一进程中的线程之间没有父子关系，这一点也与进程不一样。</p>
+</div>
+<div class="section" id="id5">
+<h3>等待子线程系统调用<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>当一个线程执行完代表它的功能后，会通过 <code class="docutils literal notranslate"><span class="pre">exit</span></code> 系统调用退出。内核在收到线程发出的 <code class="docutils literal notranslate"><span class="pre">exit</span></code> 系统调用后，
+会回收线程占用的部分资源，即用户态用到的资源，比如用户态的栈，用于系统调用和异常处理的跳板页等。
+而该线程的内核态用到的资源，比如内核栈等，需要通过进程/主线程调用 <code class="docutils literal notranslate"><span class="pre">waittid</span></code> 来回收了，
+这样整个线程才能被彻底销毁。系统调用 <code class="docutils literal notranslate"><span class="pre">waittid</span></code> 的原型如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="sd">/// 参数：tid表示线程id</span>
+<span class="linenos">2</span><span class="sd">/// 返回值：如果线程不存在，返回-1；如果线程还没退出，返回-2；其他情况下，返回结束线程的退出码</span>
+<span class="linenos">3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_waittid</span><span class="p">(</span><span class="n">tid</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">i32</span>
+</pre></div>
+</div>
+<p>一般情况下进程/主线程要负责通过 <code class="docutils literal notranslate"><span class="pre">waittid</span></code> 来等待它创建出来的线程（不是主线程）结束并回收它们在内核中的资源
+（如线程的内核栈、线程控制块等）。如果进程/主线程先调用了 <code class="docutils literal notranslate"><span class="pre">exit</span></code> 系统调用来退出，那么整个进程
+（包括所属的所有线程）都会退出，而对应父进程会通过 <code class="docutils literal notranslate"><span class="pre">waitpid</span></code> 回收子进程剩余还没被回收的资源。</p>
+</div>
+<div class="section" id="id6">
+<h3>进程相关的系统调用<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>在引入了线程机制后，进程相关的重要系统调用： <code class="docutils literal notranslate"><span class="pre">fork</span></code> 、 <code class="docutils literal notranslate"><span class="pre">exec</span></code> 、 <code class="docutils literal notranslate"><span class="pre">waitpid</span></code> 虽然在接口上没有变化，
+但在它要完成的功能上需要有一定的扩展。首先，需要注意到把以前进程中与处理器执行相关的部分拆分到线程中。这样，在通过
+<code class="docutils literal notranslate"><span class="pre">fork</span></code> 创建进程其实也意味着要单独建立一个主线程来使用处理器，并为以后创建新的线程建立相应的线程控制块向量。
+相对而言， <code class="docutils literal notranslate"><span class="pre">exec</span></code> 和 <code class="docutils literal notranslate"><span class="pre">waitpid</span></code> 这两个系统调用要做的改动比较小，还是按照与之前进程的处理方式来进行。总体上看，
+进程相关的这三个系统调用还是保持了已有的进程操作的语义，并没有由于引入了线程，而带来大的变化。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>应用程序示例<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<p>我们刚刚介绍了 thread_create/waittid 两个重要系统调用，我们可以借助它们和之前实现的系统调用，
+开发出功能更为灵活的应用程序。下面我们通过描述一个多线程应用程序 <code class="docutils literal notranslate"><span class="pre">threads</span></code> 的开发过程来展示这些系统调用的使用方法。</p>
+<div class="section" id="id8">
+<h3>系统调用封装<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>同学可以在 user/src/syscall.rs 中看到以 sys_* 开头的系统调用的函数原型，它们后续还会在 user/src/lib.rs 中被封装成方便应用程序使用的形式。如 <code class="docutils literal notranslate"><span class="pre">sys_thread_create</span></code> 被封装成 <code class="docutils literal notranslate"><span class="pre">thread_create</span></code> ，而 <code class="docutils literal notranslate"><span class="pre">sys_waittid</span></code> 被封装成 <code class="docutils literal notranslate"><span class="pre">waittid</span></code>  ：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">thread_create</span><span class="p">(</span><span class="n">entry</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"> </span><span class="n">sys_thread_create</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">waittid</span><span class="p">(</span><span class="n">tid</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="n">sys_waittid</span><span class="p">(</span><span class="n">tid</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">            </span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">yield_</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">            </span><span class="n">exit_code</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">exit_code</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">10</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>waittid 等待一个线程标识符的值为tid 的线程结束。在具体实现方面，我们看到当 sys_waittid 返回值为 -2 ，即要等待的线程存在但它却尚未退出的时候，主线程调用 <a href="#id19"><span class="problematic" id="id20">yield_</span></a> 主动交出 CPU 使用权，待下次 CPU 使用权被内核交还给它的时候再次调用 sys_waittid 查看要等待的线程是否退出。这样做是为了减小 CPU 资源的浪费。这种方法是为了尽可能简化内核的实现。</p>
+</div>
+<div class="section" id="threads">
+<h3>多线程应用程序 – threads<a class="headerlink" href="#threads" title="永久链接至标题">¶</a></h3>
+<p>多线程应用程序 – threads 开始执行后，先调用 <code class="docutils literal notranslate"><span class="pre">thread_create</span></code> 创建了三个线程，加上进程自带的主线程，其实一共有四个线程。每个线程在打印了1000个字符后，会执行 <code class="docutils literal notranslate"><span class="pre">exit</span></code> 退出。进程通过 <code class="docutils literal notranslate"><span class="pre">waittid</span></code> 等待这三个线程结束后，最终结束进程的执行。下面是多线程应用程序 – threads 的源代码：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">//usr/src/bin/ch8b_threads.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="cp">#![no_std]</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="cp">#![no_main]</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="cp">#[macro_use]</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">user_lib</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">alloc</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">use</span><span class="w"> </span><span class="n">user_lib</span>::<span class="p">{</span><span class="n">thread_create</span><span class="p">,</span><span class="w"> </span><span class="n">waittid</span><span class="p">,</span><span class="w"> </span><span class="n">exit</span><span class="p">};</span><span class="w"></span>
+<span class="linenos">11</span><span class="k">use</span><span class="w"> </span><span class="n">alloc</span>::<span class="n">vec</span>::<span class="nb">Vec</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">thread_a</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="fm">print!</span><span class="p">(</span><span class="s">"a"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">16</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">thread_b</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="fm">print!</span><span class="p">(</span><span class="s">"b"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">21</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">thread_c</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="fm">print!</span><span class="p">(</span><span class="s">"c"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">26</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="cp">#[no_mangle]</span><span class="w"></span>
+<span class="linenos">29</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Vec</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">    </span><span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">thread_create</span><span class="p">(</span><span class="n">thread_a</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">    </span><span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">thread_create</span><span class="p">(</span><span class="n">thread_b</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">    </span><span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">thread_create</span><span class="p">(</span><span class="n">thread_c</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">tid</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">exit_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waittid</span><span class="p">(</span><span class="o">*</span><span class="n">tid</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">"thread#{} exited with code {}"</span><span class="p">,</span><span class="w"> </span><span class="n">tid</span><span class="p">,</span><span class="w"> </span><span class="n">exit_code</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"main thread exited."</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">    </span><span class="mi">0</span><span class="w"></span>
+<span class="linenos">40</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>线程管理的核心数据结构<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<p>为了在现有进程管理的基础上实现线程管理，我们需要改进一些数据结构包含的内容及接口。
+基本思路就是把进程中与处理器相关的部分分拆出来，形成线程相关的部分。</p>
+<p>本节将按照如下顺序来进行介绍：</p>
+<ul class="simple">
+<li><p>任务控制块 TaskControlBlock ：表示线程的核心数据结构。</p></li>
+<li><p>任务管理器 TaskManager ：管理线程集合的核心数据结构。</p></li>
+<li><p>处理器管理结构 Processor ：用于线程调度，维护线程的处理器状态。</p></li>
+</ul>
+<div class="section" id="id10">
+<h3>线程控制块<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<p>在内核中，每个线程的执行状态和线程上下文等均保存在一个被称为线程控制块 (TCB, Task Control Block)
+的结构中，它是内核对线程进行管理的核心数据结构。在内核看来，它就等价于一个线程。</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TaskControlBlock</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="c1">// immutable</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">process</span>: <span class="nc">Weak</span><span class="o">&lt;</span><span class="n">ProcessControlBlock</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">kernel_stack</span>: <span class="nc">KernelStack</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="c1">// mutable</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="n">inner</span>: <span class="nc">UPSafeCell</span><span class="o">&lt;</span><span class="n">TaskControlBlockInner</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TaskControlBlockInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trap_cx_ppn</span>: <span class="nc">PhysPageNum</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">task_cx</span>: <span class="nc">TaskContext</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">task_status</span>: <span class="nc">TaskStatus</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">exit_code</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">res</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="n">TaskUserRes</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">15</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>线程控制块就是任务控制块（TaskControlBlock），主要包括在线程初始化之后就不再变化的元数据：
+线程所属的进程和线程的内核栈，以及在运行过程中可能发生变化的元数据： UPSafeCell&lt;TaskControlBlockInner&gt; 。
+大部分的细节放在 <code class="docutils literal notranslate"><span class="pre">TaskControlBlockInner</span></code> 中：</p>
+<p>之前进程中的定义不存在的：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">res:</span> <span class="pre">Option&lt;TaskUserRes&gt;</span></code> 指出了用户态的线程代码执行需要的信息，这些在线程初始化之后就不再变化：</p></li>
+</ul>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TaskUserRes</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">2</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">tid</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">3</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">ustack_base</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">process</span>: <span class="nc">Weak</span><span class="o">&lt;</span><span class="n">ProcessControlBlock</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">5</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>tid：线程标识符</p></li>
+<li><p>ustack_base：线程的栈顶地址</p></li>
+<li><p>process：线程所属的进程</p></li>
+</ul>
+<p>与之前进程中的定义相同/类似的部分：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">trap_cx_ppn</span></code> 指出了应用地址空间中线程的 Trap 上下文被放在的物理页帧的物理页号。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">task_cx</span></code> 保存暂停线程的线程上下文，用于线程切换。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">task_status</span></code> 维护当前线程的执行状态。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exit_code</span></code> 线程退出码。</p></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>包含线程的进程控制块<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<p>把线程相关数据单独组织成数据结构后，进程的结构也需要进行一定的调整：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">ProcessControlBlock</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="c1">// immutable</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">pid</span>: <span class="nc">PidHandle</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="c1">// mutable</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">inner</span>: <span class="nc">UPSafeCell</span><span class="o">&lt;</span><span class="n">ProcessControlBlockInner</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">ProcessControlBlockInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">tasks</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Arc</span><span class="o">&lt;</span><span class="n">TaskControlBlock</span><span class="o">&gt;&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">task_res_allocator</span>: <span class="nc">RecycleAllocator</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>从中可以看出，进程把与处理器执行相关的部分都移到了 <code class="docutils literal notranslate"><span class="pre">TaskControlBlock</span></code> 中，并组织为一个线程控制块向量中，
+这就自然对应到多个线程的管理上了。而 <code class="docutils literal notranslate"><span class="pre">RecycleAllocator</span></code> 是对之前的 <code class="docutils literal notranslate"><span class="pre">PidAllocator</span></code> 的一个升级版，
+即一个相对通用的资源分配器，可用于分配进程标识符（PID）和线程的内核栈（KernelStack）。</p>
+</div>
+<div class="section" id="id12">
+<h3>线程与处理器管理结构<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<p>线程管理的结构是线程管理器，即任务管理器，位于 <code class="docutils literal notranslate"><span class="pre">os/src/task/manager.rs</span></code> 中，
+其数据结构和方法与之前章节中进程的任务管理器完全一样，仅负责管理所有线程。而处理器管理结构 <code class="docutils literal notranslate"><span class="pre">Processor</span></code>
+负责维护 CPU 状态、调度和特权级切换等事务。其数据结构与之前章节中进程的处理器管理结构完全一样。
+但在相关方法上面，由于多个线程有各自的用户栈和跳板页，所以有些不同，下面会进一步分析。</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>线程管理机制的设计与实现<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h2>
+<p>在上述线程模型和内核数据结构的基础上，我们还需完成线程管理的基本实现，从而构造出一个完整的“达科塔盗龙”操作系统。
+本节将分析如何实现线程管理：</p>
+<ul class="simple">
+<li><p>线程创建、线程退出与等待线程结束</p></li>
+<li><p>线程执行中的特权级切换</p></li>
+</ul>
+<div class="section" id="id14">
+<h3>线程创建、线程退出与等待线程结束<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id15">
+<h4>线程创建<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h4>
+<p>当一个进程执行中发出了创建线程的系统调用 <code class="docutils literal notranslate"><span class="pre">sys_thread_create</span></code> 后，操作系统就需要在当前进程的基础上创建一个线程了，
+这里重点是需要了解创建线程控制块，在线程控制块中初始化各个成员变量，建立好进程和线程的关系等。
+只有建立好这些成员变量，才能给线程建立一个灵活方便的执行环境。这里列出支持线程正确运行所需的重要的执行环境要素：</p>
+<ul class="simple">
+<li><p>线程的用户态栈：确保在用户态的线程能正常执行函数调用；</p></li>
+<li><p>线程的内核态栈：确保线程陷入内核后能正常执行函数调用；</p></li>
+<li><p>线程的跳板页：确保线程能正确的进行用户态&lt;–&gt;内核态切换；</p></li>
+<li><p>线程上下文：即线程用到的寄存器信息，用于线程切换。</p></li>
+</ul>
+<p>线程创建的具体实现如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/syscall/thread.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_thread_create</span><span class="p">(</span><span class="n">entry</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_task</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">process</span><span class="p">.</span><span class="n">upgrade</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="c1">// create a new thread</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arc</span>::<span class="n">new</span><span class="p">(</span><span class="n">TaskControlBlock</span>::<span class="n">new</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">process</span><span class="p">),</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="n">task</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">().</span><span class="n">res</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">unwrap</span><span class="p">().</span><span class="n">ustack_base</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">        </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="p">));</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="c1">// add new task to scheduler</span>
+<span class="linenos">13</span><span class="w">    </span><span class="n">add_task</span><span class="p">(</span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">new_task</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_task_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_task</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_task_res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_task_inner</span><span class="p">.</span><span class="n">res</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_task_tid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_task_res</span><span class="p">.</span><span class="n">tid</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">process_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">process</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="c1">// add new thread to current process</span>
+<span class="linenos">19</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">process_inner</span><span class="p">.</span><span class="n">tasks</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">tasks</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">new_task_tid</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">        </span><span class="n">tasks</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="nb">None</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">    </span><span class="n">tasks</span><span class="p">[</span><span class="n">new_task_tid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">new_task</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">new_task_trap_cx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new_task_inner</span><span class="p">.</span><span class="n">get_trap_cx</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">    </span><span class="o">*</span><span class="n">new_task_trap_cx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrapContext</span>::<span class="n">app_init_context</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">        </span><span class="n">entry</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">        </span><span class="n">new_task_res</span><span class="p">.</span><span class="n">ustack_top</span><span class="p">(),</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">        </span><span class="n">kernel_token</span><span class="p">(),</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">        </span><span class="n">new_task</span><span class="p">.</span><span class="n">kernel_stack</span><span class="p">.</span><span class="n">get_top</span><span class="p">(),</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">        </span><span class="n">trap_handler</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">    </span><span class="p">);</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">new_task_trap_cx</span><span class="p">).</span><span class="n">x</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arg</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">    </span><span class="n">new_task_tid</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">isize</span><span class="w"></span>
+<span class="linenos">34</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>上述代码主要完成了如下事务：</p>
+<ul class="simple">
+<li><p>第4-5行，找到当前正在执行的线程 <code class="docutils literal notranslate"><span class="pre">task</span></code> 和此线程所属的进程 <code class="docutils literal notranslate"><span class="pre">process</span></code> 。</p></li>
+<li><p>第7-11行，调用 <code class="docutils literal notranslate"><span class="pre">TaskControlBlock::new</span></code> 方法，创建一个新的线程 <code class="docutils literal notranslate"><span class="pre">new_task</span></code> ，在创建过程中，建立与进程
+<code class="docutils literal notranslate"><span class="pre">process</span></code> 的所属关系，分配了线程用户态栈、内核态栈、用于异常/中断的跳板页。</p></li>
+<li><p>第13行，把线程挂到调度队列中。</p></li>
+<li><p>第19-22行，把线程接入到所需进程的线程列表 <code class="docutils literal notranslate"><span class="pre">tasks</span></code> 中。</p></li>
+<li><p>第25~32行，初始化位于该线程在用户态地址空间中的 Trap 上下文：设置线程的函数入口点和用户栈，
+使得第一次进入用户态时能从线程起始位置开始正确执行；设置好内核栈和陷入函数指针 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> ，
+保证在 Trap 的时候用户态的线程能正确进入内核态。</p></li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h4>线程退出<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h4>
+<p>当一个非主线程的其他线程发出 <code class="docutils literal notranslate"><span class="pre">sys_exit</span></code> 系统调用时，内核会调用 <code class="docutils literal notranslate"><span class="pre">exit_current_and_run_next</span></code>
+函数退出当前线程并切换到下一个线程，但不会导致其所属进程的退出。当 <strong>主线程</strong> 即进程发出这个系统调用，
+内核会回收整个进程（这包括了其管理的所有线程）资源，并退出。具体实现如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/syscall/process.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_exit</span><span class="p">(</span><span class="n">exit_code</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="n">exit_current_and_run_next</span><span class="p">(</span><span class="n">exit_code</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Unreachable in sys_exit!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="c1">// os/src/task/mod.rs</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">exit_current_and_run_next</span><span class="p">(</span><span class="n">exit_code</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">take_current_task</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">task_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">process</span><span class="p">.</span><span class="n">upgrade</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">tid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task_inner</span><span class="p">.</span><span class="n">res</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">unwrap</span><span class="p">().</span><span class="n">tid</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="c1">// record exit code</span>
+<span class="linenos">16</span><span class="w">    </span><span class="n">task_inner</span><span class="p">.</span><span class="n">exit_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">exit_code</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">task_inner</span><span class="p">.</span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="c1">// here we do not remove the thread since we are still using the kstack</span>
+<span class="linenos">19</span><span class="w">    </span><span class="c1">// it will be deallocated when sys_waittid is called</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nb">drop</span><span class="p">(</span><span class="n">task_inner</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="nb">drop</span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="c1">// however, if this is the main thread of current process</span>
+<span class="linenos">23</span><span class="w">    </span><span class="c1">// the process should terminate at once</span>
+<span class="linenos">24</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">tid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">process_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">process</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">        </span><span class="c1">// mark this process as a zombie process</span>
+<span class="linenos">27</span><span class="w">        </span><span class="n">process_inner</span><span class="p">.</span><span class="n">is_zombie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">        </span><span class="c1">// record exit code of main process</span>
+<span class="linenos">29</span><span class="w">        </span><span class="n">process_inner</span><span class="p">.</span><span class="n">exit_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exit_code</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">            </span><span class="c1">// move all child processes under init process</span>
+<span class="linenos">32</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">initproc_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INITPROC</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">child</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">process_inner</span><span class="p">.</span><span class="n">children</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">                </span><span class="n">child</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">().</span><span class="n">parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">Arc</span>::<span class="n">downgrade</span><span class="p">(</span><span class="o">&amp;</span><span class="n">INITPROC</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">                </span><span class="n">initproc_inner</span><span class="p">.</span><span class="n">children</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">child</span><span class="p">.</span><span class="n">clone</span><span class="p">());</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">recycle_res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Vec</span>::<span class="o">&lt;</span><span class="n">TaskUserRes</span><span class="o">&gt;</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">        </span><span class="c1">// deallocate user res (including tid/trap_cx/ustack) of all threads</span>
+<span class="linenos">40</span><span class="w">        </span><span class="c1">// it has to be done before we dealloc the whole memory_set</span>
+<span class="linenos">41</span><span class="w">        </span><span class="c1">// otherwise they will be deallocated twice</span>
+<span class="linenos">42</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">process_inner</span><span class="p">.</span><span class="n">tasks</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">filter</span><span class="p">(</span><span class="o">|</span><span class="n">t</span><span class="o">|</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="n">is_some</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">44</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">task_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task_inner</span><span class="p">.</span><span class="n">res</span><span class="p">.</span><span class="n">take</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">46</span><span class="w">                </span><span class="n">recycle_res</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">res</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">47</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">48</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">49</span><span class="w">        </span><span class="nb">drop</span><span class="p">(</span><span class="n">process_inner</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">50</span><span class="w">        </span><span class="n">recycle_res</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">51</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">process_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">process</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">52</span><span class="w">        </span><span class="n">process_inner</span><span class="p">.</span><span class="n">children</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">53</span><span class="w">        </span><span class="c1">// deallocate other data in user space i.e. program code/data section</span>
+<span class="linenos">54</span><span class="w">        </span><span class="n">process_inner</span><span class="p">.</span><span class="n">memory_set</span><span class="p">.</span><span class="n">recycle_data_pages</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">55</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">56</span><span class="w">    </span><span class="nb">drop</span><span class="p">(</span><span class="n">process</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">57</span><span class="w">    </span><span class="c1">// we do not have to save task context</span>
+<span class="linenos">58</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">_unused</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskContext</span>::<span class="n">zero_init</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">59</span><span class="w">    </span><span class="n">schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">_unused</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">_</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">60</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>上述代码主要完成了如下事务：</p>
+<ul class="simple">
+<li><p>第11-21行，回收线程的各种资源。</p></li>
+<li><p>第24-56行，如果是主线程发出的退去请求，则回收整个进程的部分资源，并退出进程。第 33~37
+行所做的事情是将当前进程的所有子进程挂在初始进程 INITPROC 下面，其做法是遍历每个子进程，
+修改其父进程为初始进程，并加入初始进程的孩子向量中。第 49 行将当前进程的孩子向量清空。</p></li>
+<li><p>第58-59行，进行线程调度切换。</p></li>
+</ul>
+<p>上述实现中很大一部分与第五章讲解的 进程的退出 的功能实现大致相同。</p>
+</div>
+<div class="section" id="id17">
+<h4>等待线程结束<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h4>
+<p>主线程通过系统调用 <code class="docutils literal notranslate"><span class="pre">sys_waittid</span></code> 来等待其他线程的结束。具体实现如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/syscall/ch8b_thread.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_waittid</span><span class="p">(</span><span class="n">tid</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_task</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">process</span><span class="p">.</span><span class="n">upgrade</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">task_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">process_inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">process</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="c1">// a thread cannot wait for itself</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">task_inner</span><span class="p">.</span><span class="n">res</span><span class="p">.</span><span class="n">as_ref</span><span class="p">().</span><span class="n">unwrap</span><span class="p">().</span><span class="n">tid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">tid</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">exit_code</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">waited_task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">process_inner</span><span class="p">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">tid</span><span class="p">].</span><span class="n">as_ref</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">waited_task</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waited_task</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">waited_exit_code</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waited_task</span><span class="p">.</span><span class="n">inner_exclusive_access</span><span class="p">().</span><span class="n">exit_code</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">            </span><span class="n">exit_code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">waited_exit_code</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">        </span><span class="c1">// waited thread does not exist</span>
+<span class="linenos">20</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">exit_code</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exit_code</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">        </span><span class="c1">// dealloc the exited thread</span>
+<span class="linenos">24</span><span class="w">        </span><span class="n">process_inner</span><span class="p">.</span><span class="n">tasks</span><span class="p">[</span><span class="n">tid</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">        </span><span class="n">exit_code</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">        </span><span class="c1">// waited thread has not exited</span>
+<span class="linenos">28</span><span class="w">        </span><span class="o">-</span><span class="mi">2</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">30</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>上述代码主要完成了如下事务：</p>
+<ul class="simple">
+<li><p>第9-10行，如果是线程等自己，返回错误.</p></li>
+<li><p>第12-21行，如果找到 <code class="docutils literal notranslate"><span class="pre">tid</span></code> 对应的退出线程，则收集该退出线程的退出码 <code class="docutils literal notranslate"><span class="pre">exit_tid</span></code> ，否则返回错误（退出线程不存在）。</p></li>
+<li><p>第22-29行，如果退出码存在，则清空进程中对应此退出线程的线程控制块（至此，线程所占资源算是全部清空了），否则返回错误（线程还没退出）。</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id18">
+<h3>线程执行中的特权级切换和调度切换<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
+<p>线程执行中的特权级切换与第三章中 <strong>任务切换的设计与实现</strong> 小节中讲解的过程是一致的。而线程执行中的调度切换过程与第五章的 <strong>进程调度机制</strong> 小节中讲解的过程是一致的。
+这里就不用再赘述一遍了。</p>
+<dl class="footnote brackets">
+<dt class="label" id="dak"><span class="brackets">1</span></dt>
+<dd><p>达科塔盗龙是一种生存于距今6700万-6500万年前白垩纪晚期的兽脚类驰龙科恐龙，它主打的并不是霸王龙的力量路线，而是利用自己修长的后肢来提高敏捷度和奔跑速度。它全身几乎都长满了羽毛，可能会滑翔或者其他接近飞行行为的行动模式。</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="2lock.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">锁机制</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="0intro.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">引言</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter8/1thread-kernel.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">内核态的线程管理</a><ul>
+<li><a class="reference internal" href="#id2">线程概念</a></li>
+<li><a class="reference internal" href="#id3">线程模型与重要系统调用</a><ul>
+<li><a class="reference internal" href="#id4">线程创建系统调用</a></li>
+<li><a class="reference internal" href="#id5">等待子线程系统调用</a></li>
+<li><a class="reference internal" href="#id6">进程相关的系统调用</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">应用程序示例</a><ul>
+<li><a class="reference internal" href="#id8">系统调用封装</a></li>
+<li><a class="reference internal" href="#threads">多线程应用程序 – threads</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9">线程管理的核心数据结构</a><ul>
+<li><a class="reference internal" href="#id10">线程控制块</a></li>
+<li><a class="reference internal" href="#id11">包含线程的进程控制块</a></li>
+<li><a class="reference internal" href="#id12">线程与处理器管理结构</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">线程管理机制的设计与实现</a><ul>
+<li><a class="reference internal" href="#id14">线程创建、线程退出与等待线程结束</a><ul>
+<li><a class="reference internal" href="#id15">线程创建</a></li>
+<li><a class="reference internal" href="#id16">线程退出</a></li>
+<li><a class="reference internal" href="#id17">等待线程结束</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id18">线程执行中的特权级切换和调度切换</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

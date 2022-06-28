@@ -1,0 +1,559 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="第七章：进程间通信" href="../chapter7/index.html" /><link rel="prev" title="在内核中使用 easy-fs" href="3using-easy-fs-in-kernel.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>chapter6练习 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第六章：文件系统与I/O重定向</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="chapter6">
+<h1>chapter6练习<a class="headerlink" href="#chapter6" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>编程作业<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>硬链接<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>硬链接要求两个不同的目录项指向同一个文件，在我们的文件系统中也就是两个不同名称目录项指向同一个磁盘块。</p>
+<p>本节要求实现三个系统调用 <code class="docutils literal notranslate"><span class="pre">sys_linkat、sys_unlinkat、sys_stat</span></code> 。</p>
+<p><strong>linkat</strong>：</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>syscall ID: 37</p></li>
+<li><p>功能：创建一个文件的一个硬链接， <a class="reference external" href="https://linux.die.net/man/2/linkat">linkat标准接口</a> 。</p></li>
+<li><p>Ｃ接口： <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">linkat(int</span> <span class="pre">olddirfd,</span> <span class="pre">char*</span> <span class="pre">oldpath,</span> <span class="pre">int</span> <span class="pre">newdirfd,</span> <span class="pre">char*</span> <span class="pre">newpath,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">flags)</span></code></p></li>
+<li><p>Rust 接口： <code class="docutils literal notranslate"><span class="pre">fn</span> <span class="pre">linkat(olddirfd:</span> <span class="pre">i32,</span> <span class="pre">oldpath:</span> <span class="pre">*const</span> <span class="pre">u8,</span> <span class="pre">newdirfd:</span> <span class="pre">i32,</span> <span class="pre">newpath:</span> <span class="pre">*const</span> <span class="pre">u8,</span> <span class="pre">flags:</span> <span class="pre">u32)</span> <span class="pre">-&gt;</span> <span class="pre">i32</span></code></p></li>
+<li><dl class="simple">
+<dt>参数：</dt><dd><ul>
+<li><p>olddirfd，newdirfd: 仅为了兼容性考虑，本次实验中始终为 AT_FDCWD (-100)，可以忽略。</p></li>
+<li><p>flags: 仅为了兼容性考虑，本次实验中始终为 0，可以忽略。</p></li>
+<li><p>oldpath：原有文件路径</p></li>
+<li><p>newpath: 新的链接文件路径。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>说明：</dt><dd><ul>
+<li><p>为了方便，不考虑新文件路径已经存在的情况（属于未定义行为），除非链接同名文件。</p></li>
+<li><p>返回值：如果出现了错误则返回 -1，否则返回 0。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>可能的错误</dt><dd><ul>
+<li><p>链接同名文件。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>unlinkat</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>syscall ID: 35</p></li>
+<li><p>功能：取消一个文件路径到文件的链接, <a class="reference external" href="https://linux.die.net/man/2/unlinkat">unlinkat标准接口</a> 。</p></li>
+<li><p>Ｃ接口： <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">unlinkat(int</span> <span class="pre">dirfd,</span> <span class="pre">char*</span> <span class="pre">path,</span> <span class="pre">unsigned</span> <span class="pre">int</span> <span class="pre">flags)</span></code></p></li>
+<li><p>Rust 接口： <code class="docutils literal notranslate"><span class="pre">fn</span> <span class="pre">unlinkat(dirfd:</span> <span class="pre">i32,</span> <span class="pre">path:</span> <span class="pre">*const</span> <span class="pre">u8,</span> <span class="pre">flags:</span> <span class="pre">u32)</span> <span class="pre">-&gt;</span> <span class="pre">i32</span></code></p></li>
+<li><dl class="simple">
+<dt>参数：</dt><dd><ul>
+<li><p>dirfd: 仅为了兼容性考虑，本次实验中始终为 AT_FDCWD (-100)，可以忽略。</p></li>
+<li><p>flags: 仅为了兼容性考虑，本次实验中始终为 0，可以忽略。</p></li>
+<li><p>path：文件路径。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>说明：</dt><dd><ul>
+<li><p>注意考虑使用 unlink 彻底删除文件的情况，此时需要回收inode以及它对应的数据块。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>返回值：如果出现了错误则返回 -1，否则返回 0。</p></li>
+<li><dl class="simple">
+<dt>可能的错误</dt><dd><ul>
+<li><p>文件不存在。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>fstat</strong>:</p>
+<blockquote>
+<div><ul>
+<li><p>syscall ID: 80</p></li>
+<li><p>功能：获取文件状态。</p></li>
+<li><p>Ｃ接口： <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">fstat(int</span> <span class="pre">fd,</span> <span class="pre">struct</span> <span class="pre">Stat*</span> <span class="pre">st)</span></code></p></li>
+<li><p>Rust 接口： <code class="docutils literal notranslate"><span class="pre">fn</span> <span class="pre">fstat(fd:</span> <span class="pre">i32,</span> <span class="pre">st:</span> <span class="pre">*mut</span> <span class="pre">Stat)</span> <span class="pre">-&gt;</span> <span class="pre">i32</span></code></p></li>
+<li><dl>
+<dt>参数：</dt><dd><ul class="simple">
+<li><p>fd: 文件描述符</p></li>
+<li><p>st: 文件状态结构体</p></li>
+</ul>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[repr(C)]</span><span class="w"></span>
+<span class="cp">#[derive(Debug)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Stat</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// 文件所在磁盘驱动器号，该实验中写死为 0 即可</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">dev</span>: <span class="kt">u64</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// inode 文件所在 inode 编号</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">ino</span>: <span class="kt">u64</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// 文件类型</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">mode</span>: <span class="nc">StatMode</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// 硬链接数量，初始为1</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">nlink</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// 无需考虑，为了兼容性设计</span>
+<span class="w">    </span><span class="n">pad</span>: <span class="p">[</span><span class="kt">u64</span><span class="p">;</span><span class="w"> </span><span class="mi">7</span><span class="p">],</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="sd">/// StatMode 定义：</span>
+<span class="n">bitflags</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">StatMode</span>: <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">NULL</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="sd">/// directory</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">DIR</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mo">0o040000</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="sd">/// ordinary regular file</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">FILE</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mo">0o100000</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h3>实验要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<ul>
+<li><p>实现分支：ch6。</p></li>
+<li><p>实验目录要求不变。</p></li>
+<li><p>通过所有测例。</p>
+<p>在 os 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span> <span class="pre">BASE=2</span></code> 加载所有测例， <code class="docutils literal notranslate"><span class="pre">ch6_usertest</span></code> 打包了所有你需要通过的测例，你也可以通过修改这个文件调整本地测试的内容。</p>
+<p>你的内核必须前向兼容，能通过前一章的所有测例。</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p><strong>如何调试 easy-fs</strong></p>
+<p>如果你在第一章练习题中已经借助 <code class="docutils literal notranslate"><span class="pre">log</span></code> crate 实现了日志功能，那么你可以直接在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 中引入 <code class="docutils literal notranslate"><span class="pre">log</span></code> crate，通过 <code class="docutils literal notranslate"><span class="pre">log::info!/debug!</span></code> 等宏即可进行调试并在内核中看到日志输出。具体来说，在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 中的修改是：在 <code class="docutils literal notranslate"><span class="pre">easy-fs/Cargo.toml</span></code> 的依赖中加入一行 <code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">=</span> <span class="pre">"0.4.0"</span></code>，然后在 <code class="docutils literal notranslate"><span class="pre">easy-fs/src/lib.rs</span></code> 中加入一行 <code class="docutils literal notranslate"><span class="pre">extern</span> <span class="pre">crate</span> <span class="pre">log</span></code> 。</p>
+<p>你也可以完全在用户态进行调试。仿照 <code class="docutils literal notranslate"><span class="pre">easy-fs-fuse</span></code> 建立一个在当前操作系统中运行的应用程序，将测试逻辑写在 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数中。这个时候就可以将它引用的 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 的 <code class="docutils literal notranslate"><span class="pre">no_std</span></code> 去掉并使用 <code class="docutils literal notranslate"><span class="pre">println!</span></code> 进行调试。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>问答作业<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<ol class="arabic simple">
+<li><p>在我们的easy-fs中，root inode起着什么作用？如果root inode中的内容损坏了，会发生什么？</p></li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h2>报告要求<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p>简单总结你实现的功能（200字以内，不要贴代码）。</p></li>
+<li><p>完成问答题。</p></li>
+<li><p>(optional) 你对本次实验设计及难度/工作量的看法，以及有哪些需要改进的地方，欢迎畅所欲言。</p></li>
+</ul>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../chapter7/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">第七章：进程间通信</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="3using-easy-fs-in-kernel.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">在内核中使用 easy-fs</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter6/4exercise.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">chapter6练习</a><ul>
+<li><a class="reference internal" href="#id1">编程作业</a><ul>
+<li><a class="reference internal" href="#id2">硬链接</a></li>
+<li><a class="reference internal" href="#id3">实验要求</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">问答作业</a></li>
+<li><a class="reference internal" href="#id5">报告要求</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

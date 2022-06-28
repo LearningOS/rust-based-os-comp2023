@@ -1,0 +1,1014 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="简易文件系统 easy-fs (下)" href="2fs-implementation-2.html" /><link rel="prev" title="文件系统接口" href="1fs-interface.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>简易文件系统 easy-fs (上) - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第六章：文件系统与I/O重定向</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="easy-fs">
+<h1>简易文件系统 easy-fs (上)<a class="headerlink" href="#easy-fs" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>松耦合模块化设计思路<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>内核的功能越来越多，代码量也越来越大。出于解耦合考虑，文件系统 easy-fs 被从内核中分离出来，分成两个不同的 crate ：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 是简易文件系统的本体；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">easy-fs-fuse</span></code> 是能在开发环境（如 Ubuntu）中运行的应用程序，用于将应用打包为 easy-fs 格式的文件系统镜像，也可以用来对 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 进行测试。</p></li>
+</ul>
+<p>easy-fs与底层设备驱动之间通过抽象接口 <code class="docutils literal notranslate"><span class="pre">BlockDevice</span></code> 来连接，采用轮询方式访问 <code class="docutils literal notranslate"><span class="pre">virtio_blk</span></code> 虚拟磁盘设备，避免调用外设中断的相关内核函数。easy-fs 避免了直接访问进程相关的数据和函数，从而能独立于内核开发。</p>
+<p><code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> crate 以层次化思路设计，自下而上可以分成五个层次：</p>
+<ol class="arabic simple">
+<li><p>磁盘块设备接口层：以块为单位对磁盘块设备进行读写的 trait 接口</p></li>
+<li><p>块缓存层：在内存中缓存磁盘块的数据，避免频繁读写磁盘</p></li>
+<li><p>磁盘数据结构层：磁盘上的超级块、位图、索引节点、数据块、目录项等核心数据结构和相关处理</p></li>
+<li><p>磁盘块管理器层：合并了上述核心数据结构和磁盘布局所形成的磁盘文件系统数据结构</p></li>
+<li><p>索引节点层：管理索引节点，实现了文件创建/文件打开/文件读写等成员函数</p></li>
+</ol>
+<p>本节将介绍前三层，下一节将介绍后两层。</p>
+<img alt="../_images/easy-fs-demo.png" class="align-center" src="../_images/easy-fs-demo.png"/>
+</div>
+<div class="section" id="id2">
+<h2>块设备接口层<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 库的最底层声明了块设备的抽象接口 <code class="docutils literal notranslate"><span class="pre">BlockDevice</span></code> ：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/block_dev.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">BlockDevice</span><span class="w"> </span>: <span class="nb">Send</span> <span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Any</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">read_block</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">block_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">write_block</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">block_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>它定义了两个抽象方法：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">read_block</span></code> 可以将编号为 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 的块从磁盘读入内存中的缓冲区 <code class="docutils literal notranslate"><span class="pre">buf</span></code> ；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">write_block</span></code> 可以将内存中的缓冲区 <code class="docutils literal notranslate"><span class="pre">buf</span></code> 中的数据写入磁盘编号为 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 的块。</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 的使用者将负责提供抽象方法的实现。</p>
+</div>
+<div class="section" id="id3">
+<h2>块缓存层<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>为了加速 IO，内存可以作为磁盘的缓存。实现磁盘块缓存功能的代码在 <code class="docutils literal notranslate"><span class="pre">block_cache.rs</span></code> 。</p>
+<div class="section" id="id4">
+<h3>块缓存<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>块缓存 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 的声明如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/lib.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">BLOCK_SZ</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// easy-fs/src/block_cache.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">BlockCache</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">cache</span>: <span class="p">[</span><span class="kt">u8</span><span class="p">;</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="n">block_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">block_device</span>: <span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">modified</span>: <span class="kt">bool</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其中：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cache</span></code> 是一个 512 字节的数组，表示位于内存中的缓冲区；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">block_id</span></code> 记录了这个块的编号；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">block_device</span></code> 记录块所属的底层设备；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">modified</span></code> 记录自从这个块缓存从磁盘载入内存之后，它有没有被修改过。</p></li>
+</ul>
+<p>创建 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 时，将一个块从磁盘读到缓冲区 <code class="docutils literal notranslate"><span class="pre">cache</span></code> ：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/block_cache.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">BlockCache</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// Load a new BlockCache from disk.</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="n">block_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">block_device</span>: <span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="k">u8</span><span class="p">;</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="n">block_device</span><span class="p">.</span><span class="n">read_block</span><span class="p">(</span><span class="n">block_id</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">cache</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">cache</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">block_id</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">block_device</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">modified</span>: <span class="nc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 向上提供以下方法：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// easy-fs/src/block_cache.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">impl</span><span class="w"> </span><span class="n">BlockCache</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">fn</span> <span class="nf">addr_of_offset</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_ref</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="nc">T</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">T</span>: <span class="nb">Sized</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">type_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">core</span>::<span class="n">mem</span>::<span class="n">size_of</span>::<span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">        </span><span class="fm">assert!</span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">type_size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">addr_of_offset</span><span class="p">(</span><span class="n">offset</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">&amp;*</span><span class="p">(</span><span class="n">addr</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">14</span>
+<span class="linenos">15</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_mut</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">T</span>: <span class="nb">Sized</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">type_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">core</span>::<span class="n">mem</span>::<span class="n">size_of</span>::<span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">        </span><span class="fm">assert!</span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">type_size</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">modified</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">addr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">addr_of_offset</span><span class="p">(</span><span class="n">offset</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">        </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="n">addr</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">addr_of_offset</span></code> 可以得到一个 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 内部的缓冲区中指定偏移量 <code class="docutils literal notranslate"><span class="pre">offset</span></code> 的字节地址；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_ref</span></code> 是一个泛型方法，它可以获取缓冲区中的位于偏移量 <code class="docutils literal notranslate"><span class="pre">offset</span></code> 的一个类型为 <code class="docutils literal notranslate"><span class="pre">T</span></code> 的磁盘上数据结构的不可变引用。该泛型方法的 Trait Bound 限制类型 <code class="docutils literal notranslate"><span class="pre">T</span></code> 必须是一个编译时已知大小的类型，我们通过 <code class="docutils literal notranslate"><span class="pre">core::mem::size_of::&lt;T&gt;()</span></code> 在编译时获取类型 <code class="docutils literal notranslate"><span class="pre">T</span></code> 的大小并确认该数据结构被整个包含在磁盘块及其缓冲区之内。这里编译器会自动进行生命周期标注，约束返回的引用的生命周期不超过 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 自身，在使用的时候我们会保证这一点。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_mut</span></code> 与 <code class="docutils literal notranslate"><span class="pre">get_ref</span></code> 的不同之处在于它会获取磁盘上数据结构的可变引用，由此可以对数据结构进行修改。由于这些数据结构目前位于内存中的缓冲区中，我们需要将 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 的 <code class="docutils literal notranslate"><span class="pre">modified</span></code> 标记为 true 表示该缓冲区已经被修改，之后需要将数据写回磁盘块才能真正将修改同步到磁盘。</p></li>
+</ul>
+<p>我们可以将 <code class="docutils literal notranslate"><span class="pre">get_ref/get_mut</span></code> 进一步封装为更为易用的形式：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/block_cache.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">BlockCache</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">read</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">f</span>: <span class="nc">impl</span><span class="w"> </span><span class="nb">FnOnce</span><span class="p">(</span><span class="o">&amp;</span><span class="n">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">V</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">V</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">modify</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span>:<span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">f</span>: <span class="nc">impl</span><span class="w"> </span><span class="nb">FnOnce</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">V</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">V</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">get_mut</span><span class="p">(</span><span class="n">offset</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>它们的含义是：在 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 缓冲区偏移量为 <code class="docutils literal notranslate"><span class="pre">offset</span></code> 的位置，获取一个类型为 <code class="docutils literal notranslate"><span class="pre">T</span></code> 不可变/可变引用，将闭包 <code class="docutils literal notranslate"><span class="pre">f</span></code> 作用于这个引用，返回 <code class="docutils literal notranslate"><span class="pre">f</span></code> 的返回值。  中所定义的操作。</p>
+<p>这里我们传入闭包的类型为 <code class="docutils literal notranslate"><span class="pre">FnOnce</span></code> ，这是因为闭包里面的变量被捕获的方式涵盖了不可变引用/可变引用/和 move 三种可能性，故而我们需要选取范围最广的 <code class="docutils literal notranslate"><span class="pre">FnOnce</span></code> 。参数中的 <code class="docutils literal notranslate"><span class="pre">impl</span></code> 关键字体现了一种类似泛型的静态分发功能。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p><strong>Rust 语法卡片：闭包</strong></p>
+<p>闭包是持有外部环境变量的函数。所谓外部环境, 就是指创建闭包时所在的词法作用域。Rust中定义的闭包，按照对外部环境变量的使用方式（借用、复制、转移所有权），分为三个类型: Fn、FnMut、FnOnce。Fn类型的闭包会在闭包内部以共享借用的方式使用环境变量；FnMut类型的闭包会在闭包内部以独占借用的方式使用环境变量；而FnOnce类型的闭包会在闭包内部以所有者的身份使用环境变量。由此可见，根据闭包内使用环境变量的方式，即可判断创建出来的闭包的类型。</p>
+</div>
+<p>当 <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 的生命周期结束后，缓冲区也会被回收， <code class="docutils literal notranslate"><span class="pre">modified</span></code> 标记将会决定数据是否需要写回磁盘：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/block_cache.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="nb">Drop</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">BlockCache</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">drop</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">modified</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="bp">self</span><span class="p">.</span><span class="n">modified</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="bp">self</span><span class="p">.</span><span class="n">block_device</span><span class="p">.</span><span class="n">write_block</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">block_id</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>块缓存全局管理器<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>内存只能同时缓存有限个磁盘块。当我们要对一个磁盘块进行读写时，块缓存全局管理器检查它是否已经被载入内存中，如果是则直接返回，否则就读取磁盘块到内存。如果内存中驻留的磁盘块缓冲区的数量已满，则需要进行缓存替换。这里使用一种类 FIFO 的缓存替换算法，在管理器中只需维护一个队列：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/block_cache.rs</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">alloc</span>::<span class="n">collections</span>::<span class="n">VecDeque</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">BlockCacheManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">queue</span>: <span class="nc">VecDeque</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">Arc</span><span class="o">&lt;</span><span class="n">Mutex</span><span class="o">&lt;</span><span class="n">BlockCache</span><span class="o">&gt;&gt;</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>队列 <code class="docutils literal notranslate"><span class="pre">queue</span></code> 维护块编号和块缓存的二元组。块缓存的类型是一个 <code class="docutils literal notranslate"><span class="pre">Arc&lt;Mutex&lt;BlockCache&gt;&gt;</span></code> ，这是 Rust 中的经典组合，它可以同时提供共享引用和互斥访问。这里的共享引用意义在于块缓存既需要在管理器 <code class="docutils literal notranslate"><span class="pre">BlockCacheManager</span></code> 保留一个引用，还需要将引用返回给块缓存的请求者。而互斥访问在单核上的意义在于提供内部可变性通过编译，在多核环境下则可以帮助我们避免可能的并发冲突。</p>
+<p><code class="docutils literal notranslate"><span class="pre">get_block_cache</span></code> 方法尝试从块缓存管理器中获取一个编号为 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 的块缓存，如果找不到的话会读取磁盘，还有可能会发生缓存替换：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// easy-fs/src/block_cache.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">impl</span><span class="w"> </span><span class="n">BlockCacheManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_block_cache</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="n">block_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="n">block_device</span>: <span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Arc</span><span class="o">&lt;</span><span class="n">Mutex</span><span class="o">&lt;</span><span class="n">BlockCache</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">queue</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">            </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">            </span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="o">|</span><span class="n">pair</span><span class="o">|</span><span class="w"> </span><span class="n">pair</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">block_id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">                </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pair</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">            </span><span class="c1">// substitute</span>
+<span class="linenos">15</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">queue</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">BLOCK_CACHE_SIZE</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">                </span><span class="c1">// from front to tail</span>
+<span class="linenos">17</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">((</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">queue</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">                    </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">                    </span><span class="p">.</span><span class="n">enumerate</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">                    </span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="o">|</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">pair</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="n">Arc</span>::<span class="n">strong_count</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pair</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">                    </span><span class="bp">self</span><span class="p">.</span><span class="n">queue</span><span class="p">.</span><span class="n">drain</span><span class="p">(</span><span class="n">idx</span><span class="o">..=</span><span class="n">idx</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">                    </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Run out of BlockCache!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">            </span><span class="c1">// load block into mem and push back</span>
+<span class="linenos">27</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">block_cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arc</span>::<span class="n">new</span><span class="p">(</span><span class="n">Mutex</span>::<span class="n">new</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">                </span><span class="n">BlockCache</span>::<span class="n">new</span><span class="p">(</span><span class="n">block_id</span><span class="p">,</span><span class="w"> </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block_device</span><span class="p">))</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">            </span><span class="p">));</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">            </span><span class="bp">self</span><span class="p">.</span><span class="n">queue</span><span class="p">.</span><span class="n">push_back</span><span class="p">((</span><span class="n">block_id</span><span class="p">,</span><span class="w"> </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block_cache</span><span class="p">)));</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">            </span><span class="n">block_cache</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">34</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>第 9 行，遍历整个队列试图找到一个编号相同的块缓存，如果找到，将块缓存管理器中保存的块缓存的引用复制一份并返回；</p></li>
+<li><p>第 13 行对应找不到的情况，此时必须将块从磁盘读入内存中的缓冲区。读取前需要判断已保存的块数量是否达到了上限。是，则执行缓存替换算法，替换的标准是其强引用计数 <span class="math notranslate nohighlight">\(\eq 1\)</span> ，即除了块缓存管理器保留的一份副本之外，在外面没有副本正在使用。</p></li>
+<li><p>第 27 行开始，创建一个新的块缓存（会触发 <code class="docutils literal notranslate"><span class="pre">read_block</span></code> 进行块读取）并加入到队尾，最后返回给请求者。</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>磁盘布局及磁盘上数据结构<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<p>磁盘数据结构层的代码在 <code class="docutils literal notranslate"><span class="pre">layout.rs</span></code> 和 <code class="docutils literal notranslate"><span class="pre">bitmap.rs</span></code> 中。</p>
+<div class="section" id="id7">
+<h3>easy-fs 磁盘布局概述<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>easy-fs 磁盘按照块编号从小到大顺序分成 5 个连续区域：</p>
+<ul class="simple">
+<li><p>第一个区域只包括一个块，它是 <strong>超级块</strong> (Super Block)，用于定位其他连续区域的位置，检查文件系统合法性。</p></li>
+<li><p>第二个区域是一个索引节点位图，长度为若干个块。它记录了索引节点区域中有哪些索引节点已经被分配出去使用了。</p></li>
+<li><p>第三个区域是索引节点区域，长度为若干个块。其中的每个块都存储了若干个索引节点。</p></li>
+<li><p>第四个区域是一个数据块位图，长度为若干个块。它记录了后面的数据块区域中有哪些已经被分配出去使用了。</p></li>
+<li><p>最后的区域则是数据块区域，其中的每个被分配出去的块保存了文件或目录的具体内容。</p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>easy-fs 超级块<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>超级块 <code class="docutils literal notranslate"><span class="pre">SuperBlock</span></code> 的内容如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="cp">#[repr(C)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">SuperBlock</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">magic</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">total_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">inode_bitmap_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">inode_area_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">data_bitmap_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">data_area_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其中， <code class="docutils literal notranslate"><span class="pre">magic</span></code> 是一个用于文件系统合法性验证的魔数， <code class="docutils literal notranslate"><span class="pre">total_block</span></code> 给出文件系统的总块数。后面的四个字段则分别给出 easy-fs 布局中后四个连续区域的长度各为多少个块。</p>
+<p>下面是它实现的方法：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">SuperBlock</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">initialize</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">total_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">inode_bitmap_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">inode_area_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">data_bitmap_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">data_area_blocks</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">is_valid</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">magic</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">EFS_MAGIC</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">initialize</span></code> 用于在创建一个 easy-fs 的时候初始化超级块，各个区域的块数由更上层的磁盘块管理器传入。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">is_valid</span></code> 则可以通过魔数判断超级块所在的文件系统是否合法。</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>位图<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<p>在 easy-fs 布局中存在两类不同的位图，分别对索引节点和数据块进行管理。每个位图都由若干个块组成，每个块大小 4096 bits。每个 bit 都代表一个索引节点/数据块的分配状态。</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/bitmap.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Bitmap</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">start_block_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">blocks</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">type</span> <span class="nc">BitmapBlock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">u64</span><span class="p">;</span><span class="w"> </span><span class="mi">64</span><span class="p">];</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Bitmap</span></code> 是位图区域的管理器，它保存了位图区域的起始块编号和块数。而 <code class="docutils literal notranslate"><span class="pre">BitmapBlock</span></code> 将位图区域中的一个磁盘块解释为长度为 64 的一个 <code class="docutils literal notranslate"><span class="pre">u64</span></code> 数组。</p>
+<p>首先来看 <code class="docutils literal notranslate"><span class="pre">Bitmap</span></code> 如何分配一个bit：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// easy-fs/src/bitmap.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="n">BLOCK_BITS</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">impl</span><span class="w"> </span><span class="n">Bitmap</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">alloc</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">block_device</span>: <span class="kp">&amp;</span><span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="kt">usize</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">block_id</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="bp">self</span><span class="p">.</span><span class="n">blocks</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block_cache</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">                </span><span class="n">block_id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">start_block_id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">                </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="n">block_device</span><span class="p">),</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">            </span><span class="p">)</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">            </span><span class="p">.</span><span class="n">lock</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">            </span><span class="p">.</span><span class="n">modify</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">bitmap_block</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">BitmapBlock</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">((</span><span class="n">bits64_pos</span><span class="p">,</span><span class="w"> </span><span class="n">inner_pos</span><span class="p">))</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bitmap_block</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">                    </span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">                    </span><span class="p">.</span><span class="n">enumerate</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">                    </span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="o">|</span><span class="p">(</span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">bits64</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="o">**</span><span class="n">bits64</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kt">u64</span>::<span class="n">MAX</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">                    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="p">(</span><span class="n">bits64_pos</span><span class="p">,</span><span class="w"> </span><span class="n">bits64</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">                        </span><span class="p">(</span><span class="n">bits64_pos</span><span class="p">,</span><span class="w"> </span><span class="n">bits64</span><span class="p">.</span><span class="n">trailing_ones</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">                    </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">                    </span><span class="c1">// modify cache</span>
+<span class="linenos">22</span><span class="w">                    </span><span class="n">bitmap_block</span><span class="p">[</span><span class="n">bits64_pos</span><span class="p">]</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="mi">1</span><span class="k">u64</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">inner_pos</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">                    </span><span class="nb">Some</span><span class="p">(</span><span class="n">block_id</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BLOCK_BITS</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bits64_pos</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">inner_pos</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">                    </span><span class="nb">None</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">            </span><span class="p">});</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">pos</span><span class="p">.</span><span class="n">is_some</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">pos</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">        </span><span class="nb">None</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">34</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其主要思路是遍历区域中的每个块，再在每个块中以bit组（每组 64 bits）为单位进行遍历，找到一个尚未被全部分配出去的组，最后在里面分配一个bit。它将会返回分配的bit所在的位置，等同于索引节点/数据块的编号。如果所有bit均已经被分配出去了，则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+<p>第 7 行枚举区域中的每个块（编号为 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> ），在循环内部我们需要读写这个块，在块内尝试找到一个空闲的bit并置 1 。一旦涉及到块的读写，就需要用到块缓存层提供的接口：</p>
+<ul>
+<li><p>第 8 行我们调用 <code class="docutils literal notranslate"><span class="pre">get_block_cache</span></code> 获取块缓存，注意我们传入的块编号是区域起始块编号 <code class="docutils literal notranslate"><span class="pre">start_block_id</span></code> 加上区域内的块编号 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 得到的块设备上的块编号。</p></li>
+<li><p>第 12 行我们通过 <code class="docutils literal notranslate"><span class="pre">.lock()</span></code> 获取块缓存的互斥锁从而可以对块缓存进行访问。</p></li>
+<li><p>第 13 行我们使用到了 <code class="docutils literal notranslate"><span class="pre">BlockCache::modify</span></code> 接口。它传入的偏移量 <code class="docutils literal notranslate"><span class="pre">offset</span></code> 为 0，这是因为整个块上只有一个 <code class="docutils literal notranslate"><span class="pre">BitmapBlock</span></code> ，它的大小恰好为 512 字节。因此我们需要从块的开头开始才能访问到完整的 <code class="docutils literal notranslate"><span class="pre">BitmapBlock</span></code> 。同时，传给它的闭包需要显式声明参数类型为 <code class="docutils literal notranslate"><span class="pre">&amp;mut</span> <span class="pre">BitmapBlock</span></code> ，不然的话， <code class="docutils literal notranslate"><span class="pre">BlockCache</span></code> 的泛型方法 <code class="docutils literal notranslate"><span class="pre">modify/get_mut</span></code> 无法得知应该用哪个类型来解析块上的数据。在声明之后，编译器才能在这里将两个方法中的泛型 <code class="docutils literal notranslate"><span class="pre">T</span></code> 实例化为具体类型 <code class="docutils literal notranslate"><span class="pre">BitmapBlock</span></code> 。</p>
+<p>总结一下，这里 <code class="docutils literal notranslate"><span class="pre">modify</span></code> 的含义就是：从缓冲区偏移量为 0 的位置开始将一段连续的数据（数据的长度随具体类型而定）解析为一个 <code class="docutils literal notranslate"><span class="pre">BitmapBlock</span></code> 并要对该数据结构进行修改。在闭包内部，我们可以使用这个 <code class="docutils literal notranslate"><span class="pre">BitmapBlock</span></code> 的可变引用 <code class="docutils literal notranslate"><span class="pre">bitmap_block</span></code> 对它进行访问。 <code class="docutils literal notranslate"><span class="pre">read/get_ref</span></code> 的用法完全相同，后面将不再赘述。</p>
+</li>
+<li><p>闭包的主体位于第 14~26 行。它尝试在 <code class="docutils literal notranslate"><span class="pre">bitmap_block</span></code> 中找到一个空闲的bit并返回其位置，如果不存在的话则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。它的思路是，遍历每 64 bits构成的组（一个 <code class="docutils literal notranslate"><span class="pre">u64</span></code> ），如果它并没有达到 <code class="docutils literal notranslate"><span class="pre">u64::MAX</span></code> （即 <span class="math notranslate nohighlight">\(2^{64}-1\)</span> ），则通过 <code class="docutils literal notranslate"><span class="pre">u64::trailing_ones</span></code> 找到最低的一个 0 并置为 1 。如果能够找到的话，bit组的编号将保存在变量 <code class="docutils literal notranslate"><span class="pre">bits64_pos</span></code> 中，而分配的bit在组内的位置将保存在变量 <code class="docutils literal notranslate"><span class="pre">inner_pos</span></code> 中。在返回分配的bit编号的时候，它的计算方式是 <code class="docutils literal notranslate"><span class="pre">block_id*BLOCK_BITS+bits64_pos*64+inner_pos</span></code> 。注意闭包中的 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 并不在闭包的参数列表中，因此它是从外部环境（即自增 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 的循环）中捕获到的。</p></li>
+</ul>
+<p>我们一旦在某个块中找到一个空闲的bit并成功分配，就不再考虑后续的块。第 28 行体现了提前返回的思路。</p>
+<p>回收 bit 的方法类似，感兴趣的读者可自行阅读源代码。</p>
+</div>
+<div class="section" id="id10">
+<h3>磁盘上索引节点<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<p>在磁盘上的索引节点区域，每个块上都保存着若干个索引节点 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> ：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">INODE_DIRECT_COUNT</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">28</span><span class="p">;</span><span class="w"></span>
+
+<span class="cp">#[repr(C)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">size</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">direct</span>: <span class="p">[</span><span class="kt">u32</span><span class="p">;</span><span class="w"> </span><span class="n">INODE_DIRECT_COUNT</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">indirect1</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">indirect2</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">type_</span>: <span class="nc">DiskInodeType</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cp">#[derive(PartialEq)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">DiskInodeType</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">File</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Directory</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>每个文件/目录在磁盘上均以一个 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 的形式存储。其中包含文件/目录的元数据： <code class="docutils literal notranslate"><span class="pre">size</span></code> 表示文件/目录内容的字节数， <code class="docutils literal notranslate"><span class="pre">type_</span></code> 表示索引节点的类型 <code class="docutils literal notranslate"><span class="pre">DiskInodeType</span></code> ，目前仅支持文件 <code class="docutils literal notranslate"><span class="pre">File</span></code> 和目录 <code class="docutils literal notranslate"><span class="pre">Directory</span></code> 两种类型。其余的 <code class="docutils literal notranslate"><span class="pre">direct/indirect1/indirect2</span></code> 都是存储文件内容/目录内容的数据块的索引，这也是索引节点名字的由来。</p>
+<p>为了尽可能节约空间，在进行索引的时候，块的编号用一个 <code class="docutils literal notranslate"><span class="pre">u32</span></code> 存储。索引方式分成直接索引和间接索引两种：</p>
+<ul class="simple">
+<li><p>当文件很小的时候，只需用到直接索引， <code class="docutils literal notranslate"><span class="pre">direct</span></code> 数组中最多可以指向 <code class="docutils literal notranslate"><span class="pre">INODE_DIRECT_COUNT</span></code> 个数据块，当取值为 28 的时候，通过直接索引可以找到 14KiB 的内容。</p></li>
+<li><p>当文件比较大的时候，不仅直接索引的 <code class="docutils literal notranslate"><span class="pre">direct</span></code> 数组装满，还需要用到一级间接索引 <code class="docutils literal notranslate"><span class="pre">indirect1</span></code> 。它指向一个一级索引块，这个块也位于磁盘布局的数据块区域中。这个一级索引块中的每个 <code class="docutils literal notranslate"><span class="pre">u32</span></code> 都用来指向数据块区域中一个保存该文件内容的数据块，因此，最多能够索引 <span class="math notranslate nohighlight">\(\frac{512}{4}=128\)</span> 个数据块，对应 64KiB 的内容。</p></li>
+<li><p>当文件大小超过直接索引和一级索引支持的容量上限 78KiB 的时候，就需要用到二级间接索引 <code class="docutils literal notranslate"><span class="pre">indirect2</span></code> 。它指向一个位于数据块区域中的二级索引块。二级索引块中的每个 <code class="docutils literal notranslate"><span class="pre">u32</span></code> 指向一个不同的一级索引块，这些一级索引块也位于数据块区域中。因此，通过二级间接索引最多能够索引 <span class="math notranslate nohighlight">\(128\times 64\text{KiB}=8\text{MiB}\)</span> 的内容。</p></li>
+</ul>
+<p>为了充分利用空间，我们将 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 的大小设置为 128 字节，每个块正好能够容纳 4 个 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 。在后续需要支持更多类型的元数据的时候，可以适当缩减直接索引 <code class="docutils literal notranslate"><span class="pre">direct</span></code> 的块数，并将节约出来的空间用来存放其他元数据，仍可保证 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 的总大小为 128 字节。</p>
+<p>通过 <code class="docutils literal notranslate"><span class="pre">initialize</span></code> 方法可以初始化一个 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 为一个文件或目录：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// indirect1 and indirect2 block are allocated only when they are needed.</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">type_</span>: <span class="nc">DiskInodeType</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">direct</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">for_each</span><span class="p">(</span><span class="o">|</span><span class="n">v</span><span class="o">|</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">indirect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">indirect2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">type_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">type_</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>需要注意的是， <code class="docutils literal notranslate"><span class="pre">indirect1/2</span></code> 均被初始化为 0 。因为最开始文件内容的大小为 0 字节，并不会用到一级/二级索引。为了节约空间，我们会完全按需分配一级/二级索引块。此外，直接索引 <code class="docutils literal notranslate"><span class="pre">direct</span></code> 也被清零。</p>
+<p><code class="docutils literal notranslate"><span class="pre">is_file</span></code> 和 <code class="docutils literal notranslate"><span class="pre">is_dir</span></code> 两个方法可以用来确认 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 的类型为文件还是目录：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">is_dir</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">type_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">DiskInodeType</span>::<span class="n">Directory</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">is_file</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">type_</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">DiskInodeType</span>::<span class="n">File</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">get_block_id</span></code> 方法体现了 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 最重要的数据块索引功能，它可以从索引中查到它自身用于保存文件内容的第 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 个数据块的块编号，这样后续才能对这个数据块进行访问：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// easy-fs/src/layout.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="n">INODE_INDIRECT1_COUNT</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="n">INDIRECT1_BOUND</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="n">DIRECT_BOUND</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">INODE_INDIRECT1_COUNT</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="k">type</span> <span class="nc">IndirectBlock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">u32</span><span class="p">;</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">4</span><span class="p">];</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_block_id</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">inner_id</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">block_device</span>: <span class="kp">&amp;</span><span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">inner_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inner_id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="hll"><span class="linenos">10</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">inner_id</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">INODE_DIRECT_COUNT</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="linenos">11</span><span class="w">            </span><span class="bp">self</span><span class="p">.</span><span class="n">direct</span><span class="p">[</span><span class="n">inner_id</span><span class="p">]</span><span class="w"></span>
+<span class="hll"><span class="linenos">12</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">inner_id</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">INDIRECT1_BOUND</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="linenos">13</span><span class="w">            </span><span class="n">get_block_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">indirect1</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="n">block_device</span><span class="p">))</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">                </span><span class="p">.</span><span class="n">lock</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">                </span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">indirect_block</span>: <span class="kp">&amp;</span><span class="nc">IndirectBlock</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">                    </span><span class="n">indirect_block</span><span class="p">[</span><span class="n">inner_id</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">INODE_DIRECT_COUNT</span><span class="p">]</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">                </span><span class="p">})</span><span class="w"></span>
+<span class="hll"><span class="linenos">18</span><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="linenos">19</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inner_id</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">INDIRECT1_BOUND</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">indirect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_block_cache</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">                </span><span class="bp">self</span><span class="p">.</span><span class="n">indirect2</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">                </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="n">block_device</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">            </span><span class="p">)</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">            </span><span class="p">.</span><span class="n">lock</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">            </span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">indirect2</span>: <span class="kp">&amp;</span><span class="nc">IndirectBlock</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">                </span><span class="n">indirect2</span><span class="p">[</span><span class="n">last</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">INODE_INDIRECT1_COUNT</span><span class="p">]</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">            </span><span class="p">});</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">            </span><span class="n">get_block_cache</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">                </span><span class="n">indirect1</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">                </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="n">block_device</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">            </span><span class="p">)</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">            </span><span class="p">.</span><span class="n">lock</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">            </span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">indirect1</span>: <span class="kp">&amp;</span><span class="nc">IndirectBlock</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">                </span><span class="n">indirect1</span><span class="p">[</span><span class="n">last</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">INODE_INDIRECT1_COUNT</span><span class="p">]</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">            </span><span class="p">})</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">38</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这里需要说明的是：</p>
+<ul class="simple">
+<li><p>第 10/12/18 行分别利用直接索引/一级索引和二级索引，具体选用哪种索引方式取决于 <code class="docutils literal notranslate"><span class="pre">block_id</span></code> 所在的区间。</p></li>
+<li><p>在对一个索引块进行操作的时候，我们将其解析为磁盘数据结构 <code class="docutils literal notranslate"><span class="pre">IndirectBlock</span></code> ，实质上就是一个 <code class="docutils literal notranslate"><span class="pre">u32</span></code> 数组，每个都指向一个下一级索引块或者数据块。</p></li>
+<li><p>对于二级索引的情况，需要先查二级索引块找到挂在它下面的一级索引块，再通过一级索引块找到数据块。</p></li>
+</ul>
+<p>在初始化之后文件/目录的 <code class="docutils literal notranslate"><span class="pre">size</span></code> 均为 0 ，此时并不会索引到任何数据块。它需要通过 <code class="docutils literal notranslate"><span class="pre">increase_size</span></code> 方法逐步扩充容量。在扩充的时候，自然需要一些新的数据块来作为索引块或是保存内容的数据块。我们需要先编写一些辅助方法来确定在容量扩充的时候额外需要多少块：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// Return block number correspond to size.</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">data_blocks</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">Self</span>::<span class="n">_data_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">_data_blocks</span><span class="p">(</span><span class="n">size</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u32</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u32</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// Return number of blocks needed include indirect1/2.</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">total_blocks</span><span class="p">(</span><span class="n">size</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">data_blocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">Self</span>::<span class="n">_data_blocks</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_blocks</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// indirect1</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">data_blocks</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">INODE_DIRECT_COUNT</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// indirect2</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">data_blocks</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">INDIRECT1_BOUND</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// sub indirect1</span>
+<span class="w">            </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">data_blocks</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">INDIRECT1_BOUND</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">INODE_INDIRECT1_COUNT</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">INODE_INDIRECT1_COUNT</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">total</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u32</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">blocks_num_needed</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">new_size</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">assert!</span><span class="p">(</span><span class="n">new_size</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">size</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="bp">Self</span>::<span class="n">total_blocks</span><span class="p">(</span><span class="n">new_size</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="bp">Self</span>::<span class="n">total_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">size</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">data_blocks</span></code> 方法可以计算为了容纳自身 <code class="docutils literal notranslate"><span class="pre">size</span></code> 字节的内容需要多少个数据块。计算的过程只需用 <code class="docutils literal notranslate"><span class="pre">size</span></code> 除以每个块的大小 <code class="docutils literal notranslate"><span class="pre">BLOCK_SZ</span></code> 并向上取整。而 <code class="docutils literal notranslate"><span class="pre">total_blocks</span></code> 不仅包含数据块，还需要统计索引块。计算的方法也很简单，先调用 <code class="docutils literal notranslate"><span class="pre">data_blocks</span></code> 得到需要多少数据块，再根据数据块数目所处的区间统计索引块即可。 <code class="docutils literal notranslate"><span class="pre">blocks_num_needed</span></code> 可以计算将一个 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 的 <code class="docutils literal notranslate"><span class="pre">size</span></code> 扩容到 <code class="docutils literal notranslate"><span class="pre">new_size</span></code> 需要额外多少个数据和索引块。这只需要调用两次 <code class="docutils literal notranslate"><span class="pre">total_blocks</span></code> 作差即可。</p>
+<p>下面给出 <code class="docutils literal notranslate"><span class="pre">increase_size</span></code> 方法的接口：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">increase_size</span><span class="p">(</span><span class="w"></span>
+<span class="w">        </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">new_size</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">new_blocks</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">block_device</span>: <span class="kp">&amp;</span><span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">new_size</span></code> 表示容量扩充之后的文件大小； <code class="docutils literal notranslate"><span class="pre">new_blocks</span></code> 是一个保存了本次容量扩充所需块编号的向量，这些块都是由上层的磁盘块管理器负责分配的。 <code class="docutils literal notranslate"><span class="pre">increase_size</span></code> 的实现有些复杂，在这里不详细介绍。大致的思路是按照直接索引、一级索引再到二级索引的顺序进行扩充。</p>
+<p>有些时候我们还需要清空文件的内容并回收所有数据和索引块。这是通过 <code class="docutils literal notranslate"><span class="pre">clear_size</span></code> 方法来实现的：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="sd">/// Clear size to zero and return blocks that should be deallocated.</span>
+<span class="w">    </span><span class="sd">///</span>
+<span class="w">    </span><span class="sd">/// We will clear the block contents to zero later.</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">clear_size</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">block_device</span>: <span class="kp">&amp;</span><span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>它会将回收的所有块的编号保存在一个向量中返回给磁盘块管理器。它的实现原理和 <code class="docutils literal notranslate"><span class="pre">increase_size</span></code> 一样也分为多个阶段，在这里不展开。</p>
+<p>接下来需要考虑通过 <code class="docutils literal notranslate"><span class="pre">DiskInode</span></code> 来读写它索引的那些数据块中的数据。这些数据可以被视为一个字节序列，而每次我们都是选取其中的一段连续区间进行操作，以 <code class="docutils literal notranslate"><span class="pre">read_at</span></code> 为例：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// easy-fs/src/layout.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">type</span> <span class="nc">DataBlock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">;</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">];</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">impl</span><span class="w"> </span><span class="n">DiskInode</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">read_at</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="n">offset</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="n">buf</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">],</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">        </span><span class="n">block_device</span>: <span class="kp">&amp;</span><span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">BlockDevice</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">buf</span><span class="p">.</span><span class="n">len</span><span class="p">()).</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">size</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">start_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">read_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="k">usize</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">        </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">            </span><span class="c1">// calculate end of current block</span>
+<span class="linenos">21</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">end_current_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">            </span><span class="n">end_current_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end_current_block</span><span class="p">.</span><span class="n">min</span><span class="p">(</span><span class="n">end</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">            </span><span class="c1">// read and update read size</span>
+<span class="linenos">24</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">block_read_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end_current_block</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">dst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="n">read_size</span><span class="o">..</span><span class="n">read_size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">block_read_size</span><span class="p">];</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">            </span><span class="n">get_block_cache</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">                </span><span class="bp">self</span><span class="p">.</span><span class="n">get_block_id</span><span class="p">(</span><span class="n">start_block</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">block_device</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">                </span><span class="n">Arc</span>::<span class="n">clone</span><span class="p">(</span><span class="n">block_device</span><span class="p">),</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">            </span><span class="p">)</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">            </span><span class="p">.</span><span class="n">lock</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">            </span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">data_block</span>: <span class="kp">&amp;</span><span class="nc">DataBlock</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data_block</span><span class="p">[</span><span class="n">start</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="o">..</span><span class="n">start</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">BLOCK_SZ</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">block_read_size</span><span class="p">];</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">                </span><span class="n">dst</span><span class="p">.</span><span class="n">copy_from_slice</span><span class="p">(</span><span class="n">src</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">            </span><span class="p">});</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">            </span><span class="n">read_size</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">block_read_size</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">            </span><span class="c1">// move to next block</span>
+<span class="linenos">37</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">end_current_block</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">            </span><span class="n">start_block</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">            </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end_current_block</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">41</span><span class="w">        </span><span class="n">read_size</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">43</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>它的含义是：将文件内容从 <code class="docutils literal notranslate"><span class="pre">offset</span></code> 字节开始的部分读到内存中的缓冲区 <code class="docutils literal notranslate"><span class="pre">buf</span></code> 中，并返回实际读到的字节数。如果文件剩下的内容还足够多，那么缓冲区会被填满；不然的话文件剩下的全部内容都会被读到缓冲区中。具体实现上有很多细节，但大致的思路是遍历位于字节区间 <code class="docutils literal notranslate"><span class="pre">start,end</span></code> 中间的那些块，将它们视为一个 <code class="docutils literal notranslate"><span class="pre">DataBlock</span></code> （也就是一个字节数组），并将其中的部分内容复制到缓冲区 <code class="docutils literal notranslate"><span class="pre">buf</span></code> 中适当的区域。 <code class="docutils literal notranslate"><span class="pre">start_block</span></code> 维护着目前是文件内部第多少个数据块，需要首先调用 <code class="docutils literal notranslate"><span class="pre">get_block_id</span></code> 从索引中查到这个数据块在块设备中的块编号，随后才能传入 <code class="docutils literal notranslate"><span class="pre">get_block_cache</span></code> 中将正确的数据块缓存到内存中进行访问。</p>
+<p>在第 14 行进行了简单的边界条件判断，如果要读取的内容超出了文件的范围那么直接返回 0 表示读取不到任何内容。</p>
+<p><code class="docutils literal notranslate"><span class="pre">write_at</span></code> 的实现思路基本上和 <code class="docutils literal notranslate"><span class="pre">read_at</span></code> 完全相同。但不同的是 <code class="docutils literal notranslate"><span class="pre">write_at</span></code> 不会出现失败的情况，传入的整个缓冲区的数据都必定会被写入到文件中。当从 <code class="docutils literal notranslate"><span class="pre">offset</span></code> 开始的区间超出了文件范围的时候，就需要调用者在调用 <code class="docutils literal notranslate"><span class="pre">write_at</span></code> 之前提前调用 <code class="docutils literal notranslate"><span class="pre">increase_size</span></code> 将文件大小扩充到区间的右端保证写入的完整性。</p>
+</div>
+<div class="section" id="id11">
+<h3>目录项<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<p>对于文件而言，它的内容在文件系统或内核看来没有任何既定的格式，只是一个字节序列。目录的内容却需要遵从一种特殊的格式，它可以看成一个目录项的序列，每个目录项都是一个二元组，包括目录下文件的文件名和索引节点编号。目录项 <code class="docutils literal notranslate"><span class="pre">DirEntry</span></code> 的定义如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">const</span><span class="w"> </span><span class="n">NAME_LENGTH_LIMIT</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">27</span><span class="p">;</span><span class="w"></span>
+
+<span class="cp">#[repr(C)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">DirEntry</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">name</span>: <span class="p">[</span><span class="kt">u8</span><span class="p">;</span><span class="w"> </span><span class="n">NAME_LENGTH_LIMIT</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="n">inode_number</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">DIRENT_SZ</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>目录项 <code class="docutils literal notranslate"><span class="pre">Dirent</span></code> 保存的文件名长度不能超过 27。目录项自身长 32 字节，每个数据块可以存储 16 个目录项。可以通过 <code class="docutils literal notranslate"><span class="pre">empty</span></code> 和 <code class="docutils literal notranslate"><span class="pre">new</span></code> 方法生成目录项，通过 <code class="docutils literal notranslate"><span class="pre">name</span></code> 和 <code class="docutils literal notranslate"><span class="pre">inode_number</span></code> 方法取出目录项中的内容：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DirEntry</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">empty</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">name</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"> </span><span class="n">inode_number</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">name</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="kt">str</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">inode_number</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>在从目录中读取目录项，或将目录项写入目录时，需要将目录项转化为缓冲区（即字节切片）的形式来符合 <code class="docutils literal notranslate"><span class="pre">read_at</span> <span class="pre">OR</span> <span class="pre">write_at</span></code> 接口的要求：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// easy-fs/src/layout.rs</span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">DirEntry</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">as_bytes</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">core</span>::<span class="n">slice</span>::<span class="n">from_raw_parts</span><span class="p">(</span><span class="w"></span>
+<span class="w">                </span><span class="bp">self</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">DIRENT_SZ</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">as_bytes_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">core</span>::<span class="n">slice</span>::<span class="n">from_raw_parts_mut</span><span class="p">(</span><span class="w"></span>
+<span class="w">                </span><span class="bp">self</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">DIRENT_SZ</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="2fs-implementation-2.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">简易文件系统 easy-fs (下)</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="1fs-interface.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">文件系统接口</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter6/2fs-implementation-1.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">简易文件系统 easy-fs (上)</a><ul>
+<li><a class="reference internal" href="#id1">松耦合模块化设计思路</a></li>
+<li><a class="reference internal" href="#id2">块设备接口层</a></li>
+<li><a class="reference internal" href="#id3">块缓存层</a><ul>
+<li><a class="reference internal" href="#id4">块缓存</a></li>
+<li><a class="reference internal" href="#id5">块缓存全局管理器</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">磁盘布局及磁盘上数据结构</a><ul>
+<li><a class="reference internal" href="#id7">easy-fs 磁盘布局概述</a></li>
+<li><a class="reference internal" href="#id8">easy-fs 超级块</a></li>
+<li><a class="reference internal" href="#id9">位图</a></li>
+<li><a class="reference internal" href="#id10">磁盘上索引节点</a></li>
+<li><a class="reference internal" href="#id11">目录项</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

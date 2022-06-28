@@ -1,0 +1,676 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="chapter8 练习" href="5exercise.html" /><link rel="prev" title="信号量机制" href="3semaphore.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>条件变量机制 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第八章：并发</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="id1">
+<h1>条件变量机制<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>本节导读<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>到目前为止，我们已经了解了操作系统提供的互斥锁和信号量。但应用程序在使用这两者时需要非常小心，
+如果使用不当，就会产生效率低下、竞态条件、死锁或者其他一些不可预测的情况。为了简化编程、避免错误，
+计算机科学家针对某些情况设计了一种更高层的同步互斥原语。具体而言，在有些情况下，
+线程需要检查某一条件（condition）满足之后，才会继续执行。</p>
+<p>我们来看一个例子，有两个线程 first 和 second 在运行，线程 first 会把全局变量 A 设置为
+1，而线程 second 在 <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">!=</span> <span class="pre">0</span></code> 的条件满足后，才能继续执行，如下面的伪代码所示：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">A</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">first</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="n">A</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">second</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">A</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">      </span><span class="c1">// 忙等或睡眠等待 A==1</span>
+<span class="linenos">10</span><span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="c1">//继续执行相关事务</span>
+<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>在上面的例子中，如果线程 second 先执行，会忙等在 while 循环中，在操作系统的调度下，线程
+first 会执行并把 A 赋值为 1 后，然后线程 second 再次执行时，就会跳出 while 循环，进行接下来的工作。
+配合互斥锁，可以正确完成上述带条件的同步流程，如下面的伪代码所示：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">A</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">first</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="n">A</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">second</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">A</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">        </span><span class="c1">// give other thread a chance to lock</span>
+<span class="linenos">14</span><span class="w">        </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="c1">//继续执行相关事务</span>
+<span class="linenos">18</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这种实现能执行，但效率低下，因为线程 second 会忙等检查，浪费处理器时间。我们希望有某种方式让线程
+second 休眠，直到等待的条件满足，再继续执行。于是，我们可以写出如下的代码：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">A</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">first</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="n">A</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">wakup</span><span class="p">(</span><span class="n">second</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">second</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">A</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">       </span><span class="n">wait</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="c1">//继续执行相关事务</span>
+<span class="linenos">17</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>粗略地看，这样就可以实现睡眠等待了。但请同学仔细想想，当线程 second 在睡眠的时候， <code class="docutils literal notranslate"><span class="pre">mutex</span></code>
+是否已经上锁了？ 确实，线程 second 是带着上锁的 <code class="docutils literal notranslate"><span class="pre">mutex</span></code> 进入等待睡眠状态的。
+如果这两个线程的调度顺序是先执行线程 second，再执行线程first，那么线程 second 会先睡眠且拥有
+<code class="docutils literal notranslate"><span class="pre">mutex</span></code> 的锁；当线程 first 执行时，会由于没有 <code class="docutils literal notranslate"><span class="pre">mutex</span></code> 的锁而进入等待锁的睡眠状态。
+结果就是两个线程都睡了，都执行不下去，这就出现了 <strong>死锁</strong> 。</p>
+<p>这里需要解决的两个关键问题： <strong>如何等待一个条件？</strong> 和 <strong>在条件为真时如何向等待线程发出信号</strong> 。
+我们的计算机科学家给出了 <strong>管程（Monitor）</strong> 和 <strong>条件变量（Condition Variables）</strong>
+这种巧妙的方法。接下来，我们就会深入讲解条件变量的设计与实现。</p>
+</div>
+<div class="section" id="id3">
+<h2>条件变量的基本思路<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>管程有一个很重要的特性，即任一时刻只能有一个活跃线程调用管程中的过程，
+这一特性使线程在调用执行管程中过程时能保证互斥，这样线程就可以放心地访问共享变量。
+管程是编程语言的组成部分，编译器知道其特殊性，因此可以采用与其他过程调用不同的方法来处理对管程的调用.
+因为是由编译器而非程序员来生成互斥相关的代码，所以出错的可能性要小。</p>
+<p>管程虽然借助编译器提供了一种实现互斥的简便途径，但这还不够，还需要一种线程间的沟通机制。
+首先是等待机制：由于线程在调用管程中某个过程时，发现某个条件不满足，那就在无法继续运行而被阻塞。
+其次是唤醒机制：另外一个线程可以在调用管程的过程中，把某个条件设置为真，并且还需要有一种机制，
+及时唤醒等待条件为真的阻塞线程。为了避免管程中同时有两个活跃线程，
+我们需要一定的规则来约定线程发出唤醒操作的行为。目前有三种典型的规则方案：</p>
+<ul class="simple">
+<li><p>Hoare 语义：线程发出唤醒操作后，马上阻塞自己，让新被唤醒的线程运行。注：此时唤醒线程的执行位置还在管程中。</p></li>
+<li><p>Hansen 语义：是执行唤醒操作的线程必须立即退出管程，即唤醒操作只可能作为一个管程过程的最后一条语句。
+注：此时唤醒线程的执行位置离开了管程。</p></li>
+<li><p>Mesa 语义：唤醒线程在发出行唤醒操作后继续运行，并且只有它退出管程之后，才允许等待的线程开始运行。
+注：此时唤醒线程的执行位置还在管程中。</p></li>
+</ul>
+<p>一般开发者会采纳 Brinch Hansen 的建议，因为它在概念上更简单，并且更容易实现。这种沟通机制的具体实现就是
+<strong>条件变量</strong> 和对应的操作：wait 和 signal。线程使用条件变量来等待一个条件变成真。
+条件变量其实是一个线程等待队列，当条件不满足时，线程通过执行条件变量的 wait
+操作就可以把自己加入到等待队列中，睡眠等待（waiting）该条件。另外某个线程，当它改变条件为真后，
+就可以通过条件变量的 signal 操作来唤醒一个或者多个等待的线程（通过在该条件上发信号），让它们继续执行。</p>
+<p>早期提出的管程是基于 Concurrent Pascal 来设计的，其他语言如 C 和 Rust 等，并没有在语言上支持这种机制。
+我们还是可以用手动加入互斥锁的方式来代替编译器，就可以在 C 和 Rust 的基础上实现原始的管程机制了。
+在目前的 C 语言应用开发中，实际上也是这么做的。这样，我们就可以用互斥锁和条件变量，
+来重现上述的同步互斥例子：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">A</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">first</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="n">A</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">condvar</span><span class="p">.</span><span class="n">wakup</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">second</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">A</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">       </span><span class="n">condvar</span><span class="p">.</span><span class="n">wait</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span><span class="w"> </span><span class="c1">//在睡眠等待之前，需要释放mutex</span>
+<span class="linenos">14</span><span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="c1">//继续执行相关事务</span>
+<span class="linenos">17</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>有了上面的介绍，我们就可以实现条件变量的基本逻辑了。下面是条件变量的 wait 和 signal 操作的伪代码：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">fn</span> <span class="nf">wait</span><span class="p">(</span><span class="n">mutex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">2</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">3</span><span class="w">    </span><span class="o">&lt;</span><span class="n">block</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">enqueue</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">thread</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">    </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">5</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">6</span>
+<span class="linenos">7</span><span class="k">fn</span> <span class="nf">signal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">8</span><span class="w">    </span><span class="o">&lt;</span><span class="n">unblock</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">thread</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">9</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>条件变量的wait操作包含三步，1. 释放锁；2. 把自己挂起；3. 被唤醒后，再获取锁。条件变量的 signal
+操作只包含一步：找到挂在条件变量上睡眠的线程，把它唤醒。</p>
+<p>注意，条件变量不像信号量那样有一个整型计数值的成员变量，所以条件变量也不能像信号量那样有读写计数值的能力。
+如果一个线程向一个条件变量发送唤醒操作，但是在该条件变量上并没有等待的线程，则唤醒操作实际上什么也没做。</p>
+</div>
+<div class="section" id="id4">
+<h2>实现条件变量<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="condvar">
+<h3>使用 condvar 系统调用<a class="headerlink" href="#condvar" title="永久链接至标题">¶</a></h3>
+<p>我们通过例子来看看如何实际使用条件变量。下面是面向应用程序对条件变量系统调用的简单使用，
+可以看到对它的使用与上一节介绍的信号量系统调用类似。 在这个例子中，主线程先创建了初值为 1
+的互斥锁和一个条件变量，然后再创建两个线程 First 和 Second。线程 First 会先睡眠 10ms，而当线程
+Second 执行时，会由于条件不满足执行条件变量的 wait 操作而等待睡眠；当线程 First 醒来后，通过设置
+A 为 1，让线程 second 等待的条件满足，然后会执行条件变量的 signal 操作，从而能够唤醒线程 Second。
+这样线程 First 和线程 Second 就形成了一种稳定的同步与互斥关系。</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">A</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">   </span><span class="c1">//全局变量</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="n">CONDVAR_ID</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="n">MUTEX_ID</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">first</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"First work, Change A --&gt; 1 and wakeup Second"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="n">mutex_lock</span><span class="p">(</span><span class="n">MUTEX_ID</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="n">A</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="hll"><span class="linenos">11</span><span class="w">    </span><span class="n">condvar_signal</span><span class="p">(</span><span class="n">CONDVAR_ID</span><span class="p">);</span><span class="w"></span>
+</span><span class="linenos">12</span><span class="w">    </span><span class="n">mutex_unlock</span><span class="p">(</span><span class="n">MUTEX_ID</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos">14</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">15</span><span class="k">unsafe</span><span class="w"> </span><span class="k">fn</span> <span class="nf">second</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"Second want to continue,but need to wait A=1"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">mutex_lock</span><span class="p">(</span><span class="n">MUTEX_ID</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">A</span><span class="o">==</span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="hll"><span class="linenos">19</span><span class="w">        </span><span class="n">condvar_wait</span><span class="p">(</span><span class="n">CONDVAR_ID</span><span class="p">,</span><span class="w"> </span><span class="n">MUTEX_ID</span><span class="p">);</span><span class="w"></span>
+</span><span class="linenos">20</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="n">mutex_unlock</span><span class="p">(</span><span class="n">MUTEX_ID</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos">23</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">24</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">    </span><span class="c1">// create condvar &amp; mutex</span>
+<span class="hll"><span class="linenos">26</span><span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">condvar_create</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">CONDVAR_ID</span><span class="p">);</span><span class="w"></span>
+</span><span class="linenos">27</span><span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">mutex_blocking_create</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">MUTEX_ID</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">    </span><span class="c1">// create first, second threads</span>
+<span class="linenos">29</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos">30</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">condvar_create</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="hll"><span class="linenos">33</span><span class="w">    </span><span class="n">sys_condvar_create</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+</span><span class="linenos">34</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">35</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">condvar_signal</span><span class="p">(</span><span class="n">condvar_id</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="hll"><span class="linenos">36</span><span class="w">    </span><span class="n">sys_condvar_signal</span><span class="p">(</span><span class="n">condvar_id</span><span class="p">);</span><span class="w"></span>
+</span><span class="linenos">37</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">38</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">condvar_wait</span><span class="p">(</span><span class="n">condvar_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">mutex_id</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="hll"><span class="linenos">39</span><span class="w">    </span><span class="n">sys_condvar_wait</span><span class="p">(</span><span class="n">condvar_id</span><span class="p">,</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">);</span><span class="w"></span>
+</span><span class="linenos">40</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>第 26 行，创建了一个 ID 为 <code class="docutils literal notranslate"><span class="pre">CONDVAR_ID</span></code> 的条件量，对应第 33 行 <code class="docutils literal notranslate"><span class="pre">SYSCALL_CONDVAR_CREATE</span></code> 系统调用；</p></li>
+<li><p>第 19 行，线程 Second 执行条件变量 <code class="docutils literal notranslate"><span class="pre">wait</span></code> 操作（对应第 39 行 <code class="docutils literal notranslate"><span class="pre">SYSCALL_CONDVAR_WAIT</span></code> 系统调用），
+该线程将释放 <code class="docutils literal notranslate"><span class="pre">mutex</span></code> 锁并阻塞；</p></li>
+<li><p>第 5 行，线程 First 执行条件变量 <code class="docutils literal notranslate"><span class="pre">signal</span></code> 操作（对应第 36 行 <code class="docutils literal notranslate"><span class="pre">SYSCALL_CONDVAR_SIGNAL</span></code> 系统调用），
+会唤醒等待该条件变量的线程 Second。</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>实现 condvar 系统调用<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<p>操作系统如何实现条件变量系统调用呢？在线程的眼里，条件变量是一种每个线程能看到的共享资源，
+且在一个进程中，可以存在多个不同条件变量资源，所以我们可以把所有的条件变量资源放在一起让进程来管理，
+如下面代码第9行所示。这里需要注意的是： <code class="docutils literal notranslate"><span class="pre">condvar_list:</span> <span class="pre">Vec&lt;Option&lt;Arc&lt;Condvar&gt;&gt;&gt;</span></code>
+表示的是条件变量资源的列表。而 <code class="docutils literal notranslate"><span class="pre">Condvar</span></code> 是条件变量的内核数据结构，由等待队列组成。
+操作系统需要显式地施加某种控制，来确定当一个线程执行 <code class="docutils literal notranslate"><span class="pre">wait</span></code> 操作和 <code class="docutils literal notranslate"><span class="pre">signal</span></code> 操作时，
+如何让线程睡眠或唤醒线程。在这里， <code class="docutils literal notranslate"><span class="pre">wait</span></code> 操作是由 <code class="docutils literal notranslate"><span class="pre">Condvar</span></code> 的 <code class="docutils literal notranslate"><span class="pre">wait</span></code> 方法实现，而 <code class="docutils literal notranslate"><span class="pre">signal</span></code>
+操作是由 <code class="docutils literal notranslate"><span class="pre">Condvar</span></code> 的 <code class="docutils literal notranslate"><span class="pre">signal</span></code> 方法实现。</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">ProcessControlBlock</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="c1">// immutable</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">pid</span>: <span class="nc">PidHandle</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="c1">// mutable</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="n">inner</span>: <span class="nc">UPSafeCell</span><span class="o">&lt;</span><span class="n">ProcessControlBlockInner</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">ProcessControlBlockInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="hll"><span class="linenos"> 9</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">condvar_list</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Arc</span><span class="o">&lt;</span><span class="n">Condvar</span><span class="o">&gt;&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+</span><span class="linenos">10</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">11</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Condvar</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">inner</span>: <span class="nc">UPSafeCell</span><span class="o">&lt;</span><span class="n">CondvarInner</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">13</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">14</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">CondvarInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="hll"><span class="linenos">15</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">wait_queue</span>: <span class="nc">VecDeque</span><span class="o">&lt;</span><span class="n">Arc</span><span class="o">&lt;</span><span class="n">TaskControlBlock</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+</span><span class="linenos">16</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">17</span><span class="k">impl</span><span class="w"> </span><span class="n">Condvar</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="hll"><span class="linenos">18</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="linenos">19</span><span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">            </span><span class="n">inner</span>: <span class="nc">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">UPSafeCell</span>::<span class="n">new</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">                </span><span class="n">CondvarInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">                    </span><span class="n">wait_queue</span>: <span class="nc">VecDeque</span>::<span class="n">new</span><span class="p">(),</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">            </span><span class="p">)},</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="hll"><span class="linenos">27</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">signal</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="linenos">28</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">inner</span><span class="p">.</span><span class="n">exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inner</span><span class="p">.</span><span class="n">wait_queue</span><span class="p">.</span><span class="n">pop_front</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">            </span><span class="n">add_task</span><span class="p">(</span><span class="n">task</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="hll"><span class="linenos">33</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">mutex</span>:<span class="nc">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">Mutex</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</span><span class="linenos">34</span><span class="w">        </span><span class="n">mutex</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">inner</span><span class="p">.</span><span class="n">exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">        </span><span class="n">inner</span><span class="p">.</span><span class="n">wait_queue</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">current_task</span><span class="p">().</span><span class="n">unwrap</span><span class="p">());</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">        </span><span class="nb">drop</span><span class="p">(</span><span class="n">inner</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">        </span><span class="n">block_current_and_run_next</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">        </span><span class="n">mutex</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">41</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>首先是核心数据结构：</p>
+<ul class="simple">
+<li><p>第 9 行，进程控制块中管理的条件变量列表。</p></li>
+<li><p>第 15 行，条件变量的核心数据成员：等待队列。</p></li>
+</ul>
+<p>然后是重要的三个成员函数：</p>
+<ul class="simple">
+<li><p>第 18 行，创建条件变量，即创建了一个空的等待队列。</p></li>
+<li><p>第 27 行，实现 <code class="docutils literal notranslate"><span class="pre">signal</span></code> 操作，将从条件变量的等待队列中弹出一个线程放入线程就绪队列。</p></li>
+<li><p>第 33 行，实现 <code class="docutils literal notranslate"><span class="pre">wait</span></code> 操作，释放 <code class="docutils literal notranslate"><span class="pre">mutex</span></code> 互斥锁，将把当前线程放入条件变量的等待队列，
+设置当前线程为挂起状态并选择新线程执行。在恢复执行后，再加上 <code class="docutils literal notranslate"><span class="pre">mutex</span></code> 互斥锁。</p></li>
+</ul>
+<p>Hansen, Per Brinch (1993). “Monitors and concurrent Pascal: a personal history”. HOPL-II:
+The second ACM SIGPLAN conference on History of programming languages. History of Programming
+Languages. New York, NY, USA: ACM. pp. 1–35. doi:10.1145/155360.155361. ISBN 0-89791-570-4.</p>
+</div>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="5exercise.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">chapter8 练习</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="3semaphore.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">信号量机制</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter8/4condition-variable.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">条件变量机制</a><ul>
+<li><a class="reference internal" href="#id2">本节导读</a></li>
+<li><a class="reference internal" href="#id3">条件变量的基本思路</a></li>
+<li><a class="reference internal" href="#id4">实现条件变量</a><ul>
+<li><a class="reference internal" href="#condvar">使用 condvar 系统调用</a></li>
+<li><a class="reference internal" href="#id5">实现 condvar 系统调用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

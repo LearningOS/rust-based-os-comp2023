@@ -1,0 +1,620 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="文件系统接口" href="1fs-interface.html" /><link rel="prev" title="引言" href="0intro.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>文件与文件描述符 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第六章：文件系统与I/O重定向</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="id1">
+<h1>文件与文件描述符<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>文件简介<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>文件可代表很多种不同类型的I/O 资源，但是在进程看来，所有文件的访问都可以通过一个简洁统一的抽象接口 <code class="docutils literal notranslate"><span class="pre">File</span></code> 进行：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// os/src/fs/mod.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">File</span><span class="w"> </span>: <span class="nb">Send</span> <span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">readable</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">writable</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">read</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="nc">UserBuffer</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">write</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="nc">UserBuffer</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这个接口在内存和I/O资源之间建立了数据交换的通道。其中 <code class="docutils literal notranslate"><span class="pre">UserBuffer</span></code> 是我们在 <code class="docutils literal notranslate"><span class="pre">mm</span></code> 子模块中定义的应用地址空间中的一段缓冲区，我们可以将它看成一个 <code class="docutils literal notranslate"><span class="pre">&amp;[u8]</span></code> 切片。</p>
+<p><code class="docutils literal notranslate"><span class="pre">read</span></code> 指的是从文件（即I/O资源）中读取数据放到缓冲区中，最多将缓冲区填满（即读取缓冲区的长度那么多字节），并返回实际读取的字节数；而 <code class="docutils literal notranslate"><span class="pre">write</span></code> 指的是将缓冲区中的数据写入文件，最多将缓冲区中的数据全部写入，并返回直接写入的字节数。</p>
+<p>回过头来再看一下用户缓冲区的抽象 <code class="docutils literal notranslate"><span class="pre">UserBuffer</span></code> ，它的声明如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// os/src/mm/page_table.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">translated_byte_buffer</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">token</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">ptr</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">len</span>: <span class="kt">usize</span>
+<span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;&amp;'</span><span class="nb">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">UserBuffer</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">buffers</span>: <span class="nb">Vec</span><span class="o">&lt;&amp;'</span><span class="nb">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">UserBuffer</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">buffers</span>: <span class="nb">Vec</span><span class="o">&lt;&amp;'</span><span class="nb">static</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">u8</span><span class="p">]</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">buffers</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">len</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">total</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">buffers</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="n">len</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="n">total</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>它只是将我们调用 <code class="docutils literal notranslate"><span class="pre">translated_byte_buffer</span></code> 获得的包含多个切片的 <code class="docutils literal notranslate"><span class="pre">Vec</span></code> 进一步包装起来，通过 <code class="docutils literal notranslate"><span class="pre">len</span></code> 方法可以得到缓冲区的长度。此外，我们还让它作为一个迭代器可以逐字节进行读写。有兴趣的读者可以参考类型 <code class="docutils literal notranslate"><span class="pre">UserBufferIterator</span></code> 还有 <code class="docutils literal notranslate"><span class="pre">IntoIterator</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Iterator</span></code> 两个 Trait 的使用方法。</p>
+</div>
+<div class="section" id="id3">
+<h2>标准输入和标准输出<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<p>其实我们在第二章就对应用程序引入了基于 <strong>文件</strong> 的标准输出接口 <code class="docutils literal notranslate"><span class="pre">sys_write</span></code> ，在第五章引入标准输入接口 <code class="docutils literal notranslate"><span class="pre">sys_read</span></code> 。我们提前把标准输出设备在文件描述符表中的文件描述符的值规定为 <code class="docutils literal notranslate"><span class="pre">1</span></code> ，用 <code class="docutils literal notranslate"><span class="pre">Stdout</span></code> 表示；把标准输入设备文件描述符规定为 <code class="docutils literal notranslate"><span class="pre">0</span></code>，用 <code class="docutils literal notranslate"><span class="pre">Stdin</span></code> 表示 。现在，我们重写这些系统调用，先为标准输入和标准输出实现 <code class="docutils literal notranslate"><span class="pre">File</span></code> Trait：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/fs/stdio.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Stdin</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Stdout</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="k">impl</span><span class="w"> </span><span class="n">File</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Stdin</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="k">fn</span> <span class="nf">readable</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="k">fn</span> <span class="nf">writable</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="k">fn</span> <span class="nf">read</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">user_buf</span>: <span class="nc">UserBuffer</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">user_buf</span><span class="p">.</span><span class="n">len</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="c1">// busy loop</span>
+<span class="linenos">13</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">c</span>: <span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">        </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">            </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">console_getchar</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">                </span><span class="n">suspend_current_and_run_next</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">                </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">                </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">ch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">u8</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">        </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user_buf</span><span class="p">.</span><span class="n">buffers</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">as_mut_ptr</span><span class="p">().</span><span class="n">write_volatile</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">        </span><span class="mi">1</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">    </span><span class="k">fn</span> <span class="nf">write</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_user_buf</span>: <span class="nc">UserBuffer</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">        </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Cannot write to stdin!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">30</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="k">impl</span><span class="w"> </span><span class="n">File</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">Stdout</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">    </span><span class="k">fn</span> <span class="nf">readable</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">    </span><span class="k">fn</span> <span class="nf">writable</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">    </span><span class="k">fn</span> <span class="nf">read</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_user_buf</span>: <span class="nc">UserBuffer</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span><span class="p">{</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">        </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Cannot read from stdout!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">    </span><span class="k">fn</span> <span class="nf">write</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">user_buf</span>: <span class="nc">UserBuffer</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">user_buf</span><span class="p">.</span><span class="n">buffers</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">            </span><span class="fm">print!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="n">core</span>::<span class="kt">str</span>::<span class="n">from_utf8</span><span class="p">(</span><span class="o">*</span><span class="n">buffer</span><span class="p">).</span><span class="n">unwrap</span><span class="p">());</span><span class="w"></span>
+<span class="linenos">41</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">        </span><span class="n">user_buf</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">44</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>可以看到，标准输入文件 <code class="docutils literal notranslate"><span class="pre">Stdin</span></code> 是只读文件，只允许进程通过 <code class="docutils literal notranslate"><span class="pre">read</span></code> 从里面读入，目前每次仅支持读入一个字符，其实现与之前的 <code class="docutils literal notranslate"><span class="pre">sys_read</span></code> 基本相同，只是需要通过 <code class="docutils literal notranslate"><span class="pre">UserBuffer</span></code> 来获取具体将字节写入的位置。相反，标准输出文件 <code class="docutils literal notranslate"><span class="pre">Stdout</span></code> 是只写文件，只允许进程通过 <code class="docutils literal notranslate"><span class="pre">write</span></code> 写入到里面，实现方法是遍历每个切片，将其转化为字符串通过 <code class="docutils literal notranslate"><span class="pre">print!</span></code> 宏来输出。</p>
+</div>
+<div class="section" id="id4">
+<h2>文件描述符与文件描述符表<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>为简化操作系统设计实现，可以让每个进程都带有一个线性的 <strong>文件描述符表</strong> ，记录所有它请求内核打开并可以读写的那些文件集合。而 <strong>文件描述符</strong> (File Descriptor) 则是一个非负整数，表示文件描述符表中一个打开的 <strong>文件描述符</strong> 所处的位置（可理解为数组下标）。进程通过文件描述符，可以在自身的文件描述符表中找到对应的文件记录信息，从而也就找到了对应的文件，并对文件进行读写。当打开（ <code class="docutils literal notranslate"><span class="pre">open</span></code> ）或创建（ <code class="docutils literal notranslate"><span class="pre">create</span></code> ） 一个文件的时候，如果顺利，内核会返回给应用刚刚打开或创建的文件对应的文件描述符；而当应用想关闭（ <code class="docutils literal notranslate"><span class="pre">close</span></code> ）一个文件的时候，也需要向内核提供对应的文件描述符。</p>
+</div>
+<div class="section" id="i-o">
+<h2>文件I/O操作<a class="headerlink" href="#i-o" title="永久链接至标题">¶</a></h2>
+<p>在进程控制块中加入文件描述符表的相应字段：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/task/task.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TaskControlBlockInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">trap_cx_ppn</span>: <span class="nc">PhysPageNum</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">base_size</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">task_cx</span>: <span class="nc">TaskContext</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">task_status</span>: <span class="nc">TaskStatus</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">memory_set</span>: <span class="nc">MemorySet</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">parent</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="n">Weak</span><span class="o">&lt;</span><span class="n">TaskControlBlock</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">children</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Arc</span><span class="o">&lt;</span><span class="n">TaskControlBlock</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">exit_code</span>: <span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<span class="hll"><span class="linenos">12</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">fd_table</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">Option</span><span class="o">&lt;</span><span class="n">Arc</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">File</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Send</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="o">&gt;&gt;&gt;</span><span class="p">,</span><span class="w"></span>
+</span><span class="linenos">13</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>可以看到 <code class="docutils literal notranslate"><span class="pre">fd_table</span></code> 的类型包含多层嵌套，我们从外到里分别说明：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Vec</span></code> 的动态长度特性使得我们无需设置一个固定的文件描述符数量上限；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Option</span></code> 使得我们可以区分一个文件描述符当前是否空闲，当它是 <code class="docutils literal notranslate"><span class="pre">None</span></code> 的时候是空闲的，而 <code class="docutils literal notranslate"><span class="pre">Some</span></code> 则代表它已被占用；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Arc</span></code> 首先提供了共享引用能力。后面我们会提到，可能会有多个进程共享同一个文件对它进行读写。此外被它包裹的内容会被放到内核堆而不是栈上，于是它便不需要在编译期有着确定的大小；</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dyn</span></code> 关键字表明 <code class="docutils literal notranslate"><span class="pre">Arc</span></code> 里面的类型实现了 <code class="docutils literal notranslate"><span class="pre">File/Send/Sync</span></code> 三个 Trait ，但是编译期无法知道它具体是哪个类型（可能是任何实现了 <code class="docutils literal notranslate"><span class="pre">File</span></code> Trait 的类型如 <code class="docutils literal notranslate"><span class="pre">Stdin/Stdout</span></code> ，故而它所占的空间大小自然也无法确定），需要等到运行时才能知道它的具体类型。</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p><strong>Rust 语法卡片：Rust 中的多态</strong></p>
+<p>在编程语言中， <strong>多态</strong> (Polymorphism) 指的是在同一段代码中可以隐含多种不同类型的特征。在 Rust 中主要通过泛型和 Trait 来实现多态。</p>
+<p>泛型是一种 <strong>编译期多态</strong> (Static Polymorphism)，在编译一个泛型函数的时候，编译器会对于所有可能用到的类型进行实例化并对应生成一个版本的汇编代码，在编译期就能知道选取哪个版本并确定函数地址，这可能会导致生成的二进制文件体积较大；而 Trait 对象（也即上面提到的 <code class="docutils literal notranslate"><span class="pre">dyn</span></code> 语法）是一种 <strong>运行时多态</strong> (Dynamic Polymorphism)，需要在运行时查一种类似于 C++ 中的 <strong>虚表</strong> (Virtual Table) 才能找到实际类型对于抽象接口实现的函数地址并进行调用，这样会带来一定的运行时开销，但是更为灵活。</p>
+</div>
+<p>当新建一个进程的时候，我们需要按照先前的说明为进程打开标准输入文件和标准输出文件：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/task/task.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">impl</span><span class="w"> </span><span class="n">TaskControlBlock</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">elf_data</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">task_control_block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">            </span><span class="n">pid</span>: <span class="nc">pid_handle</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">            </span><span class="n">kernel_stack</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">            </span><span class="n">inner</span>: <span class="nc">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">                </span><span class="n">UPSafeCell</span>::<span class="n">new</span><span class="p">(</span><span class="n">TaskControlBlockInner</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">                    </span><span class="n">trap_cx_ppn</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">                    </span><span class="n">base_size</span>: <span class="nc">user_sp</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">                    </span><span class="n">task_cx</span>: <span class="nc">TaskContext</span>::<span class="n">goto_trap_return</span><span class="p">(</span><span class="n">kernel_stack_top</span><span class="p">),</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">                    </span><span class="n">task_status</span>: <span class="nc">TaskStatus</span>::<span class="n">Ready</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">                    </span><span class="n">memory_set</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">                    </span><span class="n">parent</span>: <span class="nb">None</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">                    </span><span class="n">children</span>: <span class="nb">Vec</span>::<span class="n">new</span><span class="p">(),</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">                    </span><span class="n">exit_code</span>: <span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="hll"><span class="linenos">19</span><span class="w">                    </span><span class="n">fd_table</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="w"></span>
+</span><span class="hll"><span class="linenos">20</span><span class="w">                        </span><span class="c1">// 0 -&gt; stdin</span>
+</span><span class="hll"><span class="linenos">21</span><span class="w">                        </span><span class="nb">Some</span><span class="p">(</span><span class="n">Arc</span>::<span class="n">new</span><span class="p">(</span><span class="n">Stdin</span><span class="p">)),</span><span class="w"></span>
+</span><span class="hll"><span class="linenos">22</span><span class="w">                        </span><span class="c1">// 1 -&gt; stdout</span>
+</span><span class="hll"><span class="linenos">23</span><span class="w">                        </span><span class="nb">Some</span><span class="p">(</span><span class="n">Arc</span>::<span class="n">new</span><span class="p">(</span><span class="n">Stdout</span><span class="p">)),</span><span class="w"></span>
+</span><span class="hll"><span class="linenos">24</span><span class="w">                        </span><span class="c1">// 2 -&gt; stderr</span>
+</span><span class="hll"><span class="linenos">25</span><span class="w">                        </span><span class="nb">Some</span><span class="p">(</span><span class="n">Arc</span>::<span class="n">new</span><span class="p">(</span><span class="n">Stdout</span><span class="p">)),</span><span class="w"></span>
+</span><span class="hll"><span class="linenos">26</span><span class="w">                    </span><span class="p">],</span><span class="w"></span>
+</span><span class="linenos">27</span><span class="w">                </span><span class="p">})</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">        </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">        </span><span class="o">..</span><span class="p">.</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">32</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>此外，在 fork 时，子进程需要完全继承父进程的文件描述符表来和父进程共享所有文件。这样，即使我们仅手动为初始进程 <code class="docutils literal notranslate"><span class="pre">initproc</span></code> 打开了标准输入输出，所有进程也都可以访问它们。</p>
+</div>
+<div class="section" id="id5">
+<h2>文件读写系统调用<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>基于文件抽象接口和文件描述符表，我们终于可以让文件读写系统调用 <code class="docutils literal notranslate"><span class="pre">sys_read/write</span></code> 变得更加具有普适性，不仅仅局限于之前特定的标准输入输出：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// os/src/syscall/fs.rs</span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_write</span><span class="p">(</span><span class="n">fd</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="n">len</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_user_token</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_task</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">acquire_inner_lock</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">inner</span><span class="p">.</span><span class="n">fd_table</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">inner</span><span class="p">.</span><span class="n">fd_table</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// release Task lock manually to avoid deadlock</span>
+<span class="w">        </span><span class="nb">drop</span><span class="p">(</span><span class="n">inner</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="n">UserBuffer</span>::<span class="n">new</span><span class="p">(</span><span class="n">translated_byte_buffer</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">isize</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_read</span><span class="p">(</span><span class="n">fd</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="n">len</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_user_token</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_task</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">inner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="n">acquire_inner_lock</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">inner</span><span class="p">.</span><span class="n">fd_table</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">inner</span><span class="p">.</span><span class="n">fd_table</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// release Task lock manually to avoid deadlock</span>
+<span class="w">        </span><span class="nb">drop</span><span class="p">(</span><span class="n">inner</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">file</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="n">UserBuffer</span>::<span class="n">new</span><span class="p">(</span><span class="n">translated_byte_buffer</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">isize</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="o">-</span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>我们都是在当前进程的文件描述符表中通过文件描述符找到某个文件，无需关心文件具体的类型，只要知道它一定实现了 <code class="docutils literal notranslate"><span class="pre">File</span></code> Trait 的 <code class="docutils literal notranslate"><span class="pre">read/write</span></code> 方法即可。Trait 对象提供的运行时多态能力会在运行的时候帮助我们定位到 <code class="docutils literal notranslate"><span class="pre">read/write</span></code> 的符合实际类型的实现。</p>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="1fs-interface.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">文件系统接口</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="0intro.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">引言</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter6/1file-descriptor.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">文件与文件描述符</a><ul>
+<li><a class="reference internal" href="#id2">文件简介</a></li>
+<li><a class="reference internal" href="#id3">标准输入和标准输出</a></li>
+<li><a class="reference internal" href="#id4">文件描述符与文件描述符表</a></li>
+<li><a class="reference internal" href="#i-o">文件I/O操作</a></li>
+<li><a class="reference internal" href="#id5">文件读写系统调用</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

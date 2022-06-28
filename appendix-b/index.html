@@ -1,0 +1,674 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="附录 C：深入机器模式：RustSBI" href="../appendix-c/index.html" /><link rel="prev" title="附录 A：Rust 系统编程资料" href="../appendix-a/index.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>附录 B：常见工具的使用方法 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">附录 B：常见工具的使用方法</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="b">
+<h1>附录 B：常见工具的使用方法<a class="headerlink" href="#b" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="id1">
+<h2>分析可执行文件<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>对于Rust编译器生成的执行程序，可通过各种有效工具进行分析。如果掌握了对这些工具的使用，那么在后续的开发工作中，对碰到的各种奇怪问题就进行灵活处理和解决了。
+我们以Rust编译生成的一个简单的“Hello, world”应用执行程序为分析对象，看看如何进行分析。</p>
+<p>让我们先来通过 <code class="docutils literal notranslate"><span class="pre">file</span></code> 工具看看最终生成的可执行文件的格式：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cargo new os
+<span class="gp">$ </span><span class="nb">cd</span> os<span class="p">;</span> cargo build
+<span class="go">   Compiling os v0.1.0 (/tmp/os)</span>
+<span class="go">   Finished dev [unoptimized + debuginfo] target(s) in 0.26s</span>
+
+<span class="gp">$ </span>file target/debug/os
+<span class="go">target/debug/os: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked,</span>
+<span class="go">interpreter /lib64/ld-linux-x86-64.so.2, ......</span>
+
+<span class="gp">$</span>
+</pre></div>
+</div>
+<p id="term-metadata"><span id="term-elf"></span>从中可以看出可执行文件的格式为 <strong>可执行和链接格式</strong> (Executable and Linkable Format, ELF)，硬件平台是 x86-64。在 ELF 文件中，
+除了程序必要的代码、数据段（它们本身都只是一些二进制的数据）之外，还有一些 <strong>元数据</strong> (Metadata) 描述这些段在地址空间中的位置和在
+文件中的位置以及一些权限控制信息，这些元数据只能放在代码、数据段的外面。</p>
+<div class="section" id="rust-readobj">
+<h3>rust-readobj<a class="headerlink" href="#rust-readobj" title="永久链接至标题">¶</a></h3>
+<p>我们可以通过二进制工具 <code class="docutils literal notranslate"><span class="pre">rust-readobj</span></code> 来看看 ELF 文件中究竟包含什么内容，输入命令：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rust-readobj -all target/debug/os
+</pre></div>
+</div>
+<p>首先可以看到一个 ELF header，它位于 ELF 文件的开头：</p>
+<div class="highlight-objdump notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="x">File: target/debug/os</span>
+<span class="linenos"> 2</span><span class="x">Format: elf64-x86-64</span>
+<span class="linenos"> 3</span><span class="x">Arch: x86_64</span>
+<span class="linenos"> 4</span><span class="x">AddressSize: 64bit</span>
+<span class="linenos"> 5</span><span class="x">LoadName:</span>
+<span class="linenos"> 6</span><span class="x">ElfHeader {</span>
+<span class="linenos"> 7</span><span class="x">Ident {</span>
+<span class="hll"><span class="linenos"> 8</span><span class="x">   Magic: (7F 45 4C 46)</span>
+</span><span class="linenos"> 9</span><span class="x">   Class: 64-bit (0x2)</span>
+<span class="linenos">10</span><span class="x">   DataEncoding: LittleEndian (0x1)</span>
+<span class="linenos">11</span><span class="x">   FileVersion: 1</span>
+<span class="linenos">12</span><span class="x">   OS/ABI: SystemV (0x0)</span>
+<span class="linenos">13</span><span class="x">   ABIVersion: 0</span>
+<span class="linenos">14</span><span class="x">   Unused: (00 00 00 00 00 00 00)</span>
+<span class="linenos">15</span><span class="x">}</span>
+<span class="linenos">16</span><span class="x">Type: SharedObject (0x3)</span>
+<span class="linenos">17</span><span class="x">Machine: EM_X86_64 (0x3E)</span>
+<span class="linenos">18</span><span class="x">Version: 1</span>
+<span class="hll"><span class="linenos">19</span><span class="x">Entry: 0x5070</span>
+</span><span class="hll"><span class="linenos">20</span><span class="x">ProgramHeaderOffset: 0x40</span>
+</span><span class="hll"><span class="linenos">21</span><span class="x">SectionHeaderOffset: 0x32D8D0</span>
+</span><span class="linenos">22</span><span class="x">Flags [ (0x0)</span>
+<span class="linenos">23</span><span class="x">]</span>
+<span class="hll"><span class="linenos">24</span><span class="x">HeaderSize: 64</span>
+</span><span class="hll"><span class="linenos">25</span><span class="x">ProgramHeaderEntrySize: 56</span>
+</span><span class="hll"><span class="linenos">26</span><span class="x">ProgramHeaderCount: 12</span>
+</span><span class="hll"><span class="linenos">27</span><span class="x">SectionHeaderEntrySize: 64</span>
+</span><span class="linenos">28</span><span class="x">SectionHeaderCount: 42</span>
+<span class="linenos">29</span><span class="x">StringTableSectionIndex: 41</span>
+<span class="linenos">30</span><span class="x">}</span>
+<span class="linenos">31</span><span class="x">......</span>
+</pre></div>
+</div>
+<ul class="simple" id="term-magic">
+<li><p>第 8 行是一个称之为 <strong>魔数</strong> (Magic) 独特的常数，存放在 ELF header 的一个固定位置。当加载器将 ELF 文件加载到内存之前，通常会查看
+该位置的值是否正确，来快速确认被加载的文件是不是一个 ELF 。</p></li>
+<li><p>第 19 行给出了可执行文件的入口点为 <code class="docutils literal notranslate"><span class="pre">0x5070</span></code> 。</p></li>
+<li><p>从 20-21 行中，我们可以知道除了 ELF header 之外，还有另外两种不同的 header，分别称为 program header 和 section header，
+它们都有多个。ELF header 中给出了其他两种header 的大小、在文件中的位置以及数目。</p></li>
+<li><p>从 24-27 行中，可以看到有 12 个不同的 program header，它们从文件的 0x40 字节偏移处开始，每个 56 字节；
+有64个section header,它们从文件的 0x2D8D0 字节偏移处开始，每个 64 字节；</p></li>
+</ul>
+<p>有多个不同的 section header，下面是个具体的例子：</p>
+<div class="highlight-objdump notranslate"><div class="highlight"><pre><span></span><span class="x">......</span>
+<span class="x">Section {</span>
+<span class="x">   Index: 14</span>
+<span class="x">   Name: .text (157)</span>
+<span class="x">   Type: SHT_PROGBITS (0x1)</span>
+<span class="x">   Flags [ (0x6)</span>
+<span class="x">      SHF_ALLOC (0x2)</span>
+<span class="x">      SHF_EXECINSTR (0x4)</span>
+<span class="x">   ]</span>
+<span class="x">   Address: 0x5070</span>
+<span class="x">   Offset: 0x5070</span>
+<span class="x">   Size: 208067</span>
+<span class="x">   Link: 0</span>
+<span class="x">   Info: 0</span>
+<span class="x">   AddressAlignment: 16</span>
+<span class="x">   EntrySize: 0</span>
+<span class="x">}</span>
+</pre></div>
+</div>
+<p>每个 section header 则描述一个段的元数据。</p>
+<p>其中，我们看到了代码段 <code class="docutils literal notranslate"><span class="pre">.text</span></code> 需要被加载到地址 <code class="docutils literal notranslate"><span class="pre">0x5070</span></code> ,大小 208067 字节，。
+它们分别由元数据的字段 Offset、 Size 和 Address 给出。。</p>
+<p>我们还能够看到程序中的符号表：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Symbol</span> <span class="p">{</span>
+  <span class="n">Name</span><span class="p">:</span> <span class="n">_start</span> <span class="p">(</span><span class="mi">37994</span><span class="p">)</span>
+  <span class="n">Value</span><span class="p">:</span> <span class="mh">0x5070</span>
+  <span class="n">Size</span><span class="p">:</span> <span class="mi">47</span>
+  <span class="n">Binding</span><span class="p">:</span> <span class="n">Global</span> <span class="p">(</span><span class="mh">0x1</span><span class="p">)</span>
+  <span class="n">Type</span><span class="p">:</span> <span class="n">Function</span> <span class="p">(</span><span class="mh">0x2</span><span class="p">)</span>
+  <span class="n">Other</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="n">Section</span><span class="p">:</span> <span class="o">.</span><span class="n">text</span> <span class="p">(</span><span class="mh">0xE</span><span class="p">)</span>
+<span class="p">}</span>
+ <span class="n">Symbol</span> <span class="p">{</span>
+    <span class="n">Name</span><span class="p">:</span> <span class="n">main</span> <span class="p">(</span><span class="mi">38021</span><span class="p">)</span>
+    <span class="n">Value</span><span class="p">:</span> <span class="mh">0x51A0</span>
+    <span class="n">Size</span><span class="p">:</span> <span class="mi">47</span>
+    <span class="n">Binding</span><span class="p">:</span> <span class="n">Global</span> <span class="p">(</span><span class="mh">0x1</span><span class="p">)</span>
+    <span class="n">Type</span><span class="p">:</span> <span class="n">Function</span> <span class="p">(</span><span class="mh">0x2</span><span class="p">)</span>
+    <span class="n">Other</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">Section</span><span class="p">:</span> <span class="o">.</span><span class="n">text</span> <span class="p">(</span><span class="mh">0xE</span><span class="p">)</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p>里面包括了我们写的 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数的地址以及用户态执行环境的起始地址 <code class="docutils literal notranslate"><span class="pre">_start</span></code> 函数的地址。</p>
+<p>因此，从 ELF header 中可以看出，ELF 中的内容按顺序应该是：</p>
+<ul class="simple">
+<li><p>ELF header</p></li>
+<li><p>若干个 program header</p></li>
+<li><p>程序各个段的实际数据</p></li>
+<li><p>若干的 section header</p></li>
+</ul>
+</div>
+<div class="section" id="rust-objdump">
+<h3>rust-objdump<a class="headerlink" href="#rust-objdump" title="永久链接至标题">¶</a></h3>
+<p>如果想了解正常的ELF文件的具体指令内容，可以通过 <code class="docutils literal notranslate"><span class="pre">rust-objdump</span></code> 工具反汇编ELF文件得到：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rust-objdump -all target/debug/os
+</pre></div>
+</div>
+<p>具体结果如下：</p>
+<div class="highlight-objdump notranslate"><div class="highlight"><pre><span></span><span class="x">505b: e9 c0 ff ff ff                jmp     0x5020 &lt;.plt&gt;</span>
+
+Disassembly of section <span class="nl">.plt.got</span><span class="p">:</span>
+
+<span class="mh">0000000000005060</span> <span class="p">&lt;</span><span class="nf">.plt.got</span><span class="p">&gt;:</span>
+<span class="x">   5060: ff 25 5a 3f 04 00             jmpq    *278362(%rip)  # 48fc0 &lt;_GLOBAL_OFFSET_TABLE_+0x628&gt;</span>
+<span class="x">   5066: 66 90                         nop</span>
+
+Disassembly of section <span class="nl">.text</span><span class="p">:</span>
+
+<span class="mh">0000000000005070</span> <span class="p">&lt;</span><span class="nf">_start</span><span class="p">&gt;:</span>
+<span class="x">   5070: f3 0f 1e fa                   endbr64</span>
+<span class="x">   5074: 31 ed                         xorl    %ebp, %ebp</span>
+<span class="x">   5076: 49 89 d1                      movq    %rdx, %r9</span>
+<span class="x">   5079: 5e                            popq    %rsi</span>
+<span class="x">   507a: 48 89 e2                      movq    %rsp, %rdx</span>
+<span class="x">   507d: 48 83 e4 f0                   andq    $-16, %rsp</span>
+<span class="x">   5081: 50                            pushq   %rax</span>
+<span class="x">   5082: 54                            pushq   %rsp</span>
+<span class="x">   5083: 4c 8d 05 86 2c 03 00          leaq    208006(%rip), %r8  # 37d10 &lt;__libc_csu_fini&gt;</span>
+<span class="x">   508a: 48 8d 0d 0f 2c 03 00          leaq    207887(%rip), %rcx  # 37ca0 &lt;__libc_csu_init&gt;</span>
+<span class="x">   5091: 48 8d 3d 08 01 00 00          leaq    264(%rip), %rdi  # 51a0 &lt;main&gt;</span>
+<span class="x">   5098: ff 15 d2 3b 04 00             callq   *277458(%rip)  # 48c70 &lt;_GLOBAL_OFFSET_TABLE_+0x2d8&gt;</span>
+<span class="x">......</span>
+<span class="mh">00000000000051a0</span> <span class="p">&lt;</span><span class="nf">main</span><span class="p">&gt;:</span>
+<span class="x">   51a0: 48 83 ec 18                   subq    $24, %rsp</span>
+<span class="x">   51a4: 8a 05 db 7a 03 00             movb    228059(%rip), %al  # 3cc85 &lt;__rustc_debug_gdb_scripts_section__&gt;</span>
+<span class="x">   51aa: 48 63 cf                      movslq  %edi, %rcx</span>
+<span class="x">   51ad: 48 8d 3d ac ff ff ff          leaq    -84(%rip), %rdi  # 5160 &lt;_ZN2os4main17h717a6a6e05a70248E&gt;</span>
+<span class="x">   51b4: 48 89 74 24 10                movq    %rsi, 16(%rsp)</span>
+<span class="x">   51b9: 48 89 ce                      movq    %rcx, %rsi</span>
+<span class="x">   51bc: 48 8b 54 24 10                movq    16(%rsp), %rdx</span>
+<span class="x">   51c1: 88 44 24 0f                   movb    %al, 15(%rsp)</span>
+<span class="x">   51c5: e8 f6 00 00 00                callq   0x52c0 &lt;_ZN3std2rt10lang_start17hc258028f546a93a1E&gt;</span>
+<span class="x">   51ca: 48 83 c4 18                   addq    $24, %rsp</span>
+<span class="x">   51ce: c3                            retq</span>
+<span class="x">   51cf: 90                            nop</span>
+<span class="x">......</span>
+</pre></div>
+</div>
+<p>从上面的反汇编结果，我们可以看到用户态执行环境的入口函数 <code class="docutils literal notranslate"><span class="pre">_start</span></code> 以及应用程序的主函数 <code class="docutils literal notranslate"><span class="pre">main</span></code> 的地址和具体汇编代码内容。</p>
+</div>
+<div class="section" id="rust-objcopy">
+<h3>rust-objcopy<a class="headerlink" href="#rust-objcopy" title="永久链接至标题">¶</a></h3>
+<p>当前的ELF执行程序有许多与执行无直接关系的信息（如调试信息等），可以通过 <code class="docutils literal notranslate"><span class="pre">rust-objcopy</span></code> 工具来清除。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rust-objcopy --strip-all target/debug/os target/debug/os.bin
+<span class="gp">$ </span>ls -l target/debug/os*
+<span class="go">   -rwxrwxr-x 2 chyyuu chyyuu 3334992 1月  19 22:26 target/debug/os</span>
+<span class="go">   -rwxrwxr-x 1 chyyuu chyyuu  297200 1月  19 22:59 target/debug/os.bin</span>
+
+<span class="gp">$ </span>./target/debug/os.bin
+<span class="go">   Hello, world!</span>
+</pre></div>
+</div>
+<p>可以看到，经过处理的ELF文件 <code class="docutils literal notranslate"><span class="pre">os.bin</span></code> 在文件长度上大大减少了，但也能正常执行。</p>
+<p>另外，当将程序加载到内存的时候，对于每个 program header 所指向的区域，我们需要将对应的数据从文件复制到内存中。这就需要解析 ELF 的元数据
+才能知道数据在文件中的位置以及即将被加载到内存中的位置。但如果我们不需要从 ELF 中解析元数据就知道程序的内存布局
+（这个内存布局是我们按照需求自己指定的），我们可以手动完成加载任务。</p>
+<p>具体的做法是利用 <code class="docutils literal notranslate"><span class="pre">rust-objcopy</span></code> 工具删除掉 ELF 文件中的
+所有 header 只保留各个段的实际数据得到一个没有任何符号的纯二进制镜像文件：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>rust-objcopy --strip-all target/debug/os -O binary target/debug/os.bin
+</pre></div>
+</div>
+<p>这样就生成了一个没有任何符号的纯二进制镜像文件。由于缺少了必要的元数据，我们的 <code class="docutils literal notranslate"><span class="pre">file</span></code> 工具也没有办法
+对它完成解析了。而后，我们可直接将这个二进制镜像文件手动载入到内存中合适位置即可。</p>
+</div>
+</div>
+<div class="section" id="qemu">
+<h2>qemu 平台上可执行文件和二进制镜像的生成流程<a class="headerlink" href="#qemu" title="永久链接至标题">¶</a></h2>
+<div class="section" id="make-makefile">
+<h3>make &amp; Makefile<a class="headerlink" href="#make-makefile" title="永久链接至标题">¶</a></h3>
+<p>首先我们还原一下可执行文件和二进制镜像的生成流程：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="c"># os/Makefile</span>
+<span class="nv">TARGET</span> <span class="o">:=</span> riscv64gc-unknown-none-elf
+<span class="nv">MODE</span> <span class="o">:=</span> release
+<span class="nv">KERNEL_ELF</span> <span class="o">:=</span> target/<span class="k">$(</span>TARGET<span class="k">)</span>/<span class="k">$(</span>MODE<span class="k">)</span>/os
+<span class="nv">KERNEL_BIN</span> <span class="o">:=</span> <span class="k">$(</span>KERNEL_ELF<span class="k">)</span>.bin
+
+<span class="nf">$(KERNEL_BIN)</span><span class="o">:</span> <span class="n">kernel</span>
+   @<span class="k">$(</span>OBJCOPY<span class="k">)</span> <span class="k">$(</span>KERNEL_ELF<span class="k">)</span> --strip-all -O binary <span class="nv">$@</span>
+
+<span class="nf">kernel</span><span class="o">:</span>
+   @cargo build --release
+</pre></div>
+</div>
+<p>这里可以看出 <code class="docutils literal notranslate"><span class="pre">KERNEL_ELF</span></code> 保存最终可执行文件 <code class="docutils literal notranslate"><span class="pre">os</span></code> 的路径，而 <code class="docutils literal notranslate"><span class="pre">KERNEL_BIN</span></code> 保存只保留各个段数据的二进制镜像文件 <code class="docutils literal notranslate"><span class="pre">os.bin</span></code>
+的路径。目标 <code class="docutils literal notranslate"><span class="pre">kernel</span></code> 直接通过 <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">build</span></code> 以 release 模式最终可执行文件，目标 <code class="docutils literal notranslate"><span class="pre">KERNEL_BIN</span></code> 依赖于目标 <code class="docutils literal notranslate"><span class="pre">kernel</span></code>，将
+可执行文件通过 <code class="docutils literal notranslate"><span class="pre">rust-objcopy</span></code> 工具加上适当的配置移除所有的 header 和符号得到二进制镜像。</p>
+<p>我们可以通过 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span></code> 直接在 qemu 上运行我们的应用程序，qemu 是一个虚拟机，它完整的模拟了一整套硬件平台，就像是一台真正的计算机
+一样，我们来看运行 qemu 的具体命令：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nv">KERNEL_ENTRY_PA</span> <span class="o">:=</span> 0x80020000
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nv">BOARD</span>                <span class="o">?=</span> qemu
+<span class="linenos"> 4</span><span class="nv">SBI</span>                  <span class="o">?=</span> rustsbi
+<span class="linenos"> 5</span><span class="nv">BOOTLOADER</span>   <span class="o">:=</span> ../bootloader/<span class="k">$(</span>SBI<span class="k">)</span>-<span class="k">$(</span>BOARD<span class="k">)</span>.bin
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="nf">run</span><span class="o">:</span> <span class="n">run</span>-<span class="n">inner</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="nf">run-inner</span><span class="o">:</span> <span class="n">build</span>
+<span class="linenos">10</span>   @qemu-system-riscv64 <span class="se">\</span>
+<span class="hll"><span class="linenos">11</span>      -machine virt <span class="se">\</span>
+</span><span class="hll"><span class="linenos">12</span>      -nographic <span class="se">\</span>
+</span><span class="hll"><span class="linenos">13</span>      -bios <span class="k">$(</span>BOOTLOADER<span class="k">)</span> <span class="se">\</span>
+</span><span class="hll"><span class="linenos">14</span>      -device loader,file<span class="o">=</span><span class="k">$(</span>KERNEL_BIN<span class="k">)</span>,addr<span class="o">=</span><span class="k">$(</span>KERNEL_ENTRY_PA<span class="k">)</span>
+</span></pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>qemu<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>注意其中高亮部分给出了传给 qemu 的参数。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-machine</span></code> 告诉 qemu 使用预设的硬件配置。在整个项目中我们将一直沿用该配置。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-bios</span></code> 告诉 qemu 使用我们放在 <code class="docutils literal notranslate"><span class="pre">bootloader</span></code> 目录下的预编译版本作为 bootloader。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-device</span></code> 则告诉 qemu 将二进制镜像加载到内存指定的位置。</p></li>
+</ul>
+<p>可以先输入 Ctrl+A ，再输入 X 来退出 qemu 终端。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p><strong>FIXME：使用 GDB 跟踪 qemu 的运行状态</strong></p>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>其他工具和文件格式说明的参考<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://blog.csdn.net/m0_47799526/article/details/108765403">链接脚本(Linker Scripts)语法和规则解析(翻译自官方手册)</a></p></li>
+<li><p><a class="reference external" href="https://www.w3cschool.cn/mexvtg/">Make 命令教程</a></p></li>
+</ul>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../appendix-c/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">附录 C：深入机器模式：RustSBI</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../appendix-a/index.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">附录 A：Rust 系统编程资料</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/appendix-b/index.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">附录 B：常见工具的使用方法</a><ul>
+<li><a class="reference internal" href="#id1">分析可执行文件</a><ul>
+<li><a class="reference internal" href="#rust-readobj">rust-readobj</a></li>
+<li><a class="reference internal" href="#rust-objdump">rust-objdump</a></li>
+<li><a class="reference internal" href="#rust-objcopy">rust-objcopy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#qemu">qemu 平台上可执行文件和二进制镜像的生成流程</a><ul>
+<li><a class="reference internal" href="#make-makefile">make &amp; Makefile</a></li>
+<li><a class="reference internal" href="#id2">qemu</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">其他工具和文件格式说明的参考</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

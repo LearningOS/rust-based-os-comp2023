@@ -1,0 +1,625 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="genindex.html" /><link rel="search" title="搜索" href="search.html" /><link rel="next" title="第一章：应用程序与基本执行环境" href="chapter1/index.html" /><link rel="prev" title="rCore-Tutorial-Guide 2022 春季学期" href="index.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>第零章：实验环境配置 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">第零章：实验环境配置</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="id1">
+<h1>第零章：实验环境配置<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>本节我们将完成环境配置并成功运行 rCore-Tutorial 。整个流程分为下面几个部分：</p>
+<ul class="simple">
+<li><p>OS 环境配置</p></li>
+<li><p>Rust 开发环境配置</p></li>
+<li><p>Qemu 模拟器安装</p></li>
+<li><p>其他工具安装</p></li>
+<li><p>试运行 rCore-Tutorial</p></li>
+</ul>
+<p>如果你在环境配置中遇到了无法解决的问题，请在本节讨论区留言，我们会尽力提供帮助。</p>
+<div class="section" id="os">
+<h2>OS 环境配置<a class="headerlink" href="#os" title="永久链接至标题">¶</a></h2>
+<p>目前，实验主要支持 Ubuntu18.04/20.04 操作系统。使用 Windows10 和 macOS 的读者，可以安装一台 Ubuntu18.04 虚拟机或 Docker
+进行实验。</p>
+<p>Windows10 用户可以通过系统内置的 <strong>WSL2</strong> 虚拟机（请不要使用 WSL1）来安装 Ubuntu 18.04 / 20.04 。读者请自行在互联网上搜索相关安装教程，或 <a class="reference external" href="https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package">适用于 Linux 的 Windows 子系统安装指南 (Windows 10)</a> 。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p><strong>Docker 开发环境</strong></p>
+<p>感谢 dinghao188 和张汉东老师帮忙配置好的 Docker 开发环境，进入 Docker 开发环境之后不需要任何软件工具链的安装和配置，可以直接将 tutorial 运行起来，目前应该仅支持将 tutorial 运行在 Qemu 模拟器上。</p>
+<p>使用方法如下（以 Ubuntu18.04 为例）：</p>
+<ol class="arabic simple">
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">su</span></code> 切换到管理员账户 <code class="docutils literal notranslate"><span class="pre">root</span></code> ；</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">rCore-Tutorial</span></code> 根目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docker</span></code> 进入到 Docker 环境；</p></li>
+<li><p>进入 Docker 之后，会发现当前处于根目录 <code class="docutils literal notranslate"><span class="pre">/</span></code> ，我们通过 <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">mnt</span></code> 将当前工作路径切换到 <code class="docutils literal notranslate"><span class="pre">/mnt</span></code> 目录；</p></li>
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">ls</span></code> 可以发现 <code class="docutils literal notranslate"><span class="pre">/mnt</span></code> 目录下的内容和 <code class="docutils literal notranslate"><span class="pre">rCore-Tutorial-v3</span></code> 目录下的内容完全相同，接下来就可以在这个环境下运行 tutorial 了。例如 <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">os</span> <span class="pre">&amp;&amp;</span> <span class="pre">make</span> <span class="pre">run</span></code> 。</p></li>
+</ol>
+</div>
+<p>使用 macOS 进行实验理论上也是可行的，但本章节仅介绍 Ubuntu 下的环境配置方案。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>经初步测试，使用 M1 芯片的 macOS 也可以运行本实验的框架，即我们的实验对平台的要求不是很高。但我们仍建议同学配置 Ubuntu 环境，以避免未知的环境问题。</p>
+</div>
+</div>
+<div class="section" id="rust">
+<h2>Rust 开发环境配置<a class="headerlink" href="#rust" title="永久链接至标题">¶</a></h2>
+<p>首先安装 Rust 版本管理器 rustup 和 Rust 包管理器 cargo，可以使用官方安装脚本：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl https://sh.rustup.rs -sSf <span class="p">|</span> sh
+</pre></div>
+</div>
+<p>如果因网络问题通过命令行下载脚本失败了，可以在浏览器地址栏中输入 <a class="reference external" href="https://sh.rustup.rs">https://sh.rustup.rs</a> 将脚本下载到本地运行。或者使用字节跳动提供的镜像源。</p>
+<p>建议将 rustup 的镜像地址修改为中科大的镜像服务器，以加速安装：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RUSTUP_DIST_SERVER</span><span class="o">=</span>https://mirrors.ustc.edu.cn/rust-static
+<span class="nb">export</span> <span class="nv">RUSTUP_UPDATE_ROOT</span><span class="o">=</span>https://mirrors.ustc.edu.cn/rust-static/rustup
+curl https://sh.rustup.rs -sSf <span class="p">|</span> sh
+</pre></div>
+</div>
+<p>或者使用 tuna 源来加速（建议清华同学在校园网中使用） <a class="reference external" href="https://mirrors.tuna.tsinghua.edu.cn/help/rustup/">参见 rustup 帮助</a>：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RUSTUP_DIST_SERVER</span><span class="o">=</span>https://mirrors.tuna.edu.cn/rustup
+<span class="nb">export</span> <span class="nv">RUSTUP_UPDATE_ROOT</span><span class="o">=</span>https://mirrors.tuna.edu.cn/rustup/rustup
+curl https://sh.rustup.rs -sSf <span class="p">|</span> sh
+</pre></div>
+</div>
+<p>也可以设置科学上网代理：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># e.g. Shadowsocks 代理，请根据自身配置灵活调整下面的链接</span>
+<span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:1080
+<span class="nb">export</span> <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:1080
+<span class="nb">export</span> <span class="nv">ftp_proxy</span><span class="o">=</span>http://127.0.0.1:1080
+</pre></div>
+</div>
+<p>安装中全程选择默认选项即可。</p>
+<p>安装完成后，我们可以重新打开一个终端来让新设置的环境变量生效，也可以手动将环境变量设置应用到当前终端，
+只需输入以下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span> <span class="nv">$HOME</span>/.cargo/env
+</pre></div>
+</div>
+<p>确认一下我们正确安装了 Rust 工具链：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rustc --version
+</pre></div>
+</div>
+<p>最好把 Rust 包管理器 cargo 镜像地址 crates.io 也替换成中国科学技术大学的镜像服务器，来加速三方库的下载。
+打开或新建 <code class="docutils literal notranslate"><span class="pre">~/.cargo/config</span></code> 文件，并把内容修改为：</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[source.crates-io]</span>
+<span class="n">registry</span> <span class="o">=</span> <span class="s">"https://github.com/rust-lang/crates.io-index"</span>
+<span class="n">replace-with</span> <span class="o">=</span> <span class="s">'ustc'</span>
+<span class="k">[source.ustc]</span>
+<span class="n">registry</span> <span class="o">=</span> <span class="s">"git://mirrors.ustc.edu.cn/crates.io-index"</span>
+</pre></div>
+</div>
+<p>同样，也可以使用tuna源 <a class="reference external" href="https://mirrors.tuna.tsinghua.edu.cn/help/crates.io-index.git/">参见 crates.io 帮助</a>：</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[source.crates-io]</span>
+<span class="n">replace-with</span> <span class="o">=</span> <span class="s">'tuna'</span>
+
+<span class="k">[source.tuna]</span>
+<span class="n">registry</span> <span class="o">=</span> <span class="s">"https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"</span>
+</pre></div>
+</div>
+<p>推荐 JetBrains Clion + Rust插件 或者 Visual Studio Code 搭配 rust-analyzer 和 RISC-V Support 插件 进行代码阅读和开发。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<ul class="simple">
+<li><p>JetBrains Clion是付费商业软件，但对于学生和教师，只要在 JetBrains 网站注册账号，可以享受一定期限（半年左右）的免费使用的福利。</p></li>
+<li><p>Visual Studio Code 是开源软件。</p></li>
+<li><p>当然，采用 VIM，Emacs 等传统的编辑器也是没有问题的。</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="qemu">
+<h2>Qemu 模拟器安装<a class="headerlink" href="#qemu" title="永久链接至标题">¶</a></h2>
+<p>我们需要使用 Qemu 5.0.0 版本进行实验，为此，从源码手动编译安装 Qemu 模拟器：</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>也可以使用 Qemu6，但要小心潜在的不兼容问题！</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 安装编译所需的依赖包</span>
+sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev <span class="se">\</span>
+              gawk build-essential bison flex texinfo gperf libtool patchutils bc <span class="se">\</span>
+              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3
+<span class="c1"># 下载源码包</span>
+<span class="c1"># 如果下载速度过慢可以使用我们提供的百度网盘链接：https://pan.baidu.com/s/1z-iWIPjxjxbdFS2Qf-NKxQ</span>
+<span class="c1"># 提取码 8woe</span>
+wget https://download.qemu.org/qemu-5.0.0.tar.xz
+<span class="c1"># 解压</span>
+tar xvJf qemu-5.0.0.tar.xz
+<span class="c1"># 编译安装并配置 RISC-V 支持</span>
+<span class="nb">cd</span> qemu-5.0.0
+./configure --target-list<span class="o">=</span>riscv64-softmmu,riscv64-linux-user
+make -j<span class="k">$(</span>nproc<span class="k">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>注意，上面的依赖包可能并不完全，比如在 Ubuntu 18.04 上：</p>
+<ul class="simple">
+<li><p>出现 <code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">pkg-config</span> <span class="pre">binary</span> <span class="pre">'pkg-config'</span> <span class="pre">not</span> <span class="pre">found</span></code> 时，可以安装 <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> 包；</p></li>
+<li><p>出现 <code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">glib-2.48</span> <span class="pre">gthread-2.0</span> <span class="pre">is</span> <span class="pre">required</span> <span class="pre">to</span> <span class="pre">compile</span> <span class="pre">QEMU</span></code> 时，可以安装
+<code class="docutils literal notranslate"><span class="pre">libglib2.0-dev</span></code> 包；</p></li>
+<li><p>出现 <code class="docutils literal notranslate"><span class="pre">ERROR:</span> <span class="pre">pixman</span> <span class="pre">&gt;=</span> <span class="pre">0.21.8</span> <span class="pre">not</span> <span class="pre">present</span></code> 时，可以安装 <code class="docutils literal notranslate"><span class="pre">libpixman-1-dev</span></code> 包。</p></li>
+</ul>
+<p>另外一些 Linux 发行版编译 Qemu 的依赖包可以从 <a class="reference external" href="https://risc-v-getting-started-guide.readthedocs.io/en/latest/linux-qemu.html#prerequisites">这里</a>
+找到。</p>
+<p>GCC 11 可能无法正常编译 Qemu5 ，而 GCC 9.3.0 (Ubuntu 20.04 自带) 及 GCC 10.3.0 经测试可以编译，请自行选择合适的编译器版本。</p>
+</div>
+<p>之后我们可以在同目录下 <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">make</span> <span class="pre">install</span></code> 将 Qemu 安装到 <code class="docutils literal notranslate"><span class="pre">/usr/local/bin</span></code> 目录下，但这样经常会引起
+冲突。个人来说更习惯的做法是，编辑 <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> 文件（如果使用的是默认的 <code class="docutils literal notranslate"><span class="pre">bash</span></code> 终端），在文件的末尾加入
+几行：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 请注意，qemu-5.0.0 的父目录可以随着你的实际安装位置灵活调整</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/home/shinbokuow/Downloads/built/qemu-5.0.0
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/home/shinbokuow/Downloads/built/qemu-5.0.0/riscv64-softmmu
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/home/shinbokuow/Downloads/built/qemu-5.0.0/riscv64-linux-user
+</pre></div>
+</div>
+<p>随后即可在当前终端 <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">~/.bashrc</span></code> 更新系统路径，或者直接重启一个新的终端。</p>
+<p>确认 Qemu 的版本：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qemu-system-riscv64 --version
+qemu-riscv64 --version
+</pre></div>
+</div>
+</div>
+<div class="section" id="rcore-tutorial">
+<h2>试运行 rCore-Tutorial<a class="headerlink" href="#rcore-tutorial" title="永久链接至标题">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S
+<span class="nb">cd</span> rCore-Tutorial-Code-2022S
+</pre></div>
+</div>
+<p>我们先运行不需要处理用户代码的 ch1 分支：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git checkout ch1
+<span class="nb">cd</span> os
+<span class="nv">LOG</span><span class="o">=</span>DEBUG make run
+</pre></div>
+</div>
+<p>如果你的环境配置正确，你应当会看到如下输出：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>[rustsbi] RustSBI version 0.2.0-alpha.4
+.______       __    __      _______.___________.  _______..______   __
+|   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
+|  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
+|      /     |  |  |  |    \   \       |  |      \   \    |   _  &lt; |  |
+|  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
+| _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
+
+[rustsbi] Implementation: RustSBI-QEMU Version 0.0.1
+[rustsbi-dtb] Hart count: cluster0 with 1 cores
+[rustsbi] misa: RV64ACDFIMSU
+[rustsbi] mideleg: ssoft, stimer, sext (0x222)
+[rustsbi] medeleg: ima, ia, bkpt, la, sa, uecall, ipage, lpage, spage (0xb1ab)
+[rustsbi] pmp0: 0x80000000 ..= 0x800fffff (rwx)
+[rustsbi] pmp1: 0x80000000 ..= 0x807fffff (rwx)
+[rustsbi] pmp2: 0x0 ..= 0xffffffffffffff (---)
+[rustsbi] enter supervisor 0x80200000
+Hello, world!
+[DEBUG] .rodata [0x80203000, 0x80205000)
+[ INFO] .data [0x80205000, 0x80206000)
+[ WARN] boot_stack [0x80206000, 0x80216000)
+[ERROR] .bss [0x80216000, 0x80217000)
+Panicked at src/main.rs:48 Shutdown machine!
+</pre></div>
+</div>
+<p>通常 rCore 会自动关闭 Qemu 。如果在某些情况下需要强制结束，可以先按下 <code class="docutils literal notranslate"><span class="pre">Ctrl+A</span></code> ，再按下 <code class="docutils literal notranslate"><span class="pre">X</span></code> 来退出 Qemu。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>请务必执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span></code>，这将为你安装一些上文没有提及的 Rust 包依赖。</p>
+<p>如果卡在了</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Updating git repository `https://github.com/rcore-os/riscv`
+</pre></div>
+</div>
+<p>请通过更换 hosts 等方式解决科学上网问题，或者将 riscv 项目下载到本地，并修改 os/Cargo.toml 中的 riscv 包依赖路径</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">dependencies</span><span class="p">]</span>
+<span class="n">riscv</span> <span class="o">=</span> <span class="p">{</span> <span class="n">path</span> <span class="o">=</span> <span class="s2">"YOUR riscv PATH"</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"inline-asm"</span><span class="p">]</span> <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>恭喜你完成了实验环境的配置，可以开始阅读教程的正文部分了！</p>
+</div>
+<div class="section" id="gdb">
+<h2>GDB 调试支持*<a class="headerlink" href="#gdb" title="永久链接至标题">¶</a></h2>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>使用 GDB debug 并不是必须的，你可以暂时跳过本小节。</p>
+</div>
+<p>在 <code class="docutils literal notranslate"><span class="pre">os</span></code> 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">debug</span></code> 可以调试我们的内核，这需要安装终端复用工具 <code class="docutils literal notranslate"><span class="pre">tmux</span></code> ，还需要基于 riscv64 平台的 gdb 调试器 <code class="docutils literal notranslate"><span class="pre">riscv64-unknown-elf-gdb</span></code> 。该调试器包含在 riscv64 gcc 工具链中，工具链的预编译版本可以在如下链接处下载：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz">Ubuntu 平台</a></p></li>
+<li><p><a class="reference external" href="https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-apple-darwin.tar.gz">macOS 平台</a></p></li>
+<li><p><a class="reference external" href="https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-w64-mingw32.zip">Windows 平台</a></p></li>
+<li><p><a class="reference external" href="https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-centos6.tar.gz">CentOS 平台</a></p></li>
+</ul>
+<p>解压后在 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 目录下即可找到 <code class="docutils literal notranslate"><span class="pre">riscv64-unknown-elf-gdb</span></code> 以及另外一些常用工具 <code class="docutils literal notranslate"><span class="pre">objcopy/objdump/readelf</span></code> 等。</p>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="chapter1/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">第一章：应用程序与基本执行环境</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="_sources/0setup-devel-env.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">第零章：实验环境配置</a><ul>
+<li><a class="reference internal" href="#os">OS 环境配置</a></li>
+<li><a class="reference internal" href="#rust">Rust 开发环境配置</a></li>
+<li><a class="reference internal" href="#qemu">Qemu 模拟器安装</a></li>
+<li><a class="reference internal" href="#rcore-tutorial">试运行 rCore-Tutorial</a></li>
+<li><a class="reference internal" href="#gdb">GDB 调试支持*</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="_static/translations.js"></script>
+    </body>
+</html>

@@ -1,0 +1,586 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="实现批处理操作系统" href="3batch-system.html" /><link rel="prev" title="引言" href="0intro.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>实现应用程序 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第二章：批处理系统</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">实现应用程序</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="id1">
+<h1>实现应用程序<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>拓展阅读：<a class="reference external" href="https://rcore-os.github.io/rCore-Tutorial-Book-v3/chapter2/1rv-privilege.html">RISC-V 特权级机制</a></p>
+</div>
+<div class="section" id="id2">
+<h2>应用程序设计<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>用户库看起来很复杂，它预留了直到 ch7 内核才能实现的系统调用接口，console 模块还实现了输出缓存区。它们不是为本章准备的，你只需关注本节提到的部分即可。</p>
+</div>
+<p>应用程序、用户库（包括入口函数、初始化函数、I/O函数和系统调用接口等多个rs文件组成）放在项目根目录的 <code class="docutils literal notranslate"><span class="pre">user</span></code> 目录下：</p>
+<ul class="simple">
+<li><p>user/src/bin/<a href="#id3"><span class="problematic" id="id4">*</span></a>.rs：各个应用程序</p></li>
+<li><p>user/src/<a href="#id5"><span class="problematic" id="id6">*</span></a>.rs：用户库（包括入口函数、初始化函数、I/O函数和系统调用接口等）</p></li>
+<li><p>user/src/linker.ld：应用程序的内存布局说明</p></li>
+</ul>
+<div class="section" id="id7">
+<h3>项目结构<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">user/src/bin</span></code> 里面有多个文件，其中三个是：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">hello_world</span></code>：在屏幕上打印一行 <code class="docutils literal notranslate"><span class="pre">Hello,</span> <span class="pre">world!</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bad_address</span></code>：访问一个非法的物理地址，测试批处理系统是否会被该错误影响</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">power</span></code>：不断在计算操作和打印字符串操作之间切换</p></li>
+</ul>
+<p>批处理系统会按照文件名顺序加载并运行它们。</p>
+<p>每个应用程序的实现都在对应的单个文件中。打开 <code class="docutils literal notranslate"><span class="pre">hello_world.rs</span></code>，能看到一个 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数，还有外部库引用：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="cp">#[macro_use]</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">user_lib</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这个外部库其实就是 <code class="docutils literal notranslate"><span class="pre">user</span></code> 目录下的 <code class="docutils literal notranslate"><span class="pre">lib.rs</span></code> 以及它引用的若干子模块。
+在 <code class="docutils literal notranslate"><span class="pre">user/Cargo.toml</span></code> 中我们对于库的名字进行了设置： <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">=</span>  <span class="pre">"user_lib"</span></code> 。
+它作为 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 目录下的源程序所依赖的用户库，等价于其他编程语言提供的标准库。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">lib.rs</span></code> 中我们定义了用户库的入口点 <code class="docutils literal notranslate"><span class="pre">_start</span></code> ：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">#[no_mangle]</span><span class="w"></span>
+<span class="linenos">2</span><span class="cp">#[link_section = </span><span class="s">".text.entry"</span><span class="cp">]</span><span class="w"></span>
+<span class="linenos">3</span><span class="k">pub</span><span class="w"> </span><span class="k">extern</span><span class="w"> </span><span class="s">"C"</span><span class="w"> </span><span class="k">fn</span> <span class="nf">_start</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">    </span><span class="n">clear_bss</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">5</span><span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">());</span><span class="w"></span>
+<span class="linenos">6</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>第 2 行使用 <code class="docutils literal notranslate"><span class="pre">link_section</span></code> 宏将 <code class="docutils literal notranslate"><span class="pre">_start</span></code> 函数编译后的汇编代码放在名为 <code class="docutils literal notranslate"><span class="pre">.text.entry</span></code> 的代码段中，
+方便用户库链接脚本将它作为用户程序的入口。</p>
+<p>而从第 4 行开始，我们手动清零 <code class="docutils literal notranslate"><span class="pre">.bss</span></code> 段，然后调用 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数得到一个类型为 <code class="docutils literal notranslate"><span class="pre">i32</span></code> 的返回值，
+最后，调用用户库提供的 <code class="docutils literal notranslate"><span class="pre">exit</span></code> 接口退出，并将返回值告知批处理系统。</p>
+<p>我们在 <code class="docutils literal notranslate"><span class="pre">lib.rs</span></code> 中看到了另一个 <code class="docutils literal notranslate"><span class="pre">main</span></code> ：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">#![feature(linkage)]</span><span class="w">    </span><span class="c1">// 启用弱链接特性</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="cp">#[linkage = </span><span class="s">"weak"</span><span class="cp">]</span><span class="w"></span>
+<span class="linenos">4</span><span class="cp">#[no_mangle]</span><span class="w"></span>
+<span class="linenos">5</span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">6</span><span class="w">    </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Cannot find main!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">7</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>我们使用 Rust 宏将其标志为弱链接。这样在最后链接的时候，
+虽然 <code class="docutils literal notranslate"><span class="pre">lib.rs</span></code> 和 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 目录下的某个应用程序中都有 <code class="docutils literal notranslate"><span class="pre">main</span></code> 符号，
+但由于 <code class="docutils literal notranslate"><span class="pre">lib.rs</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">main</span></code> 符号是弱链接，
+链接器会使用 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 目录下的函数作为 <code class="docutils literal notranslate"><span class="pre">main</span></code> 。
+如果在 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 目录下找不到任何 <code class="docutils literal notranslate"><span class="pre">main</span></code> ，那么编译也能通过，但会在运行时报错。</p>
+</div>
+<div class="section" id="id8">
+<h3>内存布局<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>我们使用链接脚本 <code class="docutils literal notranslate"><span class="pre">user/src/linker.ld</span></code> 规定用户程序的内存布局：</p>
+<ul class="simple">
+<li><p>将程序的起始物理地址调整为 <code class="docutils literal notranslate"><span class="pre">0x80400000</span></code> ，三个应用程序都会被加载到这个物理地址上运行；</p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">_start</span></code> 所在的 <code class="docutils literal notranslate"><span class="pre">.text.entry</span></code> 放在整个程序的开头 <code class="docutils literal notranslate"><span class="pre">0x80400000</span></code>；
+批处理系统在加载应用后，跳转到 <code class="docutils literal notranslate"><span class="pre">0x80400000</span></code>，就进入了用户库的 <code class="docutils literal notranslate"><span class="pre">_start</span></code> 函数；</p></li>
+<li><p>提供了最终生成可执行文件的 <code class="docutils literal notranslate"><span class="pre">.bss</span></code> 段的起始和终止地址，方便 <code class="docutils literal notranslate"><span class="pre">clear_bss</span></code> 函数使用。</p></li>
+</ul>
+<p>其余的部分和第一章基本相同。</p>
+</div>
+<div class="section" id="id9">
+<h3>系统调用<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<p>在子模块 <code class="docutils literal notranslate"><span class="pre">syscall</span></code> 中我们来通过 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 调用批处理系统提供的接口，
+由于应用程序运行在用户态（即 U 模式）， <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 指令会触发名为 <code class="docutils literal notranslate"><span class="pre">Environment</span> <span class="pre">call</span> <span class="pre">from</span> <span class="pre">U-mode</span></code> 的异常，
+并 Trap 进入 S 模式执行批处理系统针对这个异常特别提供的服务程序。
+这个接口被称为 ABI 或者系统调用。
+现在我们不关心 S 态的批处理系统如何提供应用程序所需的功能，只考虑如何使用它。</p>
+<p>在本章中，应用程序和批处理系统约定如下两个系统调用：</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">第二章新增系统调用</span><a class="headerlink" href="#id11" title="永久链接至代码">¶</a></div>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="sd">/// 功能：将内存中缓冲区中的数据写入文件。</span>
+<span class="sd">/// 参数：`fd` 表示待写入文件的文件描述符；</span>
+<span class="sd">///      `buf` 表示内存中缓冲区的起始地址；</span>
+<span class="sd">///      `len` 表示内存中缓冲区的长度。</span>
+<span class="sd">/// 返回值：返回成功写入的长度。</span>
+<span class="sd">/// syscall ID：64</span>
+<span class="k">fn</span> <span class="nf">sys_write</span><span class="p">(</span><span class="n">fd</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="n">len</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span><span class="p">;</span><span class="w"></span>
+
+<span class="sd">/// 功能：退出应用程序并将返回值告知批处理系统。</span>
+<span class="sd">/// 参数：`xstate` 表示应用程序的返回值。</span>
+<span class="sd">/// 返回值：该系统调用不应该返回。</span>
+<span class="sd">/// syscall ID：93</span>
+<span class="k">fn</span> <span class="nf">sys_exit</span><span class="p">(</span><span class="n">xstate</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<p>实际调用时，我们要按照 RISC-V 调用规范，在合适的寄存器中放置参数，
+然后执行 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 指令触发 Trap。当 Trap 结束，回到 U 模式后，
+用户程序会从 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 的下一条指令继续执行，同时在合适的寄存器中读取返回值。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>RISC-V 寄存器编号从 <code class="docutils literal notranslate"><span class="pre">0~31</span></code> ，表示为 <code class="docutils literal notranslate"><span class="pre">x0~x31</span></code> 。 其中：
+-  <code class="docutils literal notranslate"><span class="pre">x10~x17</span></code> : 对应  <code class="docutils literal notranslate"><span class="pre">a0~a7</span></code>
+-  <code class="docutils literal notranslate"><span class="pre">x1</span></code> ：对应 <code class="docutils literal notranslate"><span class="pre">ra</span></code></p>
+</div>
+<p>约定寄存器 <code class="docutils literal notranslate"><span class="pre">a0~a6</span></code> 保存系统调用的参数， <code class="docutils literal notranslate"><span class="pre">a0</span></code> 保存系统调用的返回值，
+寄存器 <code class="docutils literal notranslate"><span class="pre">a7</span></code> 用来传递 syscall ID。
+这超出了 Rust 语言的表达能力，我们需要内嵌汇编来完成参数/返回值绑定和 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 指令的插入：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// user/src/syscall.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">fn</span> <span class="nf">syscall</span><span class="p">(</span><span class="n">id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">args</span>: <span class="p">[</span><span class="kt">usize</span><span class="p">;</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">   </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">ret</span>: <span class="kt">isize</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">   </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">       </span><span class="n">core</span>::<span class="n">arch</span>::<span class="fm">asm!</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">           </span><span class="s">"ecall"</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">           </span><span class="n">inlateout</span><span class="p">(</span><span class="s">"x10"</span><span class="p">)</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">ret</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">           </span><span class="k">in</span><span class="p">(</span><span class="s">"x11"</span><span class="p">)</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">           </span><span class="k">in</span><span class="p">(</span><span class="s">"x12"</span><span class="p">)</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">           </span><span class="k">in</span><span class="p">(</span><span class="s">"x17"</span><span class="p">)</span><span class="w"> </span><span class="n">id</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">       </span><span class="p">);</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">   </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">   </span><span class="n">ret</span><span class="w"></span>
+<span class="linenos">15</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>第 3 行，我们将所有的系统调用都封装成 <code class="docutils literal notranslate"><span class="pre">syscall</span></code> 函数，可以看到它支持传入 syscall ID 和 3 个参数。</p>
+<p>第 6 行开始，我们使用 Rust 提供的 <code class="docutils literal notranslate"><span class="pre">asm!</span></code> 宏在代码中内嵌汇编。
+Rust 编译器无法判定汇编代码的安全性，所以我们需要将其包裹在 unsafe 块中。</p>
+<p>简而言之，这条汇编代码的执行结果是以寄存器 <code class="docutils literal notranslate"><span class="pre">a0~a2</span></code> 来保存系统调用的参数，以及寄存器 <code class="docutils literal notranslate"><span class="pre">a7</span></code> 保存 syscall ID，
+返回值通过寄存器 <code class="docutils literal notranslate"><span class="pre">a0</span></code> 传递给局部变量 <code class="docutils literal notranslate"><span class="pre">ret</span></code>。</p>
+<p>这段汇编代码与第一章中出现过的内嵌汇编很像，读者可以查看 <code class="docutils literal notranslate"><span class="pre">os/src/sbi.rs</span></code> 。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>可以查看 <a class="reference external" href="https://doc.rust-lang.org/nightly/reference/inline-assembly.html">Inline assembly</a> 了解 <code class="docutils literal notranslate"><span class="pre">asm</span></code> 宏。</p>
+</div>
+<p>于是 <code class="docutils literal notranslate"><span class="pre">sys_write</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sys_exit</span></code> 只需将 <code class="docutils literal notranslate"><span class="pre">syscall</span></code> 进行包装：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// user/src/syscall.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="n">SYSCALL_WRITE</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">64</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">const</span><span class="w"> </span><span class="n">SYSCALL_EXIT</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">93</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_write</span><span class="p">(</span><span class="n">fd</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="n">syscall</span><span class="p">(</span><span class="n">SYSCALL_WRITE</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">as_ptr</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">len</span><span class="p">()])</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_exit</span><span class="p">(</span><span class="n">xstate</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">syscall</span><span class="p">(</span><span class="n">SYSCALL_EXIT</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">xstate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">])</span><span class="w"></span>
+<span class="linenos">12</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>我们将上述两个系统调用在用户库 <code class="docutils literal notranslate"><span class="pre">user_lib</span></code> 中进一步封装，像标准库一样：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">// user/src/lib.rs</span>
+<span class="linenos">2</span><span class="k">use</span><span class="w"> </span><span class="n">syscall</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">write</span><span class="p">(</span><span class="n">fd</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"> </span><span class="n">sys_write</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">5</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">exit</span><span class="p">(</span><span class="n">exit_code</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"> </span><span class="n">sys_exit</span><span class="p">(</span><span class="n">exit_code</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>在 <code class="docutils literal notranslate"><span class="pre">console</span></code> 子模块中，借助 <code class="docutils literal notranslate"><span class="pre">write</span></code>，我们为应用程序实现了 <code class="docutils literal notranslate"><span class="pre">println!</span></code> 宏。
+传入到 <code class="docutils literal notranslate"><span class="pre">write</span></code> 的 <code class="docutils literal notranslate"><span class="pre">fd</span></code> 参数设置为 1，代表标准输出 STDOUT，暂时不用考虑其他的 <code class="docutils literal notranslate"><span class="pre">fd</span></code> 选取情况。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>编译生成应用程序二进制码<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h2>
+<p>简要介绍一下应用程序的构建，在 <code class="docutils literal notranslate"><span class="pre">user</span></code> 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">build</span></code>：</p>
+<ol class="arabic simple">
+<li><p>对于 <code class="docutils literal notranslate"><span class="pre">src/bin</span></code> 下的每个应用程序，
+在 <code class="docutils literal notranslate"><span class="pre">target/riscv64gc-unknown-none-elf/release</span></code> 目录下生成一个同名的 ELF 可执行文件；</p></li>
+<li><p>使用 objcopy 二进制工具删除所有 ELF header 和符号，得到 <code class="docutils literal notranslate"><span class="pre">.bin</span></code> 后缀的纯二进制镜像文件。
+它们将被链接进内核，并由内核在合适的时机加载到内存。</p></li>
+</ol>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="3batch-system.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">实现批处理操作系统</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="0intro.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">引言</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter2/2application.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">实现应用程序</a><ul>
+<li><a class="reference internal" href="#id2">应用程序设计</a><ul>
+<li><a class="reference internal" href="#id7">项目结构</a></li>
+<li><a class="reference internal" href="#id8">内存布局</a></li>
+<li><a class="reference internal" href="#id9">系统调用</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10">编译生成应用程序二进制码</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

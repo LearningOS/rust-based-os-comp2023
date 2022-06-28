@@ -1,0 +1,488 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="管理多道程序" href="3multiprogramming.html" /><link rel="prev" title="多道程序放置与加载" href="1multi-loader.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>任务切换 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter2/index.html">第二章：批处理系统</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter2/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter2/4trap-handling.html">实现特权级的切换</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第三章：多道程序与分时多任务</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="id1">
+<h1>任务切换<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>本节我们将见识操作系统的核心机制—— <strong>任务切换</strong> ，
+即应用在运行中主动或被动地交出 CPU 的使用权，内核可以选择另一个程序继续执行。
+内核需要保证用户程序两次运行期间，任务上下文（如寄存器、栈等）保持一致。</p>
+<div class="section" id="id2">
+<h2>任务切换的设计与实现<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>任务切换与上一章提及的 Trap 控制流切换相比，有如下异同：</p>
+<ul class="simple">
+<li><p>与 Trap 切换不同，它不涉及特权级切换，部分由编译器完成；</p></li>
+<li><p>与 Trap 切换相同，它对应用是透明的。</p></li>
+</ul>
+<p>事实上，任务切换是来自两个不同应用在内核中的 Trap 控制流之间的切换。
+当一个应用 Trap 到 S 态 OS 内核中进行进一步处理时，
+其 Trap 控制流可以调用一个特殊的 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 函数。
+在 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 返回之后，Trap 控制流将继续从调用该函数的位置继续向下执行。
+而在调用 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 之后到返回前的这段时间里，
+原 Trap 控制流 <code class="docutils literal notranslate"><span class="pre">A</span></code> 会先被暂停并被切换出去， CPU 转而运行另一个应用的 Trap 控制流 <code class="docutils literal notranslate"><span class="pre">B</span></code> 。
+<code class="docutils literal notranslate"><span class="pre">__switch</span></code> 返回之后，原 Trap 控制流 <code class="docutils literal notranslate"><span class="pre">A</span></code> 才会从某一条 Trap 控制流 <code class="docutils literal notranslate"><span class="pre">C</span></code> 切换回来继续执行。</p>
+<p>我们需要在 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 中保存 CPU 的某些寄存器，它们就是 <strong>任务上下文</strong> (Task Context)。</p>
+<p>下面我们给出 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 的实现：</p>
+<div class="highlight-riscv notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c"># os/src/task/switch.S</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nf">.altmacro</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="nf">.macro</span><span class="w"> </span><span class="nb">SAVE_SN</span><span class="w"> </span><span class="ni">n</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="no">s</span>\<span class="ni">n</span>,<span class="w"> </span>(\<span class="ni">n</span>+<span class="m">2</span>)*<span class="m">8</span>(<span class="na">a0</span>)<span class="w"></span>
+<span class="linenos"> 6</span><span class="nf">.endm</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="nf">.macro</span><span class="w"> </span><span class="nb">LOAD_SN</span><span class="w"> </span><span class="ni">n</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="no">s</span>\<span class="ni">n</span>,<span class="w"> </span>(\<span class="ni">n</span>+<span class="m">2</span>)*<span class="m">8</span>(<span class="na">a1</span>)<span class="w"></span>
+<span class="linenos"> 9</span><span class="nf">.endm</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="nf">.section</span><span class="w"> </span><span class="nf">.text</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="nf">.globl</span><span class="w"> </span><span class="nb">__switch</span><span class="w"></span>
+<span class="linenos">12</span><span class="nb">__switch:</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="c"># __switch(</span>
+<span class="linenos">14</span><span class="w">    </span><span class="c">#     current_task_cx_ptr: *mut TaskContext,</span>
+<span class="linenos">15</span><span class="w">    </span><span class="c">#     next_task_cx_ptr: *const TaskContext</span>
+<span class="linenos">16</span><span class="w">    </span><span class="c"># )</span>
+<span class="linenos">17</span><span class="w">    </span><span class="c"># save kernel stack of current task</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="m">8</span>(<span class="na">a0</span>)<span class="w"></span>
+<span class="linenos">19</span><span class="w">    </span><span class="c"># save ra &amp; s0~s11 of current execution</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">ra</span>,<span class="w"> </span><span class="m">0</span>(<span class="na">a0</span>)<span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="m">0</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="nf">.rept</span><span class="w"> </span><span class="m">12</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">        </span><span class="nb">SAVE_SN</span><span class="w"> </span>%<span class="ni">n</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">        </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="ni">n</span><span class="w"> </span>+<span class="w"> </span><span class="m">1</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">    </span><span class="nf">.endr</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="c"># restore ra &amp; s0~s11 of next execution</span>
+<span class="linenos">27</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">ra</span>,<span class="w"> </span><span class="m">0</span>(<span class="na">a1</span>)<span class="w"></span>
+<span class="linenos">28</span><span class="w">    </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="m">0</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">    </span><span class="nf">.rept</span><span class="w"> </span><span class="m">12</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">        </span><span class="nb">LOAD_SN</span><span class="w"> </span>%<span class="ni">n</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">        </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="ni">n</span><span class="w"> </span>+<span class="w"> </span><span class="m">1</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">    </span><span class="nf">.endr</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">    </span><span class="c"># restore kernel stack of next task</span>
+<span class="linenos">34</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="m">8</span>(<span class="na">a1</span>)<span class="w"></span>
+<span class="linenos">35</span><span class="w">    </span><span class="nd">ret</span><span class="w"></span>
+</pre></div>
+</div>
+<p>它的两个参数分别是当前和即将被切换到的 Trap 控制流的 <code class="docutils literal notranslate"><span class="pre">task_cx_ptr</span></code> ，从 RISC-V 调用规范可知，它们分别通过寄存器 <code class="docutils literal notranslate"><span class="pre">a0/a1</span></code> 传入。</p>
+<p>内核先把 <code class="docutils literal notranslate"><span class="pre">current_task_cx_ptr</span></code> 中包含的寄存器值逐个保存，再把 <code class="docutils literal notranslate"><span class="pre">next_task_cx_ptr</span></code> 中包含的寄存器值逐个恢复。</p>
+<p><code class="docutils literal notranslate"><span class="pre">TaskContext</span></code> 里包含的寄存器有：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">// os/src/task/context.rs</span>
+<span class="linenos">2</span><span class="cp">#[repr(C)]</span><span class="w"></span>
+<span class="linenos">3</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TaskContext</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">    </span><span class="n">ra</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">5</span><span class="w">    </span><span class="n">sp</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">6</span><span class="w">    </span><span class="n">s</span>: <span class="p">[</span><span class="kt">usize</span><span class="p">;</span><span class="w"> </span><span class="mi">12</span><span class="p">],</span><span class="w"></span>
+<span class="linenos">7</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">s0~s11</span></code> 是被调用者保存寄存器， <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 是用汇编编写的，编译器不会帮我们处理这些寄存器。
+保存 <code class="docutils literal notranslate"><span class="pre">ra</span></code> 很重要，它记录了 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 函数返回之后应该跳转到哪里继续执行。</p>
+<p>我们将这段汇编代码 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 解释为一个 Rust 函数：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">// os/src/task/switch.rs</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">core</span>::<span class="n">arch</span>::<span class="fm">global_asm!</span><span class="p">(</span><span class="fm">include_str!</span><span class="p">(</span><span class="s">"switch.S"</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">4</span>
+<span class="linenos">5</span><span class="k">extern</span><span class="w"> </span><span class="s">"C"</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">6</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">__switch</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">7</span><span class="w">        </span><span class="n">current_task_cx_ptr</span>: <span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">TaskContext</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">8</span><span class="w">        </span><span class="n">next_task_cx_ptr</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">TaskContext</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">9</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>我们会调用该函数来完成切换功能，而不是直接跳转到符号 <code class="docutils literal notranslate"><span class="pre">__switch</span></code> 的地址。
+因此在调用前后，编译器会帮我们保存和恢复调用者保存寄存器。</p>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="3multiprogramming.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">管理多道程序</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="1multi-loader.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">多道程序放置与加载</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter3/2task-switching.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">任务切换</a><ul>
+<li><a class="reference internal" href="#id2">任务切换的设计与实现</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    </body>
+</html>

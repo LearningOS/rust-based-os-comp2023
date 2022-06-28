@@ -1,0 +1,829 @@
+<!doctype html>
+<html class="no-js" lang="zh_CN">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="索引" href="../genindex.html" /><link rel="search" title="搜索" href="../search.html" /><link rel="next" title="第三章：多道程序与分时多任务" href="../chapter3/index.html" /><link rel="prev" title="实现批处理操作系统" href="3batch-system.html" />
+
+    <meta name="generator" content="sphinx-4.1.2, furo 2021.08.31"/>
+        <title>实现特权级的切换 - rCore-Tutorial-Guide-2022S 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=c7c65a82b42f6b978e58466c1e9ef2509836d916" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=16fb25fabf47304eee183a5e9af80b1ba98259b1" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  body[data-theme="dark"] {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    body:not([data-theme="light"]) {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+</style></head>
+  <body>
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" />
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">rCore-Tutorial-Guide-2022S  文档</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">rCore-Tutorial-Guide-2022S  文档</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=搜索 name="q" aria-label="搜索">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">正文</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../0setup-devel-env.html">第零章：实验环境配置</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter1/index.html">第一章：应用程序与基本执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter1/0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/1app-ee-platform.html">应用程序执行环境与平台支持</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/2remove-std.html">移除标准库依赖</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/3mini-rt-usrland.html">构建用户态执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../chapter1/4mini-rt-baremetal.html">构建裸机执行环境</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">第二章：批处理系统</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="0intro.html">引言</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="2application.html">实现应用程序</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="3batch-system.html">实现批处理操作系统</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">实现特权级的切换</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter3/index.html">第三章：多道程序与分时多任务</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/1multi-loader.html">多道程序放置与加载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/2task-switching.html">任务切换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/3multiprogramming.html">管理多道程序</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/4time-sharing-system.html">分时多任务系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter3/5exercise.html">chapter3练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter4/index.html">第四章：地址空间</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/3sv39-implementation-1.html">实现 SV39 多级页表机制（上）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/4sv39-implementation-2.html">实现 SV39 多级页表机制（下）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/5kernel-app-spaces.html">内核与应用的地址空间</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/6multitasking-based-on-as.html">基于地址空间的分时多任务</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter4/7exercise.html">chapter4练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter5/index.html">第五章：进程及进程管理</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/1process.html">与进程有关的重要系统调用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/2core-data-structures.html">进程管理的核心数据结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/3implement-process-mechanism.html">进程管理机制的设计实现</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter5/4exercise.html">chapter5练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter6/index.html">第六章：文件系统与I/O重定向</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1file-descriptor.html">文件与文件描述符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/1fs-interface.html">文件系统接口</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-1.html">简易文件系统 easy-fs (上)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/2fs-implementation-2.html">简易文件系统 easy-fs (下)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/3using-easy-fs-in-kernel.html">在内核中使用 easy-fs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter6/4exercise.html">chapter6练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter7/index.html">第七章：进程间通信</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/1pipe.html">管道</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/2cmdargs-and-redirection.html">命令行参数与标准 I/O 重定向</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter7/3exercise.html">chapter7练习</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapter8/index.html">第八章：并发</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/0intro.html">引言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/1thread-kernel.html">内核态的线程管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/2lock.html">锁机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/3semaphore.html">信号量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/4condition-variable.html">条件变量机制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapter8/5exercise.html">chapter8 练习</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">附录</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-a/index.html">附录 A：Rust 系统编程资料</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-b/index.html">附录 B：常见工具的使用方法</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../appendix-c/index.html">附录 C：深入机器模式：RustSBI</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../appendix-d/index.html">附录 D：RISC-V相关信息</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">开发注记</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../setup-sphinx.html">修改和构建本项目</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../rest-example.html">reStructuredText 基本语法</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <article role="main">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <div class="section" id="term-trap-handle">
+<span id="id1"></span><h1>实现特权级的切换<a class="headerlink" href="#term-trap-handle" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="risc-v">
+<h2>RISC-V特权级切换<a class="headerlink" href="#risc-v" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>特权级切换的起因<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>批处理操作系统为了建立好应用程序的执行环境，需要在执行应用程序前进行一些初始化工作，
+并监控应用程序的执行，具体体现在：</p>
+<ul class="simple">
+<li><p>启动应用程序时，需要初始化应用程序的用户态上下文，并能切换到用户态执行应用程序；</p></li>
+<li><p>应用程序发起系统调用后，需要切换到批处理操作系统中进行处理；</p></li>
+<li><p>应用程序执行出错时，批处理操作系统要杀死该应用并加载运行下一个应用；</p></li>
+<li><p>应用程序执行结束时，批处理操作系统要加载运行下一个应用。</p></li>
+</ul>
+<p>这些处理都涉及到特权级切换，因此都需要硬件和操作系统协同提供的特权级切换机制。</p>
+</div>
+<div class="section" id="id3">
+<h3>特权级切换相关的控制状态寄存器<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<p>本章中我们仅考虑当 CPU 在 U 特权级运行用户程序的时候触发 Trap，
+并切换到 S 特权级的批处理操作系统进行处理。</p>
+<div class="table-wrapper"><table class="colwidths-given docutils align-center" id="id9">
+<caption><span class="caption-text">进入 S 特权级 Trap 的相关 CSR</span><a class="headerlink" href="#id9" title="永久链接至表格">¶</a></caption>
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 77%"/>
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>CSR 名</p></th>
+<th class="head"><p>该 CSR 与 Trap 相关的功能</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sstatus</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SPP</span></code> 等字段给出 Trap 发生之前 CPU 处在哪个特权级（S/U）等信息</p></td>
+</tr>
+<tr class="row-odd"><td><p>sepc</p></td>
+<td><p>当 Trap 是一个异常的时候，记录 Trap 发生之前执行的最后一条指令的地址</p></td>
+</tr>
+<tr class="row-even"><td><p>scause</p></td>
+<td><p>描述 Trap 的原因</p></td>
+</tr>
+<tr class="row-odd"><td><p>stval</p></td>
+<td><p>给出 Trap 附加信息</p></td>
+</tr>
+<tr class="row-even"><td><p>stvec</p></td>
+<td><p>控制 Trap 处理代码的入口地址</p></td>
+</tr>
+</tbody>
+</table></div>
+<p>特权级切换的具体过程一部分由硬件直接完成，另一部分则需要由操作系统来实现。</p>
+</div>
+</div>
+<div class="section" id="trap-hw-mechanism">
+<span id="id4"></span><h2>特权级切换的硬件控制机制<a class="headerlink" href="#trap-hw-mechanism" title="永久链接至标题">¶</a></h2>
+<p>当 CPU 执行完一条指令并准备从用户特权级 陷入（ <code class="docutils literal notranslate"><span class="pre">Trap</span></code> ）到 S 特权级的时候，硬件会自动完成如下这些事情：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sstatus</span></code> 的 <code class="docutils literal notranslate"><span class="pre">SPP</span></code> 字段会被修改为 CPU 当前的特权级（U/S）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sepc</span></code> 会被修改为 Trap 处理完成后默认会执行的下一条指令的地址。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scause/stval</span></code> 分别会被修改成这次 Trap 的原因以及相关的附加信息。</p></li>
+<li><p>CPU 会跳转到 <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 所设置的 Trap 处理入口地址，并将当前特权级设置为 S ，然后从Trap 处理入口地址处开始执行。</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p><strong>stvec 相关细节</strong></p>
+<p>在 RV64 中， <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 是一个 64 位的 CSR，在中断使能的情况下，保存了中断处理的入口地址。它有两个字段：</p>
+<ul class="simple">
+<li><p>MODE 位于 [1:0]，长度为 2 bits；</p></li>
+<li><p>BASE 位于 [63:2]，长度为 62 bits。</p></li>
+</ul>
+<p>当 MODE 字段为 0 的时候， <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 被设置为 Direct 模式，此时进入 S 模式的 Trap 无论原因如何，处理 Trap 的入口地址都是 <code class="docutils literal notranslate"><span class="pre">BASE&lt;&lt;2</span></code>
+， CPU 会跳转到这个地方进行异常处理。本书中我们只会将 <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 设置为 Direct 模式。而 <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 还可以被设置为 Vectored 模式，</p>
+</div>
+<p>而当 CPU 完成 Trap 处理准备返回的时候，需要通过一条 S 特权级的特权指令 <code class="docutils literal notranslate"><span class="pre">sret</span></code> 来完成，这一条指令具体完成以下功能：</p>
+<ul class="simple">
+<li><p>CPU 会将当前的特权级按照 <code class="docutils literal notranslate"><span class="pre">sstatus</span></code> 的 <code class="docutils literal notranslate"><span class="pre">SPP</span></code> 字段设置为 U 或者 S ；</p></li>
+<li><p>CPU 会跳转到 <code class="docutils literal notranslate"><span class="pre">sepc</span></code> 寄存器指向的那条指令，然后继续执行。</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>用户栈与内核栈<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<p>在 Trap 触发的一瞬间， CPU 会切换到 S 特权级并跳转到 <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 所指示的位置。
+但是在正式进入 S 特权级的 Trap 处理之前，我们必须保存原控制流的寄存器状态，这一般通过栈来完成。
+但我们需要用专门为操作系统准备的内核栈，而不是应用程序运行时用到的用户栈。</p>
+<p>我们声明两个类型 <code class="docutils literal notranslate"><span class="pre">KernelStack</span></code> 和 <code class="docutils literal notranslate"><span class="pre">UserStack</span></code> 分别表示用户栈和内核栈，它们都只是字节数组的简单包装：</p>
+<p>两个栈以全局变量的形式实例化在批处理操作系统的 <code class="docutils literal notranslate"><span class="pre">.bss</span></code> 段中。</p>
+<p>我们为两个类型实现了 <code class="docutils literal notranslate"><span class="pre">get_sp</span></code> 方法来获取栈顶地址。由于在 RISC-V 中栈是向下增长的，
+我们只需返回包裹的数组的结尾地址，以用户栈类型 <code class="docutils literal notranslate"><span class="pre">UserStack</span></code> 为例：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="k">impl</span><span class="w"> </span><span class="n">UserStack</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">2</span><span class="w">    </span><span class="k">fn</span> <span class="nf">get_sp</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">3</span><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">as_ptr</span><span class="p">()</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">USER_STACK_SIZE</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">5</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>换栈是非常简单的，只需将 <code class="docutils literal notranslate"><span class="pre">sp</span></code> 寄存器的值修改为 <code class="docutils literal notranslate"><span class="pre">get_sp</span></code> 的返回值即可。</p>
+<p id="term-trap-context">接下来是 Trap 上下文，即在 Trap 发生时需要保存的物理资源内容，定义如下：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">// os/src/trap/context.rs</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="cp">#[repr(C)]</span><span class="w"></span>
+<span class="linenos">4</span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TrapContext</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">5</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">x</span>: <span class="p">[</span><span class="kt">usize</span><span class="p">;</span><span class="w"> </span><span class="mi">32</span><span class="p">],</span><span class="w"></span>
+<span class="linenos">6</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">sstatus</span>: <span class="nc">Sstatus</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">7</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">sepc</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">8</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>可以看到里面包含所有的通用寄存器 <code class="docutils literal notranslate"><span class="pre">x0~x31</span></code> ，还有 <code class="docutils literal notranslate"><span class="pre">sstatus</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sepc</span></code> 。</p>
+<ul class="simple">
+<li><p>对于通用寄存器而言，两条控制流（应用程序控制流和内核控制流）运行在不同的特权级，所属的软件也可能由不同的编程语言编写，虽然在 Trap 控制流中只是会执行 Trap 处理
+相关的代码，但依然可能直接或间接调用很多模块，因此很难甚至不可能找出哪些寄存器无需保存。既然如此我们就只能全部保存了。但这里也有一些例外，
+如 <code class="docutils literal notranslate"><span class="pre">x0</span></code> 被硬编码为 0 ，它自然不会有变化；还有 <code class="docutils literal notranslate"><span class="pre">tp(x4)</span></code> 寄存器，除非我们手动出于一些特殊用途使用它，否则一般也不会被用到。虽然它们无需保存，
+但我们仍然在 <code class="docutils literal notranslate"><span class="pre">TrapContext</span></code> 中为它们预留空间，主要是为了后续的实现方便。</p></li>
+<li><p>对于 CSR 而言，我们知道进入 Trap 的时候，硬件会立即覆盖掉 <code class="docutils literal notranslate"><span class="pre">scause/stval/sstatus/sepc</span></code> 的全部或是其中一部分。<code class="docutils literal notranslate"><span class="pre">scause/stval</span></code>
+的情况是：它总是在 Trap 处理的第一时间就被使用或者是在其他地方保存下来了，因此它没有被修改并造成不良影响的风险。
+而对于 <code class="docutils literal notranslate"><span class="pre">sstatus/sepc</span></code> 而言，它们会在 Trap 处理的全程有意义（在 Trap 控制流最后 <code class="docutils literal notranslate"><span class="pre">sret</span></code> 的时候还用到了它们），而且确实会出现
+Trap 嵌套的情况使得它们的值被覆盖掉。所以我们需要将它们也一起保存下来，并在 <code class="docutils literal notranslate"><span class="pre">sret</span></code> 之前恢复原样。</p></li>
+</ul>
+</div>
+<div class="section" id="trap">
+<h2>Trap 管理<a class="headerlink" href="#trap" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id6">
+<h3>Trap 上下文的保存与恢复<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>首先是具体实现 Trap 上下文保存和恢复的汇编代码。</p>
+<p id="trap-context-save-restore">在批处理操作系统初始化时，我们需要修改 <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 寄存器来指向正确的 Trap 处理入口点。</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/trap/mod.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">core</span>::<span class="n">arch</span>::<span class="fm">global_asm!</span><span class="p">(</span><span class="fm">include_str!</span><span class="p">(</span><span class="s">"trap.S"</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">extern</span><span class="w"> </span><span class="s">"C"</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">fn</span> <span class="nf">__alltraps</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="n">stvec</span>::<span class="n">write</span><span class="p">(</span><span class="n">__alltraps</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">TrapMode</span>::<span class="n">Direct</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">10</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这里我们引入了一个外部符号 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> ，并将 <code class="docutils literal notranslate"><span class="pre">stvec</span></code> 设置为 Direct 模式指向它的地址。我们在 <code class="docutils literal notranslate"><span class="pre">os/src/trap/trap.S</span></code>
+中实现 Trap 上下文保存/恢复的汇编代码，分别用外部符号 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 标记为函数，并通过 <code class="docutils literal notranslate"><span class="pre">global_asm!</span></code> 宏将 <code class="docutils literal notranslate"><span class="pre">trap.S</span></code> 这段汇编代码插入进来。</p>
+<p>Trap 处理的总体流程如下：首先通过 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> 将 Trap 上下文保存在内核栈上，然后跳转到使用 Rust 编写的 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 函数
+完成 Trap 分发及处理。当 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 返回之后，使用 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 从保存在内核栈上的 Trap 上下文恢复寄存器。最后通过一条
+<code class="docutils literal notranslate"><span class="pre">sret</span></code> 指令回到应用程序执行。</p>
+<p>首先是保存 Trap 上下文的 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> 的实现：</p>
+<div class="highlight-riscv notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c"># os/src/trap/trap.S</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nf">.macro</span><span class="w"> </span><span class="nb">SAVE_GP</span><span class="w"> </span><span class="ni">n</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span>x\<span class="ni">n</span>,<span class="w"> </span>\<span class="ni">n</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos"> 5</span><span class="nf">.endm</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="nf">.align</span><span class="w"> </span><span class="m">2</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="nb">__alltraps:</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="nd">csrrw</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="no">sscratch</span>,<span class="w"> </span><span class="na">sp</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="c"># now sp-&gt;kernel stack, sscratch-&gt;user stack</span>
+<span class="linenos">11</span><span class="w">    </span><span class="c"># allocate a TrapContext on kernel stack</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nd">addi</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="na">sp</span>,<span class="w"> </span>-<span class="m">34</span>*<span class="m">8</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="c"># save general-purpose registers</span>
+<span class="linenos">14</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">x1</span>,<span class="w"> </span><span class="m">1</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="c"># skip sp(x2), we will save it later</span>
+<span class="linenos">16</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">x3</span>,<span class="w"> </span><span class="m">3</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="c"># skip tp(x4), application does not use it</span>
+<span class="linenos">18</span><span class="w">    </span><span class="c"># save x5~x31</span>
+<span class="linenos">19</span><span class="w">    </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="m">5</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">    </span><span class="nf">.rept</span><span class="w"> </span><span class="m">27</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">        </span><span class="nb">SAVE_GP</span><span class="w"> </span>%<span class="ni">n</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">        </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="ni">n</span>+<span class="m">1</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">    </span><span class="nf">.endr</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">    </span><span class="c"># we can use t0/t1/t2 freely, because they were saved on kernel stack</span>
+<span class="linenos">25</span><span class="w">    </span><span class="nd">csrr</span><span class="w"> </span><span class="na">t0</span>,<span class="w"> </span><span class="no">sstatus</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">    </span><span class="nd">csrr</span><span class="w"> </span><span class="na">t1</span>,<span class="w"> </span><span class="no">sepc</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">t0</span>,<span class="w"> </span><span class="m">32</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">28</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">t1</span>,<span class="w"> </span><span class="m">33</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">29</span><span class="w">    </span><span class="c"># read user stack from sscratch and save it on the kernel stack</span>
+<span class="linenos">30</span><span class="w">    </span><span class="nd">csrr</span><span class="w"> </span><span class="na">t2</span>,<span class="w"> </span><span class="no">sscratch</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">    </span><span class="nd">sd</span><span class="w"> </span><span class="na">t2</span>,<span class="w"> </span><span class="m">2</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">32</span><span class="w">    </span><span class="c"># set input argument of trap_handler(cx: &amp;mut TrapContext)</span>
+<span class="linenos">33</span><span class="w">    </span><span class="nd">mv</span><span class="w"> </span><span class="na">a0</span>,<span class="w"> </span><span class="na">sp</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">    </span><span class="nd">call</span><span class="w"> </span><span class="nb">trap_handler</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p>第 7 行我们使用 <code class="docutils literal notranslate"><span class="pre">.align</span></code> 将 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> 的地址 4 字节对齐，这是 RISC-V 特权级规范的要求；</p></li>
+<li><p>第 9 行的 <code class="docutils literal notranslate"><span class="pre">csrrw</span></code> 原型是 <span class="math notranslate nohighlight">\(\text{csrrw rd, csr, rs}\)</span> 可以将 CSR 当前的值读到通用寄存器 <span class="math notranslate nohighlight">\(\text{rd}\)</span> 中，然后将
+通用寄存器 <span class="math notranslate nohighlight">\(\text{rs}\)</span> 的值写入该 CSR 。因此这里起到的是交换 sscratch 和 sp 的效果。在这一行之前 sp 指向用户栈， sscratch
+指向内核栈（原因稍后说明），现在 sp 指向内核栈， sscratch 指向用户栈。</p></li>
+<li><p>第 12 行，我们准备在内核栈上保存 Trap 上下文，于是预先分配 <span class="math notranslate nohighlight">\(34\times 8\)</span> 字节的栈帧，这里改动的是 sp ，说明确实是在内核栈上。</p></li>
+<li><p>第 13~24 行，保存 Trap 上下文的通用寄存器 x0~x31，跳过 x0 和 tp(x4)，原因之前已经说明。我们在这里也不保存 sp(x2)，因为它在第 9 行
+后指向的是内核栈。用户栈的栈指针保存在 sscratch 中，必须通过 <code class="docutils literal notranslate"><span class="pre">csrr</span></code> 指令读到通用寄存器中后才能使用，因此我们先考虑保存其它通用寄存器，腾出空间。</p>
+<p>我们要基于 sp 来找到每个寄存器应该被保存到的正确的位置。实际上，在栈帧分配之后，我们可用于保存 Trap 上下文的地址区间为 <span class="math notranslate nohighlight">\([\text{sp},\text{sp}+8\times34)\)</span> ，
+按照  <code class="docutils literal notranslate"><span class="pre">TrapContext</span></code> 结构体的内存布局，基于内核栈的位置（sp所指地址）来从低地址到高地址分别按顺序放置 x0~x31这些通用寄存器，最后是 sstatus 和 sepc 。因此通用寄存器 xn
+应该被保存在地址区间 <span class="math notranslate nohighlight">\([\text{sp}+8n,\text{sp}+8(n+1))\)</span> 。</p>
+<p>为了简化代码，x5~x31 这 27 个通用寄存器我们通过类似循环的 <code class="docutils literal notranslate"><span class="pre">.rept</span></code> 每次使用 <code class="docutils literal notranslate"><span class="pre">SAVE_GP</span></code> 宏来保存，其实质是相同的。注意我们需要在
+<code class="docutils literal notranslate"><span class="pre">trap.S</span></code> 开头加上 <code class="docutils literal notranslate"><span class="pre">.altmacro</span></code> 才能正常使用 <code class="docutils literal notranslate"><span class="pre">.rept</span></code> 命令。</p>
+</li>
+<li><p>第 25~28 行，我们将 CSR sstatus 和 sepc 的值分别读到寄存器 t0 和 t1 中然后保存到内核栈对应的位置上。指令
+<span class="math notranslate nohighlight">\(\text{csrr rd, csr}\)</span>  的功能就是将 CSR 的值读到寄存器 <span class="math notranslate nohighlight">\(\text{rd}\)</span> 中。这里我们不用担心 t0 和 t1 被覆盖，
+因为它们刚刚已经被保存了。</p></li>
+<li><p>第 30~31 行专门处理 sp 的问题。首先将 sscratch 的值读到寄存器 t2 并保存到内核栈上，注意： sscratch 的值是进入 Trap 之前的 sp 的值，指向
+用户栈。而现在的 sp 则指向内核栈。</p></li>
+<li><p>第 33 行令 <span class="math notranslate nohighlight">\(\text{a}_0\leftarrow\text{sp}\)</span>，让寄存器 a0 指向内核栈的栈指针也就是我们刚刚保存的 Trap 上下文的地址，
+这是由于我们接下来要调用 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 进行 Trap 处理，它的第一个参数 <code class="docutils literal notranslate"><span class="pre">cx</span></code> 由调用规范要从 a0 中获取。而 Trap 处理函数
+<code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 需要 Trap 上下文的原因在于：它需要知道其中某些寄存器的值，比如在系统调用的时候应用程序传过来的 syscall ID 和
+对应参数。我们不能直接使用这些寄存器现在的值，因为它们可能已经被修改了，因此要去内核栈上找已经被保存下来的值。</p></li>
+</ul>
+<div class="admonition note" id="term-atomic-instruction">
+<p class="admonition-title">注解</p>
+<p><strong>CSR 相关原子指令</strong></p>
+<p>RISC-V 中读写 CSR 的指令是一类能不会被打断地完成多个读写操作的指令。这种不会被打断地完成多个操作的指令被称为 <strong>原子指令</strong> (Atomic Instruction)。这里的 <strong>原子</strong> 的含义是“不可分割的最小个体”，也就是说指令的多个操作要么都不完成，要么全部完成，而不会处于某种中间状态。</p>
+</div>
+<p>当 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 返回之后会从调用 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 的下一条指令开始执行，也就是从栈上的 Trap 上下文恢复的 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> ：</p>
+<div class="highlight-riscv notranslate" id="code-restore"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nf">.macro</span><span class="w"> </span><span class="nb">LOAD_GP</span><span class="w"> </span><span class="ni">n</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span>x\<span class="ni">n</span>,<span class="w"> </span>\<span class="ni">n</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos"> 3</span><span class="nf">.endm</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="nb">__restore:</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="c"># case1: start running app by __restore</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="c"># case2: back to U after handling trap</span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="nd">mv</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="na">a0</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="c"># now sp-&gt;kernel stack(after allocated), sscratch-&gt;user stack</span>
+<span class="linenos">10</span><span class="w">    </span><span class="c"># restore sstatus/sepc</span>
+<span class="linenos">11</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">t0</span>,<span class="w"> </span><span class="m">32</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">t1</span>,<span class="w"> </span><span class="m">33</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">13</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">t2</span>,<span class="w"> </span><span class="m">2</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">14</span><span class="w">    </span><span class="nd">csrw</span><span class="w"> </span><span class="no">sstatus</span>,<span class="w"> </span><span class="na">t0</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="nd">csrw</span><span class="w"> </span><span class="no">sepc</span>,<span class="w"> </span><span class="na">t1</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="nd">csrw</span><span class="w"> </span><span class="no">sscratch</span>,<span class="w"> </span><span class="na">t2</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">    </span><span class="c"># restore general-purpuse registers except sp/tp</span>
+<span class="linenos">18</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">x1</span>,<span class="w"> </span><span class="m">1</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">19</span><span class="w">    </span><span class="nd">ld</span><span class="w"> </span><span class="na">x3</span>,<span class="w"> </span><span class="m">3</span>*<span class="m">8</span>(<span class="na">sp</span>)<span class="w"></span>
+<span class="linenos">20</span><span class="w">    </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="m">5</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="nf">.rept</span><span class="w"> </span><span class="m">27</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">        </span><span class="nb">LOAD_GP</span><span class="w"> </span>%<span class="ni">n</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">        </span><span class="nf">.set</span><span class="w"> </span><span class="ni">n</span>,<span class="w"> </span><span class="ni">n</span>+<span class="m">1</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">    </span><span class="nf">.endr</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">    </span><span class="c"># release TrapContext on kernel stack</span>
+<span class="linenos">26</span><span class="w">    </span><span class="nd">addi</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="m">34</span>*<span class="m">8</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">    </span><span class="c"># now sp-&gt;kernel stack, sscratch-&gt;user stack</span>
+<span class="linenos">28</span><span class="w">    </span><span class="nd">csrrw</span><span class="w"> </span><span class="na">sp</span>,<span class="w"> </span><span class="no">sscratch</span>,<span class="w"> </span><span class="na">sp</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">    </span><span class="nd">sret</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>第 8 行比较奇怪，我们暂且不管，假设它从未发生，那么 sp 仍然指向内核栈的栈顶。</p></li>
+<li><p>第 11~24 行负责从内核栈顶的 Trap 上下文恢复通用寄存器和 CSR 。注意我们要先恢复 CSR 再恢复通用寄存器，这样我们使用的三个临时寄存器
+才能被正确恢复。</p></li>
+<li><p>在第 26 行之前，sp 指向保存了 Trap 上下文之后的内核栈栈顶， sscratch 指向用户栈栈顶。我们在第 26 行在内核栈上回收 Trap 上下文所
+占用的内存，回归进入 Trap 之前的内核栈栈顶。第 27 行，再次交换 sscratch 和 sp，现在 sp 重新指向用户栈栈顶，sscratch 也依然保存
+进入 Trap 之前的状态并指向内核栈栈顶。</p></li>
+<li><p>在应用程序控制流状态被还原之后，第 28 行我们使用 <code class="docutils literal notranslate"><span class="pre">sret</span></code> 指令回到 U 特权级继续运行应用程序控制流。</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Trap 分发与处理<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>Trap 在使用 Rust 实现的 <code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 函数中完成分发和处理：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/trap/mod.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="cp">#[no_mangle]</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">trap_handler</span><span class="p">(</span><span class="n">cx</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">TrapContext</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="n">TrapContext</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">scause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scause</span>::<span class="n">read</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">stval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stval</span>::<span class="n">read</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">scause</span><span class="p">.</span><span class="n">cause</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="n">Trap</span>::<span class="n">Exception</span><span class="p">(</span><span class="n">Exception</span>::<span class="n">UserEnvCall</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">            </span><span class="n">cx</span><span class="p">.</span><span class="n">sepc</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">            </span><span class="n">cx</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">syscall</span><span class="p">(</span><span class="n">cx</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="n">cx</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span><span class="w"> </span><span class="n">cx</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span><span class="w"> </span><span class="n">cx</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">12</span><span class="p">]])</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="n">Trap</span>::<span class="n">Exception</span><span class="p">(</span><span class="n">Exception</span>::<span class="n">StoreFault</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">        </span><span class="n">Trap</span>::<span class="n">Exception</span><span class="p">(</span><span class="n">Exception</span>::<span class="n">StorePageFault</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">"[kernel] PageFault in application, core dumped."</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">            </span><span class="n">run_next_app</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">        </span><span class="n">Trap</span>::<span class="n">Exception</span><span class="p">(</span><span class="n">Exception</span>::<span class="n">IllegalInstruction</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">"[kernel] IllegalInstruction in application, core dumped."</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">            </span><span class="n">run_next_app</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">        </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">            </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Unsupported trap {:?}, stval = {:#x}!"</span><span class="p">,</span><span class="w"> </span><span class="n">scause</span><span class="p">.</span><span class="n">cause</span><span class="p">(),</span><span class="w"> </span><span class="n">stval</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">    </span><span class="n">cx</span><span class="w"></span>
+<span class="linenos">26</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p>第 4 行声明返回值为 <code class="docutils literal notranslate"><span class="pre">&amp;mut</span> <span class="pre">TrapContext</span></code> 并在第 25 行实际将传入的 <code class="docutils literal notranslate"><span class="pre">cx</span></code> 原样返回，因此在 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 的时候 <code class="docutils literal notranslate"><span class="pre">a0</span></code> 寄存器在调用
+<code class="docutils literal notranslate"><span class="pre">trap_handler</span></code> 前后并没有发生变化，仍然指向分配 Trap 上下文之后的内核栈栈顶，和此时 <code class="docutils literal notranslate"><span class="pre">sp</span></code> 的值相同，我们 <span class="math notranslate nohighlight">\(\text{sp}\leftarrow\text{a}_0\)</span>
+并不会有问题；</p></li>
+<li><p>第 7 行根据 <code class="docutils literal notranslate"><span class="pre">scause</span></code> 寄存器所保存的 Trap 的原因进行分发处理。这里我们无需手动操作这些 CSR ，而是使用 Rust 第三方库 riscv 。</p></li>
+<li><p>第 8~11 行，发现触发 Trap 的原因是来自 U 特权级的 Environment Call，也就是系统调用。这里我们首先修改保存在内核栈上的 Trap 上下文里面
+sepc，让其增加 4。这是因为我们知道这是一个由 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 指令触发的系统调用，在进入 Trap 的时候，硬件会将 sepc 设置为这条 <code class="docutils literal notranslate"><span class="pre">ecall</span></code>
+指令所在的地址（因为它是进入 Trap 之前最后一条执行的指令）。而在 Trap 返回之后，我们希望应用程序控制流从 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 的下一条指令
+开始执行。因此我们只需修改 Trap 上下文里面的 sepc，让它增加 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 指令的码长，也即 4 字节。这样在 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 的时候 sepc
+在恢复之后就会指向 <code class="docutils literal notranslate"><span class="pre">ecall</span></code> 的下一条指令，并在 <code class="docutils literal notranslate"><span class="pre">sret</span></code> 之后从那里开始执行。</p>
+<p>用来保存系统调用返回值的 a0 寄存器也会同样发生变化。我们从 Trap 上下文取出作为 syscall ID 的 a7 和系统调用的三个参数 a0~a2 传给
+<code class="docutils literal notranslate"><span class="pre">syscall</span></code> 函数并获取返回值。 <code class="docutils literal notranslate"><span class="pre">syscall</span></code> 函数是在 <code class="docutils literal notranslate"><span class="pre">syscall</span></code> 子模块中实现的。 这段代码是处理正常系统调用的控制逻辑。</p>
+</li>
+<li><p>第 12~20 行，分别处理应用程序出现访存错误和非法指令错误的情形。此时需要打印错误信息并调用 <code class="docutils literal notranslate"><span class="pre">run_next_app</span></code> 直接切换并运行下一个
+应用程序。</p></li>
+<li><p>第 21 行开始，当遇到目前还不支持的 Trap 类型的时候，批处理操作系统整个 panic 报错退出。</p></li>
+</ul>
+<p>对于系统调用而言， <code class="docutils literal notranslate"><span class="pre">syscall</span></code> 函数并不会实际处理系统调用，而只是根据 syscall ID 分发到具体的处理函数：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="c1">// os/src/syscall/mod.rs</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">syscall</span><span class="p">(</span><span class="n">syscall_id</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">args</span>: <span class="p">[</span><span class="kt">usize</span><span class="p">;</span><span class="w"> </span><span class="mi">3</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">syscall_id</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">5</span><span class="w">        </span><span class="n">SYSCALL_WRITE</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">sys_write</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="w"></span>
+<span class="linenos">6</span><span class="w">        </span><span class="n">SYSCALL_EXIT</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">sys_exit</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="p">),</span><span class="w"></span>
+<span class="linenos">7</span><span class="w">        </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Unsupported syscall_id: {}"</span><span class="p">,</span><span class="w"> </span><span class="n">syscall_id</span><span class="p">),</span><span class="w"></span>
+<span class="linenos">8</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">9</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>这里我们会将传进来的参数 <code class="docutils literal notranslate"><span class="pre">args</span></code> 转化成能够被具体的系统调用处理函数接受的类型。它们的实现都非常简单：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/syscall/fs.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">const</span><span class="w"> </span><span class="n">FD_STDOUT</span>: <span class="kt">usize</span> <span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_write</span><span class="p">(</span><span class="n">fd</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span>: <span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="kt">u8</span><span class="p">,</span><span class="w"> </span><span class="n">len</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span> <span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="n">FD_STDOUT</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">slice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">core</span>::<span class="n">slice</span>::<span class="n">from_raw_parts</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="kt">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">core</span>::<span class="kt">str</span>::<span class="n">from_utf8</span><span class="p">(</span><span class="n">slice</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">            </span><span class="fm">print!</span><span class="p">(</span><span class="s">"{}"</span><span class="p">,</span><span class="w"> </span><span class="kt">str</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">            </span><span class="n">len</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">isize</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">        </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">            </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Unsupported fd in sys_write!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">17</span><span class="p">}</span><span class="w"></span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="c1">// os/src/syscall/process.rs</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">sys_exit</span><span class="p">(</span><span class="n">xstate</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"[kernel] Application exited with code {}"</span><span class="p">,</span><span class="w"> </span><span class="n">xstate</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">    </span><span class="n">run_next_app</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">24</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sys_write</span></code> 我们将传入的位于应用程序内的缓冲区的开始地址和长度转化为一个字符串 <code class="docutils literal notranslate"><span class="pre">&amp;str</span></code> ，然后使用批处理操作系统已经实现的 <code class="docutils literal notranslate"><span class="pre">print!</span></code>
+宏打印出来。这里我们并没有检查传入参数的安全性，存在安全隐患。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sys_exit</span></code> 打印退出的应用程序的返回值并同样调用 <code class="docutils literal notranslate"><span class="pre">run_next_app</span></code> 切换到下一个应用程序。</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ch2-app-execution">
+<span id="id8"></span><h2>执行应用程序<a class="headerlink" href="#ch2-app-execution" title="永久链接至标题">¶</a></h2>
+<p>当批处理操作系统初始化完成，或者是某个应用程序运行结束或出错的时候，我们要调用 <code class="docutils literal notranslate"><span class="pre">run_next_app</span></code> 函数切换到下一个应用程序。此时 CPU 运行在
+S 特权级，而它希望能够切换到 U 特权级。在 RISC-V 架构中，唯一一种能够使得 CPU 特权级下降的方法就是通过 Trap 返回系列指令，比如
+<code class="docutils literal notranslate"><span class="pre">sret</span></code> 。事实上，在运行应用程序之前要完成如下这些工作：</p>
+<ul class="simple">
+<li><p>跳转到应用程序入口点 <code class="docutils literal notranslate"><span class="pre">0x80400000</span></code>；</p></li>
+<li><p>将使用的栈切换到用户栈；</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> 时我们要求 <code class="docutils literal notranslate"><span class="pre">sscratch</span></code> 指向内核栈，这个也需要在此时完成；</p></li>
+<li><p>从 S 特权级切换到 U 特权级。</p></li>
+</ul>
+<p>它们可以通过复用 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 的代码来更容易的实现上述工作。我们只需要在内核栈上压入一个为启动应用程序而特殊构造的 Trap 上下文，再通过 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 函数，就能
+让这些寄存器到达启动应用程序所需要的上下文状态。</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/trap/context.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">impl</span><span class="w"> </span><span class="n">TrapContext</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">set_sp</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">app_init_context</span><span class="p">(</span><span class="n">entry</span>: <span class="kt">usize</span><span class="p">,</span><span class="w"> </span><span class="n">sp</span>: <span class="kt">usize</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">sstatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sstatus</span>::<span class="n">read</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="n">sstatus</span><span class="p">.</span><span class="n">set_spp</span><span class="p">(</span><span class="n">SPP</span>::<span class="n">User</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">cx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">            </span><span class="n">x</span>: <span class="p">[</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="mi">32</span><span class="p">],</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">            </span><span class="n">sstatus</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">            </span><span class="n">sepc</span>: <span class="nc">entry</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">        </span><span class="n">cx</span><span class="p">.</span><span class="n">set_sp</span><span class="p">(</span><span class="n">sp</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">        </span><span class="n">cx</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">16</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>为 <code class="docutils literal notranslate"><span class="pre">TrapContext</span></code> 实现 <code class="docutils literal notranslate"><span class="pre">app_init_context</span></code> 方法，修改其中的 sepc 寄存器为应用程序入口点 <code class="docutils literal notranslate"><span class="pre">entry</span></code>， sp 寄存器为我们设定的
+一个栈指针，并将 sstatus 寄存器的 <code class="docutils literal notranslate"><span class="pre">SPP</span></code> 字段设置为 User 。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">run_next_app</span></code> 函数中我们能够看到：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// os/src/batch.rs</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">run_next_app</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">app_manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">APP_MANAGER</span><span class="p">.</span><span class="n">exclusive_access</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">current_app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">app_manager</span><span class="p">.</span><span class="n">get_current_app</span><span class="p">();</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="n">app_manager</span><span class="p">.</span><span class="n">load_app</span><span class="p">(</span><span class="n">current_app</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="n">app_manager</span><span class="p">.</span><span class="n">move_to_next_app</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">    </span><span class="nb">drop</span><span class="p">(</span><span class="n">app_manager</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">    </span><span class="c1">// before this we have to drop local variables related to resources manually</span>
+<span class="linenos">12</span><span class="w">    </span><span class="c1">// and release the resources</span>
+<span class="linenos">13</span><span class="w">    </span><span class="k">extern</span><span class="w"> </span><span class="s">"C"</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">        </span><span class="k">fn</span> <span class="nf">__restore</span><span class="p">(</span><span class="n">cx_addr</span>: <span class="kt">usize</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">    </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">        </span><span class="n">__restore</span><span class="p">(</span><span class="n">KERNEL_STACK</span><span class="p">.</span><span class="n">push_context</span><span class="p">(</span><span class="n">TrapContext</span>::<span class="n">app_init_context</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">            </span><span class="n">APP_BASE_ADDRESS</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">            </span><span class="n">USER_STACK</span><span class="p">.</span><span class="n">get_sp</span><span class="p">(),</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">        </span><span class="p">))</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">usize</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">    </span><span class="fm">panic!</span><span class="p">(</span><span class="s">"Unreachable in batch::run_current_app!"</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">__restore</span></code> 所做的事情是在内核栈上压入一个 Trap 上下文，其 <code class="docutils literal notranslate"><span class="pre">sepc</span></code> 是应用程序入口地址 <code class="docutils literal notranslate"><span class="pre">0x80400000</span></code> ，其 <code class="docutils literal notranslate"><span class="pre">sp</span></code> 寄存器指向用户栈，其 <code class="docutils literal notranslate"><span class="pre">sstatus</span></code>
+的 <code class="docutils literal notranslate"><span class="pre">SPP</span></code> 字段被设置为 User 。
+<code class="docutils literal notranslate"><span class="pre">push_context</span></code> 的返回值是内核栈压入 Trap 上下文之后的栈顶，它会被作为 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 的参数（
+回看 <a class="reference internal" href="#code-restore"><span class="std std-ref">__restore 代码</span></a> ，这时我们可以理解为何 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 函数的起始部分会完成
+<span class="math notranslate nohighlight">\(\text{sp}\leftarrow\text{a}_0\)</span> ），这使得在 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 函数中 <code class="docutils literal notranslate"><span class="pre">sp</span></code> 仍然可以指向内核栈的栈顶。这之后，就和执行一次普通的
+<code class="docutils literal notranslate"><span class="pre">__restore</span></code> 函数调用一样了。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>有兴趣的读者可以思考： sscratch 是何时被设置为内核栈顶的？</p>
+</div>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../chapter3/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">第三章：多道程序与分时多任务</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="3batch-system.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">实现批处理操作系统</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; OS2022Spring
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/chapter2/4trap-handling.rst.txt"
+               rel="nofollow">
+              显示源代码
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            目录
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">实现特权级的切换</a><ul>
+<li><a class="reference internal" href="#risc-v">RISC-V特权级切换</a><ul>
+<li><a class="reference internal" href="#id2">特权级切换的起因</a></li>
+<li><a class="reference internal" href="#id3">特权级切换相关的控制状态寄存器</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#trap-hw-mechanism">特权级切换的硬件控制机制</a></li>
+<li><a class="reference internal" href="#id5">用户栈与内核栈</a></li>
+<li><a class="reference internal" href="#trap">Trap 管理</a><ul>
+<li><a class="reference internal" href="#id6">Trap 上下文的保存与恢复</a></li>
+<li><a class="reference internal" href="#id7">Trap 分发与处理</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ch2-app-execution">执行应用程序</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js"></script>
+    <script kind="utterances">
+
+    var commentsRunWhenDOMLoaded = cb => {
+    if (document.readyState != 'loading') {
+        cb()
+    } else if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', cb)
+    } else {
+        document.attachEvent('onreadystatechange', function() {
+        if (document.readyState == 'complete') cb()
+        })
+    }
+}
+
+var addUtterances = () => {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://utteranc.es/client.js";
+    script.async = "async";
+
+    script.setAttribute("repo", "LearningOS/rCore-Tutorial-Guide-2022S");
+    script.setAttribute("issue-term", "pathname");
+    script.setAttribute("theme", "github-light");
+    script.setAttribute("label", "comments");
+    script.setAttribute("crossorigin", "anonymous");
+
+    sections = document.querySelectorAll("div.section");
+    if (sections !== null) {
+        section = sections[sections.length-1];
+        section.appendChild(script);
+    }
+}
+commentsRunWhenDOMLoaded(addUtterances);
+</script>
+    <script src="../_static/translations.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
