@@ -290,10 +290,10 @@
         </div>
         <div class="section" id="chapter3">
 <h1>chapter3练习<a class="headerlink" href="#chapter3" title="永久链接至标题">¶</a></h1>
+<div class="section" id="lab1">
+<h2>Lab1 编程作业<a class="headerlink" href="#lab1" title="永久链接至标题">¶</a></h2>
 <div class="section" id="id1">
-<h2>编程作业<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id2">
-<h3>获取任务信息<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<h3>获取任务信息<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
 <p>ch3 中，我们的系统已经能够支持多个任务分时轮流运行，我们希望引入一个新的系统调用 <code class="docutils literal notranslate"><span class="pre">sys_task_info</span></code> 以获取当前任务的信息，定义如下：</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">fn</span> <span class="nf">sys_task_info</span><span class="p">(</span><span class="n">ti</span>: <span class="o">*</span><span class="k">mut</span><span class="w"> </span><span class="n">TaskInfo</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">isize</span>
 </pre></div>
@@ -341,13 +341,13 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>实验要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id2">
+<h3>实验要求<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><p>完成分支: ch3。</p></li>
+<li><p><cite>lab1(os3)参考框架: &lt;https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os3-ref&gt;</cite></p></li>
 <li><p>实验目录要求</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── os(内核实现)
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── os3(内核实现)
 │   ├── Cargo.toml(配置文件)
 │   └── src(所有内核的源代码放在 os/src 目录下)
 │       ├── main.rs(内核主函数)
@@ -374,14 +374,14 @@
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>简答作业<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h2>简答作业<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
 <ol class="arabic">
 <li><p>正确进入 U 态后，程序的特征还应有：使用 S 态特权指令，访问 S 态寄存器后会报错。
-请同学们可以自行测试这些内容 (运行 <a class="reference external" href="https://github.com/LearningOS/rCore-Tutorial-Test-2022S/tree/master/src/bin">Rust 三个 bad 测例 (ch2b_bad_*.rs)</a> ，
+请同学们可以自行测试这些内容 (运行 <a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/user/src/bin">Rust 三个 bad 测例 (ch2b_bad_*.rs)</a> ，
 注意在编译时至少需要指定 <code class="docutils literal notranslate"><span class="pre">LOG=ERROR</span></code> 才能观察到内核的报错信息) ，
 描述程序出错行为，同时注意注明你使用的 sbi 及其版本。</p></li>
-<li><p>深入理解 <a class="reference external" href="https://github.com/LearningOS/rCore-Tutorial-Code-2022S/blob/ch3/os/src/trap/trap.S">trap.S</a>
+<li><p>深入理解 <a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/blob/main/os3-ref/src/trap/trap.S">trap.S</a>
 中两个函数 <code class="docutils literal notranslate"><span class="pre">__alltraps</span></code> 和 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 的作用，并回答如下问题:</p>
 <ol class="arabic">
 <li><p>L40：刚进入 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 时，<code class="docutils literal notranslate"><span class="pre">a0</span></code> 代表了什么值。请指出 <code class="docutils literal notranslate"><span class="pre">__restore</span></code> 的两种使用情景。</p></li>
@@ -422,8 +422,8 @@
 </li>
 </ol>
 </div>
-<div class="section" id="id5">
-<h2>报告要求<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h2>报告要求<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
 <ul class="simple">
 <li><p>简单总结你实现的功能（200字以内，不要贴代码）。</p></li>
 <li><p>完成问答题。</p></li>
@@ -487,13 +487,13 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">chapter3练习</a><ul>
-<li><a class="reference internal" href="#id1">编程作业</a><ul>
-<li><a class="reference internal" href="#id2">获取任务信息</a></li>
-<li><a class="reference internal" href="#id3">实验要求</a></li>
+<li><a class="reference internal" href="#lab1">Lab1 编程作业</a><ul>
+<li><a class="reference internal" href="#id1">获取任务信息</a></li>
+<li><a class="reference internal" href="#id2">实验要求</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">简答作业</a></li>
-<li><a class="reference internal" href="#id5">报告要求</a></li>
+<li><a class="reference internal" href="#id3">简答作业</a></li>
+<li><a class="reference internal" href="#id4">报告要求</a></li>
 </ul>
 </li>
 </ul>

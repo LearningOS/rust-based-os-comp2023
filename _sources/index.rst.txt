@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-rCore-Tutorial-Guide 2022 春季学期
+2022年开源操作系统训练营 
 ==================================================
 
 .. toctree::
@@ -45,7 +45,7 @@ rCore-Tutorial-Guide 2022 春季学期
 
 本教程展示了如何 **从零开始** 用 **Rust** 语言写一个基于 **RISC-V** 架构的 **类 Unix 内核** 。
 
-用于 2022 年春季学期操作系统课堂教学。
+用于 2022年开源操作系统训练营。
 
 导读
 ---------------------
@@ -61,7 +61,7 @@ rCore-Tutorial-Guide 2022 春季学期
 
 鸣谢
 ----------------------
-本项目基于 `2021 年秋季学期操作系统实验指导书 <https://github.com/LearningOS/rCore-Tutorial-Guide-2021A>`_ ，重构的目标是在保留结构的基础上屏蔽不必要的细节，缩短篇幅，优化语言，降低阅读成本。
+本项目基于 `2022 年春季学期操作系统实验指导书 <https://github.com/LearningOS/rCore-Tutorial-Code-2022S>`_ ，重构的目标是在保留结构的基础上屏蔽不必要的细节，缩短篇幅，优化语言，降低阅读成本。
 
 如果你觉得本教程某些章节不够细致或不够连贯，可以参考上学期实验指导书的对应章节。
 
