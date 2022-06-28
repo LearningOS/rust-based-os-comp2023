@@ -18,16 +18,14 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch3
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Test-2022S.git user
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022/
 
-在 qemu 模拟器上运行本章代码：
+在 qemu 模拟器上运行 `lab1(os3)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os3-ref>`_ ：
 
 .. code-block:: console
 
-   $ cd os
+   $ cd os3-ref
    $ make run
 
 运行代码，看到用户程序交替输出信息：
@@ -134,12 +132,12 @@
    Panicked at src/task/mod.rs:98 All applications completed!
 
 
-本章代码树
----------------------------------------------
+`lab1(os3)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os3-ref>`_
+--------------------------------------------------------------------------------------------------------------------
 
 .. code-block::
 
-   ── os
+   ── os3-ref
       ├── build.rs
       ├── Cargo.toml
       ├── Makefile

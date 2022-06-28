@@ -17,8 +17,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'rCore-Tutorial-Guide-2022S'
-copyright = 'OS2022Spring'
+project = 'Open-Source-OS-Tutorial-Summer-of-Code-2022'
+copyright = 'OS2022Summer'
 author = 'Yifan Wu'
 language = 'zh_CN'
 html_search_language = 'zh'

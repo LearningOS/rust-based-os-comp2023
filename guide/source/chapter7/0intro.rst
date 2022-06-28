@@ -14,15 +14,14 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch7
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022/
 
-在 qemu 模拟器上运行本章代码：
+在 qemu 模拟器上运行  `os7参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os7-ref>`_  ：
 
 .. code-block:: console
 
-   $ cd os
+   $ cd os7-ref
    $ make run
 
 进入shell程序后，可以运行管道机制的简单测例 ``ch7b_pipetest``， ``ch7b_pipetest`` 需要保证父进程通过管道传输给子进程的字符串不会发生变化。
@@ -57,12 +56,12 @@
    Shell: Process 2 exited with code 0
    >>
 
-本章代码树
------------------------------------------
+`os7参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os7-ref>`_  
+-----------------------------------------------------------------------------------------------------------------
 
 .. code-block::
 
-    ── os
+    ── os7-ref
        └── src
            ├── ...
            ├── fs
