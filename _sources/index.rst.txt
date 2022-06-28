@@ -63,7 +63,7 @@
 ----------------------
 本项目基于 `2022 年春季学期操作系统实验指导书 <https://github.com/LearningOS/rCore-Tutorial-Code-2022S>`_ ，重构的目标是在保留结构的基础上屏蔽不必要的细节，缩短篇幅，优化语言，降低阅读成本。
 
-如果你觉得本教程某些章节不够细致或不够连贯，可以参考上学期实验指导书的对应章节。
+如果你觉得本教程某些章节不够细致或不够连贯，可以参考 `2022春季OS课程讲义 rCore Tutorial v3 Guide <https://rcore-os.github.io/rCore-Tutorial-Book-v3/>`_ 。
 
 .. note::
 
