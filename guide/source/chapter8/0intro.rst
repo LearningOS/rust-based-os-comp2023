@@ -84,6 +84,23 @@
 实践体验
 -----------------------------------------
 
+.. note::
+
+   基于github classroom的开发方式
+   
+   基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
+
+   1. 在网络浏览器中用自己的 github id 登录 github.com
+   2. 接收 `第五个实验(os8)的github classroom在线邀请 <https://classroom.github.com/a/zqGJEPK->`_  ，根据提示一路选择OK即可。
+   3. 完成第二步后，你的第五个实验的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。
+   4. 在你的第五个实验的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到  `codespace` 标签和醒目的 `create codesapce on main` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
+   5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc，qemu等工具。
+   6. 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
+   7. 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
+
+   上述的3，4，5步不是必须的，你也可以线下本地开发。
+
+
 获取本章代码：
 
 .. code-block:: console
