@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "run_os5",
+      "setup": "",
+      "run": "make test5",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 15,
+      "points": 100
+    }
+  ]
+}

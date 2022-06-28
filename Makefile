@@ -69,11 +69,115 @@ docker:
 build_docker: 
 	docker build -t ${DOCKER_NAME} .
 
-setupclassroom:
+setupclassroom_test1:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test1.json .github/classroom/autograding.json
 	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
 	git add  .github/workflows/classroom.yml
-	git commit -m"update classroom.yml for classroom CI test"
-	git push	
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test2:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test2.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test3:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test3.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test4:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test4.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test5:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test5.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test1:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test1.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test6:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test6.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test7:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test7.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+setupclassroom_test8:
+	mkdir -p .github/classroom/
+    mkdir -p .github/workflows/
+	touch .github/.keep
+	cp scripts/autograding-test8.json .github/classroom/autograding.json
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add .github/classroom/autograding.json
+	git add  .github/workflows/classroom.yml
+	git add  .github/.keep
+	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
+	git push
+
+
 # setupenv:
 # 	sudo apt-get update
 # 	sudo apt-get install -y curl wget autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc xz-utils zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3

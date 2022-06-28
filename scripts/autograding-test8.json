@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "rust_os8",
+      "setup": "",
+      "run": "make test8",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 15,
+      "points": 100
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "run_os4",
+      "setup": "",
+      "run": "make test4",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 15,
+      "points": 100
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "run_os3",
+      "setup": "",
+      "run": "make test3",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 15,
+      "points": 100
+    }
+  ]
+}
