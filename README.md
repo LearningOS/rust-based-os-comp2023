@@ -25,6 +25,8 @@ The 'os[1-8]-ref' are the 'os[1-8]'  reference frameworks.  You can read and cop
 ## kernel labs
 There are two simple practice work, and five kernel labs.
 
+注：登录github.com，点击并打开下面的lab0~lab5的github classroom的链接后，点击醒目绿色按钮"Accept this assignment"选择接受，github就为你创建了一个对应实验的git repo
+
 According to the  [Guide](https://learningos.github.io/rust-based-os-comp2022/), write os codes for:
 - [lab0-0 setup env in 'os1' DIR](https://classroom.github.com/a/hnoWuKGF)
 - [lab0-1 try something in os2 in 'os2' DIR](https://classroom.github.com/a/UEOvz4qO)
