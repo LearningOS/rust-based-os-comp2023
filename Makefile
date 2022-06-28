@@ -69,17 +69,20 @@ docker:
 build_docker: 
 	docker build -t ${DOCKER_NAME} .
 
-setupenv:
-	sudo apt-get update
-	sudo apt-get install -y curl wget autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc xz-utils zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3
-	RUSTUP='$HOME/rustup.sh'
-	cd $HOME
-	curl https://sh.rustup.rs -sSf > $RUSTUP && chmod +x $RUSTUP
-	$RUSTUP -y --default-toolchain nightly-2022-04-11 --profile minimal
-	cd $HOME
-	wget https://download.qemu.org/qemu-7.0.0.tar.xz
-	tar xvJf qemu-7.0.0.tar.xz
-	cd qemu-7.0.0
-	./configure --target-list=riscv64-softmmu
-	make install
+setupclassroom:
+	cp scripts/classroom.yml .github/workflows/classroom.yml
+	git add  .github/workflows/classroom.yml
+	git commit -m"update classroom.yml for classroom CI test"
+	git push	
+# setupenv:
+# 	sudo apt-get update
+# 	sudo apt-get install -y curl wget autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc xz-utils zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3
+# 	curl https://sh.rustup.rs -sSf > $RUSTUP && chmod +x $RUSTUP
+# 	$RUSTUP -y --default-toolchain nightly-2022-04-11 --profile minimal
+# 	cd $HOME
+# 	wget https://download.qemu.org/qemu-7.0.0.tar.xz
+# 	tar xvJf qemu-7.0.0.tar.xz
+# 	cd qemu-7.0.0
+# 	./configure --target-list=riscv64-softmmu
+# 	make install
 

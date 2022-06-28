@@ -44,7 +44,4 @@ jobs:
           fi
           sudo make install
           qemu-system-riscv64 --version
-      - name: Run usertests
-        run: cd os && make run TEST=1
-        timeout-minutes: 10
       - uses: education/autograding@v1
