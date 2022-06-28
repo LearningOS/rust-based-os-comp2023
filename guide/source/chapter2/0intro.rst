@@ -37,14 +37,13 @@
    上述的3，4，5步不是必须的，你也可以线下本地开发。
 
 
-本章我们引入了用户程序。为了将内核与应用解耦，我们将二者分成了两个仓库，分别是存放内核程序的 ``rCore-Tutorial-Code-20xxx`` （下称代码仓库，最后几位 x 表示学期）与存放用户程序的 ``rCore-Tutorial-Test-20xxx`` （下称测例仓库）。 你首先需要进入代码仓库文件夹并 clone 用户程序仓库（如果已经执行过该步骤则不需要再重复执行）：
+本章我们引入了用户程序。
 
 .. code-block:: console
 
    $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
    $ cd rust-based-os-comp2022
-
-上面的指令会将测例仓库克隆到代码仓库下并命名为 ``user`` ，注意 ``/user`` 在代码仓库的 ``.gitignore`` 文件中，因此不会出现 ``.git`` 文件夹嵌套的问题，并且你在代码仓库进行 checkout 操作时也不会影响测例仓库的内容。
+   $ make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
 在 qemu 模拟器上运行本章代码：
 
