@@ -7,10 +7,10 @@ Welcome to OS Tutorial Summer of Code 2022（2022年开源操作系统夏令营�
 - [rust-based os comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [rust-based os comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 ## Guide
-- Guide deployed version can be found [here](https://LearningOS.github.io/rCore-Tutorial-Guide-2022S/).
-- Source of Guide is in 'guide' DIR
+- Guide deployed version can be found [here](https://learningos.github.io/rust-based-os-comp2022/)（精简的OS实验指导）
+- [rCore Tutorial v3 Guide](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) (简易OS教材讲义)
 
-First, you can read [Guide](https://LearningOS.github.io/rCore-Tutorial-Guide-2022S/) to:
+First, you can read [Guide](https://learningos.github.io/rust-based-os-comp2022/) to:
 
 - setup development environment.
 - analyze and try os in ch1 and ch2.
@@ -22,7 +22,7 @@ The 'os[1-8]-ref' are the 'os[1-8]'  reference framework.  You can read and copy
 ## kernel labs
 There are five kernel labs.
 
-According to the  [Guide](https://LearningOS.github.io/rCore-Tutorial-Guide-2022S/), write os codes for:
+According to the  [Guide](https://learningos.github.io/rust-based-os-comp2022/), write os codes for:
 - lab1 in 'os3' DIR
 - lab2 in 'os4' DIR
 - lab3 in 'os5' DIR
