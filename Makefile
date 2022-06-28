@@ -81,5 +81,5 @@ setupenv:
 	tar xvJf qemu-7.0.0.tar.xz
 	cd qemu-7.0.0
 	./configure --target-list=riscv64-softmmu
-	make
+	make install
 
