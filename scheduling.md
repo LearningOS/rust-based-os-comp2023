@@ -86,6 +86,7 @@
 - 学习理解[OS课程slides](https://learningos.github.io/os-lectures/)
 - 学习了解 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/)
 - 学习理解[rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
+- 课程视频：请向组织者申请
   
 ### 通过要求
 根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的[具体实验要求](https://learningos.github.io/rCore-Tutorial-Guide-2022S/)在自己的仓库中完成5个实验，并通过测试。
