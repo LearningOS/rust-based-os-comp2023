@@ -4,8 +4,8 @@ Welcome to OS Tutorial Summer of Code 2022（2022年开源操作系统训练营�
 ## Scheduling
 - NOTICE current [scheduling](./scheduling.md)（2022年开源操作系统训练营的计划安排）!
 ## History
-- [rust-based os comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
-- [rust-based os comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
+- [open-source  os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
+- [open-source  os training  comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 ## Guide
 - Guide deployed version can be found [here](https://learningos.github.io/rust-based-os-comp2022/)（精简OS实验指导）
 - [rCore Tutorial v3 Guide](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) (2022春季OS课程讲义)
