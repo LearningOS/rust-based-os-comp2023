@@ -306,7 +306,7 @@
 <li><p>完成第二步后，你的第二个实验的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。</p></li>
 <li><p>在你的第二个实验的网页的中上部可以看到一个醒目的 <cite>code</cite>  绿色按钮，点击后，可以进一步看到  <cite>codespace</cite> 标签和醒目的 <cite>create codesapce on main</cite> 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中</p></li>
 <li><p>再按照下面的环境安装提示在vscode的 <cite>console</cite> 中安装配置开发环境：rustc，qemu等工具。</p></li>
-<li><p>在vscode的 <cite>console</cite> 中执行 <cite>make setupclassroom</cite>  （该命令仅执行一次）配置githubclassroom 自动评分功能。</p></li>
+<li><p>在vscode的 <cite>console</cite> 中执行 <cite>make setupclassroom_test4</cite>  （该命令仅执行一次）配置githubclassroom 自动评分功能。</p></li>
 <li><p>然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。</p></li>
 </ol>
 <p>上述的3，4，5步不是必须的，你也可以线下本地开发。</p>
@@ -315,7 +315,7 @@
 <p>获取本章代码：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/LearningOS/rust-based-os-comp2022.git
 <span class="gp">$ </span><span class="nb">cd</span> rust-based-os-comp2022/
-<span class="gp">$ </span>make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
+<span class="gp">$ </span>make setupclassroom_test4  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 </pre></div>
 </div>
 <p>在 qemu 模拟器上运行 <a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os4-ref">lab2(os4)参考框架:</a> ：</p>
