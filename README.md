@@ -43,3 +43,6 @@ According to the  [Guide](https://learningos.github.io/rust-based-os-comp2022/),
 - lab3: `make test5`  for lab3
 - lab4: `make test6`  &&  `make test7` for lab4 
 - lab5: `make test8`  for lab5 
+
+## Send issues
+If  you meet any problems or some difficulties, please send issues to [Issues in rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022/issues)
