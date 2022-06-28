@@ -4,7 +4,5 @@ Cargo.lock
 target
 os/src/link_app.S
 os/last-*
-user
-ci-user/
 tools
 workplace/
