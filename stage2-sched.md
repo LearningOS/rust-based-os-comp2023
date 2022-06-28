@@ -33,6 +33,26 @@
   - https://github.com/rcore-os/rCore-Tutorial-v3
   - https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html
 
+### 操作系统课程的有趣大实验
+1. 项目标题：操作系统课程的有趣大实验
+2. 项目描述：操作系统课程的大实验的重要目标基于学生兴趣来开展各种操作系统技术的探索，拓展学生的视野，培养未来操作系统人才。
+3. 项目难度：中/高
+4. 项目社区导师：向勇 github id: xyongcn     weichat id: xyongcn 
+5. 项目产出要求：
+   - 各种大实验的设计与实现
+
+6. 项目技术要求：
+   - 具备一定的 Rust 语言基础，能看懂并模仿现有代码即可
+   - 熟悉操作系统原理与简易实现
+   - 具有基础英文阅读和写作能力
+
+7. 2022春季OS课相关大实验的开源软件仓库列表：
+  - [类似ebpf的rcore trace](https://github.com/latte-c/rvjit)
+  - [硬件级用户态中断模拟与系统软件支持](https://github.com/OS-F-4/usr-intr)
+  - [支持异步协程的zCore](https://github.com/orgs/OSLab-zCore/)
+  - [用rust重新实现FreeRTOS](https://github.com/LDYang694/RFREERTOS)
+  - [用rust重新实现Linux的KVM](https://github.com/KaitoD/linux) 
+
 ### zCore 的文档与单元测试完善
 
 1. 项目标题：zCore 的文档与单元测试完善
@@ -125,3 +145,4 @@
    - https://github.com/equation314/rCore/tree/rvm （正在开发中的包含 RVM 的 rCore 仓库）
    - https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials （树莓派上的 Rust OS 教程）
    - https://github.com/siemens/jailhouse （基于 Linux module 的 Hypervisor）
+
