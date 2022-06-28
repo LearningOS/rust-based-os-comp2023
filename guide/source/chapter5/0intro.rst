@@ -15,7 +15,7 @@
    3. 完成第二步后，你的第三个实验的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。
    4. 在你的第三个实验的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到  `codespace` 标签和醒目的 `create codesapce on main` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
    5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc，qemu等工具。
-   6. 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
+   6. 在vscode的 `console` 中执行 `make setupclassroom_test5`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
    7. 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
 
    上述的3，4，5步不是必须的，你也可以线下本地开发。
@@ -41,7 +41,7 @@
 
    $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
    $ cd rust-based-os-comp2022/
-   $ make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
+   $ make setupclassroom_test5  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
 
 在 qemu 模拟器上运行`lab3(os5)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os5-ref>`_ ：

@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "run_os7",
+      "setup": "",
+      "run": "make test7",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 15,
+      "points": 100
+    }
+  ]
+}
