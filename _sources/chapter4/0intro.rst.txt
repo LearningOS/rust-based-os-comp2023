@@ -16,46 +16,24 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch4
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Test-2022S.git user
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022/
 
-或许你之前已经克隆过了仓库，只希望从远程仓库更新，而非再克隆一次：
+在 qemu 模拟器上运行 `lab2(os4)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os4-ref>`_ ：
 
 .. code-block:: console
 
-   $ cd rCore-Tutorial-Code-2022S
-   # 你可以将 upstream 改为你喜欢的名字
-   $ git remote add upstream https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   # 更新仓库信息
-   $ git fetch upstream
-   # 查看已添加的远程仓库；应该能看到已有一个 origin 和新添加的 upstream 仓库
-   $ git remote -v
-   # 根据需求选择以下一种操作即可
-   # 在本地新建一个与远程仓库对应的分支：
-   $ git checkout -b ch4 upstream/ch4
-   # 本地已有分支，从远程仓库更新：
-   $ git checkout ch4
-   $ git merge upstream/ch4
-   # 将更新推送到自己的远程仓库
-   $ git push origin ch4
-
-在 qemu 模拟器上运行本章代码：
-
-.. code-block:: console
-
-   $ cd os
+   $ cd os4-ref
    $ make run
 
 
-本章代码树
------------------------------------------------------
+`lab2(os4)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os4-ref>`_
+--------------------------------------------------------------------------------------------------------------------
 
 .. code-block::
   :linenos:
 
-  ├── os
+  ├── os4-ref
   │   ├── ...
   │   └── src
   │       ├── ...
@@ -91,7 +69,7 @@
           ├── linker.ld(修改：将所有应用放在各自地址空间中固定的位置)
           └── ...
 
-   cloc os
+   cloc os4-ref
    -------------------------------------------------------------------------------
    Language                     files          blank        comment           code
    -------------------------------------------------------------------------------

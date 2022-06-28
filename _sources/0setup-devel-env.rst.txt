@@ -126,7 +126,7 @@ Rust 开发环境配置
 Qemu 模拟器安装
 ----------------------------------------
 
-我们需要使用 Qemu 5.0.0 版本进行实验，为此，从源码手动编译安装 Qemu 模拟器：
+我们需要使用 Qemu 7.0.0 版本进行实验，为此，从源码手动编译安装 Qemu 模拟器：
 
 .. attention::
 
@@ -141,11 +141,11 @@ Qemu 模拟器安装
    # 下载源码包
    # 如果下载速度过慢可以使用我们提供的百度网盘链接：https://pan.baidu.com/s/1z-iWIPjxjxbdFS2Qf-NKxQ
    # 提取码 8woe
-   wget https://download.qemu.org/qemu-5.0.0.tar.xz
+   wget https://download.qemu.org/qemu-7.0.0.tar.xz
    # 解压
-   tar xvJf qemu-5.0.0.tar.xz
+   tar xvJf qemu-7.0.0.tar.xz
    # 编译安装并配置 RISC-V 支持
-   cd qemu-5.0.0
+   cd qemu-7.0.0
    ./configure --target-list=riscv64-softmmu,riscv64-linux-user
    make -j$(nproc)
 
@@ -169,10 +169,10 @@ Qemu 模拟器安装
 
 .. code-block:: bash
 
-   # 请注意，qemu-5.0.0 的父目录可以随着你的实际安装位置灵活调整
-   export PATH=$PATH:/home/shinbokuow/Downloads/built/qemu-5.0.0
-   export PATH=$PATH:/home/shinbokuow/Downloads/built/qemu-5.0.0/riscv64-softmmu
-   export PATH=$PATH:/home/shinbokuow/Downloads/built/qemu-5.0.0/riscv64-linux-user
+   # 请注意，qemu-7.0.0 的父目录可以随着你的实际安装位置灵活调整
+   export PATH=$PATH:/home/shinbokuow/Downloads/built/qemu-7.0.0
+   export PATH=$PATH:/home/shinbokuow/Downloads/built/qemu-7.0.0/riscv64-softmmu
+   export PATH=$PATH:/home/shinbokuow/Downloads/built/qemu-7.0.0/riscv64-linux-user
 
 随后即可在当前终端 ``source ~/.bashrc`` 更新系统路径，或者直接重启一个新的终端。
 
@@ -188,38 +188,38 @@ Qemu 模拟器安装
 
 .. code-block:: bash
 
-   git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S
-   cd rCore-Tutorial-Code-2022S
+   git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   cd rust-based-os-comp2022
 
-我们先运行不需要处理用户代码的 ch1 分支：
+我们先运行不需要处理用户代码的裸机操作系统 ``os1`` ：
 
 .. code-block:: bash
 
-   git checkout ch1
-   cd os
+   cd os1
    LOG=DEBUG make run
 
 如果你的环境配置正确，你应当会看到如下输出：
 
 .. code-block:: bash
 
-   [rustsbi] RustSBI version 0.2.0-alpha.4
+   [rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0
    .______       __    __      _______.___________.  _______..______   __
    |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
    |  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
    |      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |
    |  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
    | _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
-
-   [rustsbi] Implementation: RustSBI-QEMU Version 0.0.1
-   [rustsbi-dtb] Hart count: cluster0 with 1 cores
-   [rustsbi] misa: RV64ACDFIMSU
-   [rustsbi] mideleg: ssoft, stimer, sext (0x222)
-   [rustsbi] medeleg: ima, ia, bkpt, la, sa, uecall, ipage, lpage, spage (0xb1ab)
-   [rustsbi] pmp0: 0x80000000 ..= 0x800fffff (rwx)
-   [rustsbi] pmp1: 0x80000000 ..= 0x807fffff (rwx)
-   [rustsbi] pmp2: 0x0 ..= 0xffffffffffffff (---)
-   [rustsbi] enter supervisor 0x80200000
+   [rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1
+   [rustsbi] Platform Name      : riscv-virtio,qemu
+   [rustsbi] Platform SMP       : 1
+   [rustsbi] Platform Memory    : 0x80000000..0x88000000
+   [rustsbi] Boot HART          : 0
+   [rustsbi] Device Tree Region : 0x87000000..0x87000ef2
+   [rustsbi] Firmware Address   : 0x80000000
+   [rustsbi] Supervisor Address : 0x80200000
+   [rustsbi] pmp01: 0x00000000..0x80000000 (-wr)
+   [rustsbi] pmp02: 0x80000000..0x80200000 (---)
+   [rustsbi] pmp03: 0x80200000..0x88000000 (xwr)
    Hello, world!
    [DEBUG] .rodata [0x80203000, 0x80205000)
    [ INFO] .data [0x80205000, 0x80206000)

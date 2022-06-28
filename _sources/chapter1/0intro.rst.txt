@@ -43,15 +43,14 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch1
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022/
 
 运行本章代码，并设置日志级别为 ``TRACE``：
 
 .. code-block:: console
 
-   $ cd os
+   $ cd os1
    $ make run LOG=TRACE
 
 

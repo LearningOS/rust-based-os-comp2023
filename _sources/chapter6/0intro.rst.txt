@@ -13,15 +13,14 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch6
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022/
 
-在 qemu 模拟器上运行本章代码：
+在 qemu 模拟器上运行本章代码参考框架：
 
 .. code-block:: console
 
-   $ cd os
+   $ cd os6-ref
    $ make run
 
 内核初始化完成之后就会进入shell程序，在这里我们运行一下本章的测例 ``ch6b_filetest_simple`` ：
@@ -42,8 +41,8 @@
    Shell: Process 2 exited with code 0
    >>
 
-本章代码树
------------------------------------------
+easy-fs和 `lab4(os6)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os6-ref>`_ 
+-------------------------------------------------------------------------------------------------------------------
 
 .. code-block::
    :linenos:

@@ -24,10 +24,8 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch2
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Test-2022S.git user
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022
 
 上面的指令会将测例仓库克隆到代码仓库下并命名为 ``user`` ，注意 ``/user`` 在代码仓库的 ``.gitignore`` 文件中，因此不会出现 ``.git`` 文件夹嵌套的问题，并且你在代码仓库进行 checkout 操作时也不会影响测例仓库的内容。
 
@@ -35,7 +33,7 @@
 
 .. code-block:: console
 
-   $ cd os
+   $ cd os2
    $ make run LOG=INFO
 
 批处理系统自动加载并运行了所有的用户程序，尽管某些程序出错了：
@@ -98,7 +96,7 @@
 
 .. code-block::
 
-   ── os
+   ── os2
    │   ├── Cargo.toml
    │   ├── Makefile (修改：构建内核之前先构建应用)
    │   ├── build.rs (新增：生成 link_app.S 将应用作为一个数据段链接到内核)

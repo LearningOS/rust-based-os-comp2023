@@ -23,20 +23,18 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Code-2022S.git
-   $ cd rCore-Tutorial-Code-2022S
-   $ git checkout ch5
-   $ git clone https://github.com/LearningOS/rCore-Tutorial-Test-2022S.git user
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022/
 
 请仿照ch4的做法将代码在本地更新并push到自己的实验仓库中。
 
 注意：user仓库有对ch5的测例更新，请重新clone或者使用git pull等获取。
 
-在 qemu 模拟器上运行本章代码：
+在 qemu 模拟器上运行`lab3(os5)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os5-ref>`_ ：
 
 .. code-block:: console
 
-   $ cd os
+   $ cd os5-ref
    $ make run
 
 待内核初始化完毕之后，将在屏幕上打印可用的应用列表并进入shell程序：
@@ -98,13 +96,13 @@
    child process pid = 3, exit code = 100
    Shell: Process 2 exited with code 0
 
-本章代码树
---------------------------------------
+`lab3(os5)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os5-ref>`_
+----------------------------------------------------------------------------------------------------------------------
 
 .. code-block::
    :linenos:
 
-   ├── os
+   ├── os5-ref
       ├── build.rs(修改：基于应用名的应用构建器)
       ├── ...
       └── src
