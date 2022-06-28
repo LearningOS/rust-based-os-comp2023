@@ -46,13 +46,14 @@
    - 熟悉操作系统原理与简易实现
    - 具有基础英文阅读和写作能力
 
-7. 2022春季OS课相关大实验的开源软件仓库列表：
+7. 2022春季OS课相关大实验的开源软件仓库列表(鼓励进一步改进和扩展)：
   - [类似ebpf的rcore trace](https://github.com/latte-c/rvjit)
   - [硬件级用户态中断模拟与系统软件支持](https://github.com/OS-F-4/usr-intr)
   - [支持异步协程的zCore](https://github.com/orgs/OSLab-zCore/)
   - [用rust重新实现FreeRTOS](https://github.com/LDYang694/RFREERTOS)
   - [用rust重新实现Linux的KVM](https://github.com/KaitoD/linux) 
-
+  - [基于x86_64的rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3-x86_64)
+  - [基于AARCH64的rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3-arm64)
 ### zCore 的文档与单元测试完善
 
 1. 项目标题：zCore 的文档与单元测试完善
