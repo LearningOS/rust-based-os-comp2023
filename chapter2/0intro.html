@@ -303,6 +303,21 @@
 </div>
 <div class="section" id="id3">
 <h2>实践体验<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>基于github classroom的开发方式</p>
+<p>基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。</p>
+<ol class="arabic simple">
+<li><p>在网络浏览器中用自己的 github id 登录 github.com</p></li>
+<li><p>接收 <a class="reference external" href="https://classroom.github.com/a/UEOvz4qO">第二个实验练习的github classroom在线邀请</a>  ，根据提示一路选择OK即可。</p></li>
+<li><p>完成第二步后，你的第二个实验练习的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。</p></li>
+<li><p>在你的第二个实验练习的网页的中上部可以看到一个醒目的 <cite>code</cite>  绿色按钮，点击后，可以进一步看到  <cite>codespace</cite> 标签和醒目的 <cite>create codesapce on main</cite> 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中</p></li>
+<li><p>再按照下面的环境安装提示在vscode的 <cite>console</cite> 中安装配置开发环境：rustc，qemu等工具。</p></li>
+<li><p>在vscode的 <cite>console</cite> 中执行 <cite>make setupclassroom</cite>  （该命令仅执行一次）配置githubclassroom 自动评分功能。</p></li>
+<li><p>然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。</p></li>
+</ol>
+<p>上述的3，4，5步不是必须的，你也可以线下本地开发。</p>
+</div>
 <p>本章我们引入了用户程序。为了将内核与应用解耦，我们将二者分成了两个仓库，分别是存放内核程序的 <code class="docutils literal notranslate"><span class="pre">rCore-Tutorial-Code-20xxx</span></code> （下称代码仓库，最后几位 x 表示学期）与存放用户程序的 <code class="docutils literal notranslate"><span class="pre">rCore-Tutorial-Test-20xxx</span></code> （下称测例仓库）。 你首先需要进入代码仓库文件夹并 clone 用户程序仓库（如果已经执行过该步骤则不需要再重复执行）：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/LearningOS/rust-based-os-comp2022.git
 <span class="gp">$ </span><span class="nb">cd</span> rust-based-os-comp2022
