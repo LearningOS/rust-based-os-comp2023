@@ -1,8 +1,8 @@
-# rust-based os comp 2022
+# Open-Source OS Training Comp 2022
 
-Welcome to OS Tutorial Summer of Code 2022（2022年开源操作系统训练营）.
+Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练营）.
 ## Scheduling
-- NOTICE current [scheduling](./scheduling.md)（2022年开源操作系统训练营的计划安排）!
+- NOTICE current [**SCHEDULING**](./scheduling.md)（2022年开源操作系统训练营的计划安排）!
 ## History
 - [open-source  os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source  os training  comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
