@@ -70,8 +70,8 @@ build_docker:
 	docker build -t ${DOCKER_NAME} .
 
 setupenv:
-	apt-get update
-	apt-get install -y curl wget autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc xz-utils zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3
+	sudo apt-get update
+	sudo apt-get install -y curl wget autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc xz-utils zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3
 	RUSTUP='$HOME/rustup.sh'
 	cd $HOME
 	curl https://sh.rustup.rs -sSf > $RUSTUP && chmod +x $RUSTUP
