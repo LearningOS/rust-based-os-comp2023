@@ -1,0 +1,35 @@
+name: Deploy Guide
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-doc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8.10"
+      - name: Install dependencies
+        run: |
+          cd guide
+          pip install -r requirements.txt
+
+      - name: build doc
+        run: |
+          cd guide
+          make html
+
+      - name: create .nojekyll
+        run: |
+          cd guide
+          touch build/html/.nojekyll
+
+      - name: Push to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./guide/build/html
