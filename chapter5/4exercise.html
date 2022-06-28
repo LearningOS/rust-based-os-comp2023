@@ -290,10 +290,10 @@
         </div>
         <div class="section" id="chapter5">
 <h1>chapter5练习<a class="headerlink" href="#chapter5" title="永久链接至标题">¶</a></h1>
+<div class="section" id="lab3">
+<h2>Lab3 编程作业<a class="headerlink" href="#lab3" title="永久链接至标题">¶</a></h2>
 <div class="section" id="id1">
-<h2>编程作业<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id2">
-<h3>进程创建<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<h3>进程创建<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
 <p>大家一定好奇过为啥进程创建要用 fork + exec 这么一个奇怪的系统调用，就不能直接搞一个新进程吗？
 思而不学则殆，我们就来试一试！这章的编程练习请大家实现一个完全 DIY 的系统调用 spawn，用以创建一个新进程。</p>
 <p>spawn 系统调用定义( <a class="reference external" href="https://man7.org/linux/man-pages/man3/posix_spawn.3.html">标准spawn看这里</a> )：</p>
@@ -355,13 +355,13 @@ BigStride 表示一个预先定义的大常数，则该调度方案为每个进�
 <p>背景知识： <a class="reference external" href="https://rcore-os.github.io/rCore-Tutorial-Book-v3/chapter4/1rust-dynamic-allocation.html">Rust 中的动态内存分配</a></p>
 </div>
 </div>
-<div class="section" id="id3">
-<h3>实验要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id2">
+<h3>实验要求<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <ul>
-<li><p>实现分支：ch5。</p></li>
-<li><p>实验目录请参考 ch3。注意在reports中放入lab1-3的所有报告。</p></li>
+<li><p><a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os5-ref">lab3(os5)参考框架:</a></p></li>
+<li><p>实验目录在 <code class="docutils literal notranslate"><span class="pre">os5</span></code> 。注意在reports中放入lab1-3的所有报告。</p></li>
 <li><p>通过所有测例。</p>
-<p>在 os 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span> <span class="pre">BASE=2</span></code> 加载所有测例， <code class="docutils literal notranslate"><span class="pre">ch5_usertest</span></code> 打包了所有你需要通过的测例，
+<p>在 os5 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span> <span class="pre">BASE=2</span></code> 加载所有测例， <code class="docutils literal notranslate"><span class="pre">ch5_usertest</span></code> 打包了所有你需要通过的测例，
 你也可以通过修改这个文件调整本地测试的内容, 或者单独运行某测例来纠正特定的错误。 <code class="docutils literal notranslate"><span class="pre">ch5_stride</span></code>
 检查 stride 调度算法是否满足公平性要求，六个子程序运行的次数应该大致与其优先级呈正比，测试通过标准是
 <span class="math notranslate nohighlight">\(\max{\frac{runtimes}{prio}}/ \min{\frac{runtimes}{prio}} &lt; 1.5\)</span>.</p>
@@ -375,8 +375,8 @@ BigStride 表示一个预先定义的大常数，则该调度方案为每个进�
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>问答作业<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h2>问答作业<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
 <p>stride 算法深入</p>
 <blockquote>
 <div><p>stride 算法原理非常简单，但是有一个比较大的问题。例如两个 pass = 10 的进程，使用 8bit 无符号整形储存
@@ -411,8 +411,8 @@ stride， p1.stride = 255, p2.stride = 250，在 p2 执行一个时间片后，�
 <p>TIPS: 使用 8 bits 存储 stride, BigStride = 255, 则: <code class="docutils literal notranslate"><span class="pre">(125</span> <span class="pre">&lt;</span> <span class="pre">255)</span> <span class="pre">==</span> <span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">(129</span> <span class="pre">&lt;</span> <span class="pre">255)</span> <span class="pre">==</span> <span class="pre">true</span></code>.</p>
 </div></blockquote>
 </div>
-<div class="section" id="id5">
-<h2>报告要求<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h2>报告要求<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
 <ul class="simple">
 <li><p>简单总结你实现的功能（200字以内，不要贴代码）。</p></li>
 <li><p>完成问答题。</p></li>
@@ -476,14 +476,14 @@ stride， p1.stride = 255, p2.stride = 250，在 p2 执行一个时间片后，�
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">chapter5练习</a><ul>
-<li><a class="reference internal" href="#id1">编程作业</a><ul>
-<li><a class="reference internal" href="#id2">进程创建</a></li>
+<li><a class="reference internal" href="#lab3">Lab3 编程作业</a><ul>
+<li><a class="reference internal" href="#id1">进程创建</a></li>
 <li><a class="reference internal" href="#stride">stride 调度算法</a></li>
-<li><a class="reference internal" href="#id3">实验要求</a></li>
+<li><a class="reference internal" href="#id2">实验要求</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">问答作业</a></li>
-<li><a class="reference internal" href="#id5">报告要求</a></li>
+<li><a class="reference internal" href="#id3">问答作业</a></li>
+<li><a class="reference internal" href="#id4">报告要求</a></li>
 </ul>
 </li>
 </ul>

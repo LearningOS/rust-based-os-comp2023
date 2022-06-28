@@ -1,7 +1,7 @@
 chapter4练习
 ============================================
 
-编程作业
+Lab2 编程作业
 ---------------------------------------------
 
 重写 sys_get_time 和 sys_task_info
@@ -60,9 +60,9 @@ tips:
 实验要求
 ++++++++++++++++++++++++++++++++++++++++++
 
-- 实现分支：ch4。
-- 实现 mmap 和 munmap 两个系统调用，通过所有测例。
-- 实验目录请参考 ch3，报告命名 lab2.md/pdf
+-  `lab2(os4)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os4-ref>`_
+- 在 ``os4`` 目录下，实现 mmap 和 munmap 两个系统调用，通过所有测例。
+- 报告命名 lab2.md，位于 ``reports`` 目录下
 
 TIPS：注意 port 参数的语义，它与内核定义的 MapPermission 有明显不同！
 

@@ -290,8 +290,8 @@
         </div>
         <div class="section" id="chapter4">
 <h1>chapter4练习<a class="headerlink" href="#chapter4" title="永久链接至标题">¶</a></h1>
-<div class="section" id="id1">
-<h2>编程作业<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="lab2">
+<h2>Lab2 编程作业<a class="headerlink" href="#lab2" title="永久链接至标题">¶</a></h2>
 <div class="section" id="sys-get-time-sys-task-info">
 <h3>重写 sys_get_time 和 sys_task_info<a class="headerlink" href="#sys-get-time-sys-task-info" title="永久链接至标题">¶</a></h3>
 <p>引入虚存机制后，原来内核的 sys_get_time 和 sys_task_info 函数实现就无效了。请你重写这个函数，恢复其正常功能。</p>
@@ -365,18 +365,18 @@
 <li><p>你增加 PTE_U 了吗？</p></li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h3>实验要求<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id1">
+<h3>实验要求<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><p>实现分支：ch4。</p></li>
-<li><p>实现 mmap 和 munmap 两个系统调用，通过所有测例。</p></li>
-<li><p>实验目录请参考 ch3，报告命名 lab2.md/pdf</p></li>
+<li><p><a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os4-ref">lab2(os4)参考框架:</a></p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">os4</span></code> 目录下，实现 mmap 和 munmap 两个系统调用，通过所有测例。</p></li>
+<li><p>报告命名 lab2.md，位于 <code class="docutils literal notranslate"><span class="pre">reports</span></code> 目录下</p></li>
 </ul>
 <p>TIPS：注意 port 参数的语义，它与内核定义的 MapPermission 有明显不同！</p>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>问答作业<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h2>问答作业<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <ol class="arabic">
 <li><p>请列举 SV39 页表页表项的组成，描述其中的标志位有何作用？</p></li>
 <li><dl>
@@ -418,8 +418,8 @@
 </li>
 </ol>
 </div>
-<div class="section" id="id4">
-<h2>报告要求<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h2>报告要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
 <ul class="simple">
 <li><p>简单总结你实现的功能（200字以内，不要贴代码）。</p></li>
 <li><p>完成问答题。</p></li>
@@ -483,14 +483,14 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">chapter4练习</a><ul>
-<li><a class="reference internal" href="#id1">编程作业</a><ul>
+<li><a class="reference internal" href="#lab2">Lab2 编程作业</a><ul>
 <li><a class="reference internal" href="#sys-get-time-sys-task-info">重写 sys_get_time 和 sys_task_info</a></li>
 <li><a class="reference internal" href="#mmap-munmap">mmap 和 munmap 匿名映射</a></li>
-<li><a class="reference internal" href="#id2">实验要求</a></li>
+<li><a class="reference internal" href="#id1">实验要求</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id3">问答作业</a></li>
-<li><a class="reference internal" href="#id4">报告要求</a></li>
+<li><a class="reference internal" href="#id2">问答作业</a></li>
+<li><a class="reference internal" href="#id3">报告要求</a></li>
 </ul>
 </li>
 </ul>

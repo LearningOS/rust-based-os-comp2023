@@ -290,10 +290,10 @@
         </div>
         <div class="section" id="chapter6">
 <h1>chapter6练习<a class="headerlink" href="#chapter6" title="永久链接至标题">¶</a></h1>
+<div class="section" id="lab4">
+<h2>Lab4 编程作业<a class="headerlink" href="#lab4" title="永久链接至标题">¶</a></h2>
 <div class="section" id="id1">
-<h2>编程作业<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
-<div class="section" id="id2">
-<h3>硬链接<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<h3>硬链接<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
 <p>硬链接要求两个不同的目录项指向同一个文件，在我们的文件系统中也就是两个不同名称目录项指向同一个磁盘块。</p>
 <p>本节要求实现三个系统调用 <code class="docutils literal notranslate"><span class="pre">sys_linkat、sys_unlinkat、sys_stat</span></code> 。</p>
 <p><strong>linkat</strong>：</p>
@@ -408,13 +408,13 @@
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="id3">
-<h3>实验要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id2">
+<h3>实验要求<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <ul>
-<li><p>实现分支：ch6。</p></li>
+<li><p><a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os6-ref">lab4(os6)参考框架:</a></p></li>
 <li><p>实验目录要求不变。</p></li>
 <li><p>通过所有测例。</p>
-<p>在 os 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span> <span class="pre">BASE=2</span></code> 加载所有测例， <code class="docutils literal notranslate"><span class="pre">ch6_usertest</span></code> 打包了所有你需要通过的测例，你也可以通过修改这个文件调整本地测试的内容。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">os6</span></code> 目录下 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span> <span class="pre">BASE=2</span></code> 加载所有测例， <code class="docutils literal notranslate"><span class="pre">ch6_usertest</span></code> 打包了所有你需要通过的测例，你也可以通过修改这个文件调整本地测试的内容。</p>
 <p>你的内核必须前向兼容，能通过前一章的所有测例。</p>
 </li>
 </ul>
@@ -426,14 +426,14 @@
 </div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>问答作业<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h2>问答作业<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
 <ol class="arabic simple">
 <li><p>在我们的easy-fs中，root inode起着什么作用？如果root inode中的内容损坏了，会发生什么？</p></li>
 </ol>
 </div>
-<div class="section" id="id5">
-<h2>报告要求<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h2>报告要求<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
 <ul class="simple">
 <li><p>简单总结你实现的功能（200字以内，不要贴代码）。</p></li>
 <li><p>完成问答题。</p></li>
@@ -497,13 +497,13 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">chapter6练习</a><ul>
-<li><a class="reference internal" href="#id1">编程作业</a><ul>
-<li><a class="reference internal" href="#id2">硬链接</a></li>
-<li><a class="reference internal" href="#id3">实验要求</a></li>
+<li><a class="reference internal" href="#lab4">Lab4 编程作业</a><ul>
+<li><a class="reference internal" href="#id1">硬链接</a></li>
+<li><a class="reference internal" href="#id2">实验要求</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">问答作业</a></li>
-<li><a class="reference internal" href="#id5">报告要求</a></li>
+<li><a class="reference internal" href="#id3">问答作业</a></li>
+<li><a class="reference internal" href="#id4">报告要求</a></li>
 </ul>
 </li>
 </ul>

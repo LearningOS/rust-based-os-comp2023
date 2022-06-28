@@ -290,19 +290,19 @@
         </div>
         <div class="section" id="chapter8">
 <h1>chapter8 练习<a class="headerlink" href="#chapter8" title="永久链接至标题">¶</a></h1>
-<div class="section" id="id1">
-<h2>编程作业<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="lab5">
+<h2>Lab5 编程作业<a class="headerlink" href="#lab5" title="永久链接至标题">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">警告</p>
 <p>本次实验框架变动较大，且改动较为复杂，为降低同学们的工作量，本次实验不要求合并之前的实验内容，
-只需通过 ch8 的全部测例和其他章节的基础测例即可。你可以直接在实验框架的 ch8 分支上完成以下作业。</p>
+只需通过 ch8 的全部测例和其他章节的基础测例即可。你可以参考  <a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os8-ref">lab5(os8)参考框架:</a> 上完成以下作业。</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
 <p>本次实验的工作量约为 100 行代码。</p>
 </div>
-<div class="section" id="id2">
-<h3>死锁检测<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id1">
+<h3>死锁检测<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h3>
 <p>目前的 mutex 和 semaphore 相关的系统调用不会分析资源的依赖情况，用户程序可能出现死锁。
 我们希望在系统中加入死锁检测机制，当发现可能发生死锁时拒绝对应的资源获取请求。
 一种检测死锁的算法如下：</p>
@@ -376,11 +376,11 @@ m 个元素。初始时，Work = Available ；结束向量 Finish，表示系统
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>实验要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id2">
+<h3>实验要求<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
 <ul class="simple">
-<li><p>完成分支: ch8。</p></li>
-<li><p>实验目录要求不变。</p></li>
+<li><p><a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os8-ref">lab5(os8)参考框架:</a></p></li>
+<li><p>实验目录在 <code class="docutils literal notranslate"><span class="pre">os8</span></code> 。</p></li>
 <li><p>通过所有测例。</p></li>
 </ul>
 </div>
@@ -484,9 +484,9 @@ m 个元素。初始时，Work = Available ；结束向量 Finish，表示系统
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">chapter8 练习</a><ul>
-<li><a class="reference internal" href="#id1">编程作业</a><ul>
-<li><a class="reference internal" href="#id2">死锁检测</a></li>
-<li><a class="reference internal" href="#id3">实验要求</a></li>
+<li><a class="reference internal" href="#lab5">Lab5 编程作业</a><ul>
+<li><a class="reference internal" href="#id1">死锁检测</a></li>
+<li><a class="reference internal" href="#id2">实验要求</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id4">问答作业</a></li>
