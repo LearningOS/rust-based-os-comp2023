@@ -28,13 +28,13 @@ There are two simple practice work, and five kernel labs.
 注：登录github.com，点击并打开下面的lab0~lab5的github classroom的链接后，点击醒目绿色按钮"Accept this assignment"选择接受，github就为你创建了一个对应实验的git repo
 
 According to the  [Guide](https://learningos.github.io/rust-based-os-comp2022/), write os codes for:
-- [lab0-0 setup env in 'os1' DIR](https://classroom.github.com/a/hnoWuKGF)
-- [lab0-1 try something in os2 in 'os2' DIR](https://classroom.github.com/a/UEOvz4qO)
-- [lab1 in 'os3' DIR](https://classroom.github.com/a/s1v7GyJM)
-- [lab2 in 'os4' DIR](https://classroom.github.com/a/ghbB1wYX)
-- [lab3 in 'os5' DIR](https://classroom.github.com/a/RxB6h4-x)
-- [lab4 in 'os6' DIR](https://classroom.github.com/a/94eMW8zi)
-- [lab5 in 'os8' DIR](https://classroom.github.com/a/zqGJEPK-)
+- [lab0-0 setup env in 'os1' DIR](https://classroom.github.com/a/hnoWuKGF) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter1/0intro.html#id4)
+- [lab0-1 try something in os2 in 'os2' DIR](https://classroom.github.com/a/UEOvz4qO) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter2/0intro.html#id3)
+- [lab1 in 'os3' DIR](https://classroom.github.com/a/s1v7GyJM) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter3/0intro.html#id3)
+- [lab2 in 'os4' DIR](https://classroom.github.com/a/ghbB1wYX) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter4/0intro.html#id3)
+- [lab3 in 'os5' DIR](https://classroom.github.com/a/RxB6h4-x) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter5/0intro.html#id3)
+- [lab4 in 'os6' DIR](https://classroom.github.com/a/94eMW8zi) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter6/0intro.html#id3)
+- [lab5 in 'os8' DIR](https://classroom.github.com/a/zqGJEPK-) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter8/0intro.html#id5)
 
 
 ## Check your results
