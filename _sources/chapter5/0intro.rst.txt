@@ -41,10 +41,8 @@
 
    $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
    $ cd rust-based-os-comp2022/
+   $ make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
-请仿照ch4的做法将代码在本地更新并push到自己的实验仓库中。
-
-注意：user仓库有对ch5的测例更新，请重新clone或者使用git pull等获取。
 
 在 qemu 模拟器上运行`lab3(os5)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os5-ref>`_ ：
 

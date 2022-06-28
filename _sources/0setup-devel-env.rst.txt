@@ -23,6 +23,24 @@ OS 环境配置
 
 Windows10 用户可以通过系统内置的 **WSL2** 虚拟机（请不要使用 WSL1）来安装 Ubuntu 18.04 / 20.04 。读者请自行在互联网上搜索相关安装教程，或 `适用于 Linux 的 Windows 子系统安装指南 (Windows 10) <https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package>`_ 。
 
+
+.. note::
+
+   **基于github classroom的开发方式**
+   
+   基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
+
+   1. 在网络浏览器中用自己的 github  id 登录 github.com
+   2. 接收 `第一个实验练习 setup-env-run-os1 的github classroom在线邀请 <https://classroom.github.com/a/hnoWuKGF>`_  ，根据提示一路选择OK即可。
+   3. 完成第二步后，你的第一个实验练习 setup-env-run-os1 的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。
+   4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到  `codespace` 标签和醒目的 `create codesapce on main` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
+   5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc，qemu等工具。
+   6. **重要：** 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
+   7. 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
+
+   上述的3，4，5步不是必须的，你也可以线下本地开发。
+
+
 .. note::
 
    **Docker 开发环境**
@@ -188,8 +206,9 @@ Qemu 模拟器安装
 
 .. code-block:: bash
 
-   git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-   cd rust-based-os-comp2022
+   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
+   $ cd rust-based-os-comp2022
+   $ make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
 我们先运行不需要处理用户代码的裸机操作系统 ``os1`` ：
 
