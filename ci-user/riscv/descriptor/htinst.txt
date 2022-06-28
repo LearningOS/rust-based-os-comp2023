@@ -1,0 +1,4 @@
+Htinst
+1610
+end
+Hypervisor Trap Instruction Register.

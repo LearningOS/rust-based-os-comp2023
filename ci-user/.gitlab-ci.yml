@@ -1,0 +1,61 @@
+default:
+  image: zhanghx0905/rcore-ci
+
+stages:
+  - build
+
+build-ch2-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=2
+  artifacts:
+    paths:
+      - user/build/bin/*.bin
+
+build-ch3_0-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=3_0
+  artifacts:
+    paths:
+      - user/build/bin/*.bin
+
+build-ch3_1-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=3_1
+  artifacts:
+    paths:
+      - user/build/bin/*.bin
+
+build-ch4-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=4
+  artifacts:
+    paths:
+      - user/build/elf/*.elf
+
+build-ch5-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=5
+  artifacts:
+    paths:
+      - user/build/elf/*.elf
+
+build-ch6-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=6
+  artifacts:
+    paths:
+      - user/build/elf/*.elf
+
+build-ch7-job:
+  stage: build
+  script:
+    - cd user && make all CHAPTER=7
+  artifacts:
+    paths:
+      - user/build/elf/*.elf

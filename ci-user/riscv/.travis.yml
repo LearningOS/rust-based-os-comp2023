@@ -1,0 +1,51 @@
+language: rust
+
+env:
+  - TARGET=x86_64-unknown-linux-gnu
+  - TARGET=riscv32imac-unknown-none-elf
+  - TARGET=riscv64imac-unknown-none-elf
+  - TARGET=riscv64gc-unknown-none-elf
+
+rust:
+  - nightly
+  - stable
+  - 1.42.0 # MSRV
+
+if: (branch = staging OR branch = trying OR branch = master) OR (type = pull_request AND branch = master)
+
+matrix:
+  allow_failures:
+    - rust: nightly
+
+  include:
+    - env: CHECK_BLOBS=1
+      rust:
+      language: bash
+      if: (branch = staging OR branch = trying OR branch = master) OR (type = pull_request AND branch = master)
+
+    - env: RUSTFMT=1
+      rust: stable
+      if: (branch = staging OR branch = trying OR branch = master) OR (type = pull_request AND branch = master)
+
+
+install:
+  - ci/install.sh
+
+script:
+  - ci/script.sh
+
+
+cache:
+  cargo: true
+  directories:
+    - gcc
+
+branches:
+  only:
+    - master
+    - staging
+    - trying
+
+notifications:
+  email:
+    on_success: never

@@ -1,0 +1,19 @@
+[package]
+name = "user_lib"
+version = "0.1.0"
+authors = ["Yifan Wu <shinbokuow@163.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+buddy_system_allocator = "0.6"
+bitflags = "1.2.1"
+spin = "0.9"
+lock_api = "=0.4.6"
+lazy_static = { version = "1.4.0", features = ["spin_no_std"] }
+
+[profile.release]
+opt-level = "z" # Optimize for size.
+strip = true    # Automatically strip symbols from the binary.
+lto = true
