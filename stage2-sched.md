@@ -11,8 +11,27 @@
 - zCore硬件移植与驱动开发
 - zCore应用开发
 
-## 日程：第二~第四周：zCore研究项目 (34天)
+## 日程：第二~第四周：rCore/zCore研究项目 (34天)
 目前设置了多个项目，学生可选择参加下面的项目，指导老师制定以周为单位的项目研究计划。
+
+
+### rCore-Tutorial-v3 进一步扩展
+1. 项目标题：rCore-Tutorial-v3 进一步扩展
+2. 项目描述：rCore-Tutorial-v3 的一个重要目标是以简洁的设计实现对应到操作系统的核心知识点上，所以还有很多可以扩展的地方。我们希望通过设计一个一个相对独立的实验，来展现操作系统的核心设计思想，在操作系统实现与操作系统原理之间建立桥梁。
+3. 项目难度：低/中
+4. 项目社区导师：陈渝 github id: chyyuu     weichat id: chyyuu 
+5. 项目社区导师：吴一凡 github id: wyfcyx     weichat id: yifanwu1998
+6. 项目产出要求：
+   - 补充完善 rCore-Tutorial-v3
+
+7. 项目技术要求：
+   - 具备一定的 Rust 语言基础，能看懂并模仿现有代码即可
+   - 熟悉操作系统原理与简易实现
+   - 具有基础英文阅读和写作能力
+
+8. 相关的开源软件仓库列表：
+  - https://github.com/rcore-os/rCore-Tutorial-v3
+  - https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html
 
 ### zCore 的文档与单元测试完善
 
