@@ -164,14 +164,27 @@ setupclassroom_test8:
 	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
 	git push
 
-# for local ubuntu with zsh shell
-ubuntu_setenv:
+# for local ubuntu with zsh shell SHELL, need root for sudo 
+ubuntu_local_setenv:
+	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
+              gawk build-essential bison flex texinfo gperf libtool patchutils bc \
+              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build zsh -y
+	cd ${HOME} && wget https://download.qemu.org/qemu-7.0.0.tar.xz
+	cd ${HOME} && tar xvJf qemu-7.0.0.tar.xz
+	cd ${HOME}/qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
+	cd ${HOME}/qemu-7.0.0 && make -j$(nproc)
+	cd ${HOME}/qemu-7.0.0 && sudo make install
+	qemu-system-riscv64 --version
+	qemu-riscv64 --version
 	curl https://sh.rustup.rs -sSf | sh -s -- -y
 	source ${HOME}/.cargo/env
 	rustc --version
+
+# for github codespaces ubuntu with zsh SHELL, need root for sudo
+codespaces_setenv:	
 	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
               gawk build-essential bison flex texinfo gperf libtool patchutils bc \
-              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build -y
+              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build zsh -y
 	cd .. && wget https://download.qemu.org/qemu-7.0.0.tar.xz
 	cd .. && tar xvJf qemu-7.0.0.tar.xz
 	cd ../qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
@@ -179,20 +192,6 @@ ubuntu_setenv:
 	cd ../qemu-7.0.0 && sudo make install
 	qemu-system-riscv64 --version
 	qemu-riscv64 --version
-
-
-# for github codespaces ubuntu with zsh SHELL := /bin/zsh
-codespaces_setenv:	
-	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
-              gawk build-essential bison flex texinfo gperf libtool patchutils bc \
-              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build -y
-	cd .. && wget https://download.qemu.org/qemu-7.0.0.tar.xz
-	cd .. && tar xvJf qemu-7.0.0.tar.xz
-	cd ../qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
-	cd ../qemu-7.0.0 && make -j$(nproc)
-	cd ../qemu-7.0.0 && sudo make install
 	curl https://sh.rustup.rs -sSf | sh -s -- -y
 	/bin/zsh && source /home/codespace/.cargo/env
 	rustc --version
-	qemu-system-riscv64 --version
-	qemu-riscv64 --version	
