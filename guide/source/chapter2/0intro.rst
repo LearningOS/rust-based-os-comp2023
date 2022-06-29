@@ -30,13 +30,14 @@
    2. 接收 `第二个实验练习的github classroom在线邀请 <https://classroom.github.com/a/UEOvz4qO>`_  ，根据提示一路选择OK即可。
    3. 完成第二步后，你的第二个实验练习的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。
    4. 在你的第二个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到  `codespace` 标签和醒目的 `create codesapce on main` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
-   5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc，qemu等工具。
+   5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc，qemu等工具。注：也可在vscode的 `console` 中执行 ``make codespaces_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
    6. 在vscode的 `console` 中执行 `make setupclassroom_test2`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
    7. 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
 
    上述的3，4，5步不是必须的，你也可以线下本地开发。
 
-
+   注：如果是本地的ubuntu中建立开发环境，可在shell中执行 ``make ubuntu_local_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
+   
 本章我们引入了用户程序。
 
 .. code-block:: console
