@@ -352,11 +352,12 @@
 <li><p>接收 <a class="reference external" href="https://classroom.github.com/a/zqGJEPK-">第五个实验(os8)的github classroom在线邀请</a>  ，根据提示一路选择OK即可。</p></li>
 <li><p>完成第二步后，你的第五个实验的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。</p></li>
 <li><p>在你的第五个实验的网页的中上部可以看到一个醒目的 <cite>code</cite>  绿色按钮，点击后，可以进一步看到  <cite>codespace</cite> 标签和醒目的 <cite>create codesapce on main</cite> 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中</p></li>
-<li><p>再按照下面的环境安装提示在vscode的 <cite>console</cite> 中安装配置开发环境：rustc，qemu等工具。</p></li>
+<li><p>再按照下面的环境安装提示在vscode的 <cite>console</cite> 中安装配置开发环境：rustc，qemu等工具。注：也可在vscode的 <cite>console</cite> 中执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">codespaces_setenv</span></code> 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。</p></li>
 <li><p>在vscode的 <cite>console</cite> 中执行 <cite>make setupclassroom_test8</cite>  （该命令仅执行一次）配置githubclassroom 自动评分功能。</p></li>
 <li><p>然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。</p></li>
 </ol>
 <p>上述的3，4，5步不是必须的，你也可以线下本地开发。</p>
+<p>注：如果是本地的ubuntu中建立开发环境，可在shell中执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ubuntu_local_setenv</span></code> 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。</p>
 </div>
 <p>获取本章代码：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/LearningOS/rust-based-os-comp2022.git
