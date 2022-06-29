@@ -1,3 +1,4 @@
+SHELL := /bin/zsh
 DOCKER_NAME ?= dinghao188/rcore-tutorial
 DIR := workplace
 .PHONY: docker build_docker
@@ -17,7 +18,7 @@ lab5: test8
 
 config:
 	curl https://sh.rustup.rs -sSf | sh -s -- -y
-	. $(HOME)/.cargo/env
+	source /home/codespace/.cargo/env
 	rustc --version
 	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
               gawk build-essential bison flex texinfo gperf libtool patchutils bc \
