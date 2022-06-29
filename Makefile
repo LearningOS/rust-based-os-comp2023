@@ -16,21 +16,6 @@ lab4: test6 test7
 
 lab5: test8
 
-config:
-	curl https://sh.rustup.rs -sSf | sh -s -- -y
-	source /home/codespace/.cargo/env
-	rustc --version
-	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
-              gawk build-essential bison flex texinfo gperf libtool patchutils bc \
-              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build -y
-	cd .. && wget https://download.qemu.org/qemu-7.0.0.tar.xz
-	cd .. && tar xvJf qemu-7.0.0.tar.xz
-	cd ../qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
-	cd ../qemu-7.0.0 && make -j$(nproc)
-	cd ../qemu-7.0.0 && sudo make install
-	qemu-system-riscv64 --version
-	qemu-riscv64 --version
-
 setup:
 	rm -rf  ${DIR}
 	mkdir ${DIR}
@@ -40,8 +25,7 @@ setup:
 	cp -r bootloader ${DIR}
 	cp -r reports ${DIR}
 	cp rust-toolchain ${DIR}
-	export PATH=$PATH:$HOME/qemu-7.0.0
-	export PATH=$PATH:$HOME/qemu-7.0.0/riscv64-softmmu
+#	export PATH=${PATH}:${HOME}/qemu-7.0.0:${HOME}/qemu-7.0.0/riscv64-softmmu
 
 test1: setup
 	cp -r os1 ${DIR}/os
@@ -181,16 +165,35 @@ setupclassroom_test8:
 	git commit -m"update classroom.yml .keep autograding.json for classroom CI test"
 	git push
 
+# for local ubuntu with zsh shell
+ubuntu_setenv:
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
+	source ${HOME}/.cargo/env
+	rustc --version
+	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
+              gawk build-essential bison flex texinfo gperf libtool patchutils bc \
+              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build -y
+	cd .. && wget https://download.qemu.org/qemu-7.0.0.tar.xz
+	cd .. && tar xvJf qemu-7.0.0.tar.xz
+	cd ../qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
+	cd ../qemu-7.0.0 && make -j$(nproc)
+	cd ../qemu-7.0.0 && sudo make install
+	qemu-system-riscv64 --version
+	qemu-riscv64 --version
 
-# setupenv:
-# 	sudo apt-get update
-# 	sudo apt-get install -y curl wget autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc xz-utils zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3
-# 	curl https://sh.rustup.rs -sSf > $RUSTUP && chmod +x $RUSTUP
-# 	$RUSTUP -y --default-toolchain nightly-2022-04-11 --profile minimal
-# 	cd $HOME
-# 	wget https://download.qemu.org/qemu-7.0.0.tar.xz
-# 	tar xvJf qemu-7.0.0.tar.xz
-# 	cd qemu-7.0.0
-# 	./configure --target-list=riscv64-softmmu
-# 	make install
 
+# for github codespaces ubuntu with zsh SHELL := /bin/zsh
+codespaces_setenv:	
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
+	source /home/codespace/.cargo/env
+	rustc --version
+	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
+              gawk build-essential bison flex texinfo gperf libtool patchutils bc \
+              zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build -y
+	cd .. && wget https://download.qemu.org/qemu-7.0.0.tar.xz
+	cd .. && tar xvJf qemu-7.0.0.tar.xz
+	cd ../qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
+	cd ../qemu-7.0.0 && make -j$(nproc)
+	cd ../qemu-7.0.0 && sudo make install
+	qemu-system-riscv64 --version
+	qemu-riscv64 --version	
