@@ -1,4 +1,3 @@
-SHELL := /bin/zsh
 DOCKER_NAME ?= dinghao188/rcore-tutorial
 DIR := workplace
 .PHONY: docker build_docker
@@ -184,9 +183,6 @@ ubuntu_setenv:
 
 # for github codespaces ubuntu with zsh SHELL := /bin/zsh
 codespaces_setenv:	
-	curl https://sh.rustup.rs -sSf | sh -s -- -y
-	source /home/codespace/.cargo/env
-	rustc --version
 	sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
               gawk build-essential bison flex texinfo gperf libtool patchutils bc \
               zlib1g-dev libexpat-dev pkg-config  libglib2.0-dev libpixman-1-dev git tmux python3 ninja-build -y
@@ -195,5 +191,8 @@ codespaces_setenv:
 	cd ../qemu-7.0.0 && ./configure --target-list=riscv64-softmmu,riscv64-linux-user
 	cd ../qemu-7.0.0 && make -j$(nproc)
 	cd ../qemu-7.0.0 && sudo make install
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
+	/bin/zsh && source /home/codespace/.cargo/env
+	rustc --version
 	qemu-system-riscv64 --version
 	qemu-riscv64 --version	
