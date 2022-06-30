@@ -39,7 +39,7 @@ extensions = [
 
 comments_config = {
    "utterances": {
-       "repo": "LearningOS/rCore-Tutorial-Guide-2022S",
+       "repo": "LearningOS/rust-based-os-comp2022",
        "issue-term": "pathname",
        "label": "comments",
        "theme": "github-light",
