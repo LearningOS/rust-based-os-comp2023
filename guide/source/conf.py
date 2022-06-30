@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Open-Source-OS-Tutorial-Summer-of-Code-2022'
+project = 'Open-Source-OS-Training-Camp-2022'
 copyright = 'OS2022Summer'
 author = 'Yifan Wu'
 language = 'zh_CN'
