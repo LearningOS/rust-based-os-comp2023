@@ -58,7 +58,7 @@ Docker方式进行本地OS开发环境配置
    3. 进入 Docker 之后，会发现当前处于根目录 ``/`` ，我们通过 ``cd mnt`` 将当前工作路径切换到 ``/mnt`` 目录；
    4. 通过 ``ls`` 可以发现 ``/mnt`` 目录下的内容和 ``rCore-Tutorial-v3`` 目录下的内容完全相同，接下来就可以在这个环境下运行 tutorial 了。例如 ``cd os && make run`` 。
 
-
+注：目前的Docker开发环境没有配置 Qemu-7.0.0 和下载 https://github.com/LearningOS/rust-based-os-comp2022.git 。所以还需要按照下面的步骤进行手动配置。
 
 
 手动方式进行本地OS开发环境配置
