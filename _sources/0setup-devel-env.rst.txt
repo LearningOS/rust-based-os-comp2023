@@ -15,18 +15,18 @@
 
 如果你在环境配置中遇到了无法解决的问题，请在本节讨论区留言，我们会尽力提供帮助。
 
-OS 环境配置
--------------------------------
+
 
 目前，实验主要支持 Ubuntu18.04/20.04 操作系统。使用 Windows10 和 macOS 的读者，可以安装一台 Ubuntu18.04 虚拟机或 Docker
-进行实验。
+进行实验。也可基于 **gihub classroom with codespaces** 进行开发。
 
-Windows10 用户可以通过系统内置的 **WSL2** 虚拟机（请不要使用 WSL1）来安装 Ubuntu 18.04 / 20.04 。读者请自行在互联网上搜索相关安装教程，或 `适用于 Linux 的 Windows 子系统安装指南 (Windows 10) <https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package>`_ 。
 
+Github Classroom方式进行在线OS 环境配置
+-----------------------------------------------------------
 
 .. note::
 
-   **基于github classroom的开发方式**
+   **基于github classroom的在线开发方式**
    
    基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
 
@@ -38,10 +38,12 @@ Windows10 用户可以通过系统内置的 **WSL2** 虚拟机（请不要使用
    6. **重要：** 在vscode的 `console` 中执行 `make setupclassroom_testX`  （该命令仅执行一次，X的范围为 1-8）配置githubclassroom 自动评分功能。
    7. 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
 
-   上述的3，4，5步不是必须的，你也可以线下本地开发。
+   上述的3，4，5步不是必须的，你也可以仅仅基于 ``Github Classromm`` 生成git repository，并进行本地开发。
 
-   注：如果是本地的ubuntu中建立开发环境，可在shell中执行 ``make ubuntu_local_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
 
+
+Docker方式进行本地OS开发环境配置
+-------------------------------------------------
 
 .. note::
 
@@ -56,14 +58,31 @@ Windows10 用户可以通过系统内置的 **WSL2** 虚拟机（请不要使用
    3. 进入 Docker 之后，会发现当前处于根目录 ``/`` ，我们通过 ``cd mnt`` 将当前工作路径切换到 ``/mnt`` 目录；
    4. 通过 ``ls`` 可以发现 ``/mnt`` 目录下的内容和 ``rCore-Tutorial-v3`` 目录下的内容完全相同，接下来就可以在这个环境下运行 tutorial 了。例如 ``cd os && make run`` 。
 
+
+
+
+手动方式进行本地OS开发环境配置
+----------------------------------------------
+
+ 注：如果是本地的ubuntu中建立开发环境，可在shell中执行 ``make ubuntu_local_setenv`` 来快速安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
+
+ 当然，也可以通过如下详细介绍，一步一步地手动配置开发环境。
+
+
+Windows10 用户可以通过系统内置的 **WSL2** 虚拟机（请不要使用 WSL1）来安装 Ubuntu 18.04 / 20.04 。读者请自行在互联网上搜索相关安装教程，或 `适用于 Linux 的 Windows 子系统安装指南 (Windows 10) <https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package>`_ 。
+
+
+
+
 使用 macOS 进行实验理论上也是可行的，但本章节仅介绍 Ubuntu 下的环境配置方案。
 
 .. note::
 
    经初步测试，使用 M1 芯片的 macOS 也可以运行本实验的框架，即我们的实验对平台的要求不是很高。但我们仍建议同学配置 Ubuntu 环境，以避免未知的环境问题。
 
+
 Rust 开发环境配置
--------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 首先安装 Rust 版本管理器 rustup 和 Rust 包管理器 cargo，可以使用官方安装脚本：
 
@@ -135,7 +154,9 @@ Rust 开发环境配置
    registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
 
 
-推荐 JetBrains Clion + Rust插件 或者 Visual Studio Code 搭配 rust-analyzer 和 RISC-V Support 插件 进行代码阅读和开发。
+推荐 Visual Studio Code 搭配 rust-analyzer 和 RISC-V Support 插件 进行代码阅读和开发。
+
+也可采用 JetBrains Clion + Rust插件进行代码阅读和开发。
 
 .. note::
 
@@ -144,7 +165,7 @@ Rust 开发环境配置
    * 当然，采用 VIM，Emacs 等传统的编辑器也是没有问题的。
 
 Qemu 模拟器安装
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 我们需要使用 Qemu 7.0.0 以上版本进行实验，为此，从源码手动编译安装 Qemu 模拟器：
 
