@@ -3,7 +3,7 @@
 
 欢迎在校学生在2022年暑假参加清华大学、CSDN、毛豆教育等共同举办的**2022年开源操作系统训练营**活动（7月1日～9月10日），本次活动分为两个阶段：线上自学OS基础[基于Rust语言学习和实践操作系统内核](https://github.com/LearningOS/rust-based-os-comp2022)（7月1日～7月31日）和线上实践OS拓展[基于Rust语言的操作系统内核拓展实践](https://github.com/LearningOS/rust-based-os-comp2022/blob/main/stage2-sched.md)（8月1日～9月10日） ,主要是对用**Rust语言进行OS研发开展学习、交流与探索**。
 
-如有兴趣参加，请在2022年7月5日前上传个人简历到清华云盘“简历收件箱[CV-inbox](https://cloud.tsinghua.edu.cn/u/d/3c62302864fd4ff090a1/)”，并填写[2022年开源操作系统训练营报名表](http://oscourse2019.mikecrm.com/yKVchGm)，获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（7月5日～7月31日）的同学如果通过review，将可在8月1日~9月10日，开展第二阶段[基于Rust语言的操作系统内核拓展实践](https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与rCore/zCore等相关的活动。
+如有兴趣参加，请在2022年7月5日前上传个人简历到清华云盘“简历收件箱[CV-inbox](https://cloud.tsinghua.edu.cn/u/d/3c62302864fd4ff090a1/)”，并填写[2022年开源操作系统训练营报名表](http://oscourse2019.mikecrm.com/yKVchGm)，获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（7月1日～7月31日）的同学如果通过review，将可在8月1日~9月10日，开展第二阶段[基于Rust语言的操作系统内核拓展实践](https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与rCore/zCore等相关的活动。
 
 注：我们也在改进开源操作系统训练营，即这个活动不仅仅局限在2022年7月1日~9月10日。我们希望建立的是一种长期持续发展的操作系统训练营模式，即各种学习资源都开源并整理集中一起，导师和学生/爱好者之间基于要做的实验或项目不定期/定期的进行交流。学生/爱好者完成了一定程度的学习和训练后，除了自身得到能力的提升外，还可获得相关证书和推荐等，推动他在未来的进一步发展。
 
@@ -31,12 +31,12 @@
 
 ### 第一阶段活动安排
 
-#### 考核成绩
+#### 学习要求和考核成绩
 
-- 每周学习记录情况  (25%)
-- 在issues上的提问和回答问题情况，Pull Request提交情况 (25%)
-- step 0 要求的编程代码的完成情况 (25%)
-- step 2 rcore tutorial的通过要求完成情况 (25%)
+- 在[学习实践过程记录表](https://github.com/LearningOS/rust-based-os-comp2022/issues/1)上登记自己每日/周学习记录情况的repo网址，并在这个repo上记录每日/周学习记录情况  (成绩分数：25%)
+- 在[第一阶段学习issues](https://github.com/LearningOS/rust-based-os-comp2022/issues/)上的提问和回答问题情况，在[第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/)上的Pull Request提交情况（代码改进等） (成绩分数：10%)
+- step 0 要求的编程代码的完成情况 (成绩分数：15%)
+- step 2 [第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/)的5个实验的完成情况 (成绩分数：50%)
 
 #### step 0 自学rust编程（大约7~14天）
 
@@ -82,11 +82,11 @@
 
 前提条件：要求有操作系统的基础，基本理解RISC-V与OS相关的硬件特性
 
-
-- 学习理解[OS课程slides](https://learningos.github.io/os-lectures/)
-- 学习了解 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/)
-- 学习理解[rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
-- 2022年OS课程视频：请向组织者申请
+学习理解
+- [OS课程slides](https://learningos.github.io/os-lectures/)
+- [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/)
+- [rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
+- [2022年春季OS课程讲解和OS实验讲解](./relatedinfo.md)
   
 ### 通过要求
 根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的[具体实验要求](https://learningos.github.io/rCore-Tutorial-Guide-2022S/)在自己的仓库中完成5个实验，并通过测试。

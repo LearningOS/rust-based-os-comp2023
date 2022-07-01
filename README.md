@@ -10,7 +10,8 @@ Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练�
 - Guide deployed version can be found [here](https://learningos.github.io/rust-based-os-comp2022/)（精简OS实验指导）
 - [rCore Tutorial v3 Guide](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) (2022春季OS课程讲义)
 - [OS Course Slides in 2022 spring](https://learningos.github.io/os-lectures/)(2022春季OS课程Slides)
-
+- [OS Course Videos in 2022 spring](./relatedinfo.md)(2022春季OS课程Videos)
+- 
 First, you can read [Guide](https://learningos.github.io/rust-based-os-comp2022/) to:
 - (Important) `git clone` this repo.
 - (Important) setup development environment.
