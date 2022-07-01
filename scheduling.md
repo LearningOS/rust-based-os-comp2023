@@ -33,8 +33,8 @@
 
 #### 学习要求和考核成绩
 
-- 在[学习实践过程记录表](https://github.com/LearningOS/rust-based-os-comp2022/issues/1)上登记自己每日/周学习记录情况的repo网址，并在这个repo上记录每日/周学习记录情况  (成绩分数：25%)
-- 在[第一阶段学习issues](https://github.com/LearningOS/rust-based-os-comp2022/issues/)上的提问和回答问题情况，在[第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/)上的Pull Request提交情况（代码改进等） (成绩分数：10%)
+- 在[学习实践过程记录表](https://github.com/LearningOS/rust-based-os-comp2022/issues/1)上登记自己每日/周学习记录情况的repo网址，并在这个repo上记录每日/周学习记录情况  (成绩分数：20%)
+- 在[第一阶段学习issues](https://github.com/LearningOS/rust-based-os-comp2022/issues/)上的提问和回答问题情况，在[第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/) 、 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) 上的Pull Request提交情况（代码改进、文档改进、文档错误等） (成绩分数：15%)
 - step 0 要求的编程代码的完成情况 (成绩分数：15%)
 - step 2 [第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/)的5个实验的完成情况 (成绩分数：50%)
 
@@ -108,7 +108,8 @@
 - 陈   乐
 - 吴一凡
 - 张译仁
-
+- 卢   军
+- 黄   旺
 
 ## 事务管理负责人
 - 姓名：许善朴  微信号id： bitmeet520
