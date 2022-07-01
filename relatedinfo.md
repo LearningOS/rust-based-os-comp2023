@@ -15,6 +15,8 @@
 - [20220523第12次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=5c2c8e4b-f9a0-4228-bb4d-b83c648057a0&from=3)
 - [20220530第12次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=34309e7e-3835-4d3f-a056-eceec5598f66&from=3)
 
+注：缺第七次课
+
 ## 2022春季OS课实验框架讲解
 
 - [20220001 rcore-tutorial-v3 lab1](https://cloud.tsinghua.edu.cn/f/9440395fad1a44b690f9/)
