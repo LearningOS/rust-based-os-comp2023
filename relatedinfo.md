@@ -13,7 +13,7 @@
 - [20220509第十次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=26487a19-875a-457f-8a89-d0a3ca785915&from=3)
 - [20220516第11次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=e45a7ab1-325a-44f1-904d-1bb661daa0dd&from=3)
 - [20220523第12次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=5c2c8e4b-f9a0-4228-bb4d-b83c648057a0&from=3)
-- [20220530第12次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=34309e7e-3835-4d3f-a056-eceec5598f66&from=3)
+- [20220530第13次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=34309e7e-3835-4d3f-a056-eceec5598f66&from=3)
 
 注：缺第七次课
 
