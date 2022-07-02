@@ -17,7 +17,7 @@ KERNEL_ENTRY_PA := 0x80200000
 OBJDUMP := rust-objdump --arch-name=riscv64
 OBJCOPY := rust-objcopy --binary-architecture=riscv64
 
-CHAPTER ?= $(shell git rev-parse --abbrev-ref HEAD | grep -o 'ch[0-9]' | grep -o '[0-9]')
+CHAPTER ?= 5
 TEST ?= $(CHAPTER)
 BASE ?= 1
 
