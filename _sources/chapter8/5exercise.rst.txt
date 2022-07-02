@@ -86,7 +86,13 @@ Lab5 编程作业
 
 -   `lab5(os8)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os8-ref>`_ 
 - 实验目录在 ``os8`` 。
-- 通过所有测例。
+
+- 通过所有测例
+
+- 提交你的修改
+  
+   - 如果是基于GitHub Classroom 开发, 在本地环境或在线codespaces环境下，执行 ``git push`` 命令，提交修改的代码到gitub进行CI自动评测。如果评测结果是 红色小叉 （位于repo的中上位置），可进一步点击红色小叉查找具体出错时的CI执行情况。 
+
 
 问答作业
 --------------------------------------------

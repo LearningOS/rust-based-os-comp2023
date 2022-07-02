@@ -424,6 +424,15 @@
 <p>如果你在第一章练习题中已经借助 <code class="docutils literal notranslate"><span class="pre">log</span></code> crate 实现了日志功能，那么你可以直接在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 中引入 <code class="docutils literal notranslate"><span class="pre">log</span></code> crate，通过 <code class="docutils literal notranslate"><span class="pre">log::info!/debug!</span></code> 等宏即可进行调试并在内核中看到日志输出。具体来说，在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 中的修改是：在 <code class="docutils literal notranslate"><span class="pre">easy-fs/Cargo.toml</span></code> 的依赖中加入一行 <code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">=</span> <span class="pre">"0.4.0"</span></code>，然后在 <code class="docutils literal notranslate"><span class="pre">easy-fs/src/lib.rs</span></code> 中加入一行 <code class="docutils literal notranslate"><span class="pre">extern</span> <span class="pre">crate</span> <span class="pre">log</span></code> 。</p>
 <p>你也可以完全在用户态进行调试。仿照 <code class="docutils literal notranslate"><span class="pre">easy-fs-fuse</span></code> 建立一个在当前操作系统中运行的应用程序，将测试逻辑写在 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数中。这个时候就可以将它引用的 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 的 <code class="docutils literal notranslate"><span class="pre">no_std</span></code> 去掉并使用 <code class="docutils literal notranslate"><span class="pre">println!</span></code> 进行调试。</p>
 </div>
+<ul>
+<li><p>提交你的修改</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>如果是基于GitHub Classroom 开发, 在本地环境或在线codespaces环境下，执行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> 命令，提交修改的代码到gitub进行CI自动评测。如果评测结果是 红色小叉 （位于repo的中上位置），可进一步点击红色小叉查找具体出错时的CI执行情况。</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
 </div>
 </div>
 <div class="section" id="id3">
