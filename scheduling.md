@@ -97,7 +97,7 @@
 - 访问(训练营 kernel labs)[https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs]，点击如下链接，形成各个自己实验专用 repos：
 
     - [lab0-0实践](https://classroom.github.com/a/hnoWuKGF) 
-    - [lab0-1实践](https://classroom.github.com/a/UEOvz4qO) 0intro.html#id3)
+    - [lab0-1实践](https://classroom.github.com/a/UEOvz4qO)
     - [lab1实验](https://classroom.github.com/a/s1v7GyJM) 
     - [lab2 实验](https://classroom.github.com/a/ghbB1wYX)
     - [lab3 实验](https://classroom.github.com/a/RxB6h4-x) 
@@ -106,7 +106,7 @@
 
 请注意各个实践或实验的具体初始化设置：
  - [lab0-0实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter1/0intro.html#id4)
- - [lab0-1实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter2/)
+ - [lab0-1实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter2/0intro.html#id3)
  - [lab1实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter3/0intro.html#id3)
  - [lab2 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter4/0intro.html#id3)
  - [lab3 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter5/0intro.html#id3)
