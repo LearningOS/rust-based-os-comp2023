@@ -88,9 +88,35 @@
 - [rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
 - [2022年春季OS课程讲解和OS实验讲解](./relatedinfo.md)
   
-##### 通过要求
-根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，并通过基于GitHub Classroom的测试。
+##### 通过第一阶段的要求
 
+根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，并通过基于GitHub Classroom的CI测试。
+
+具体步骤
+- 登录github.com
+- 访问(训练营 kernel labs)[https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs]，点击如下链接，形成各个自己实验专用 repos：
+
+    - [lab0-0实践](https://classroom.github.com/a/hnoWuKGF) 
+    - [lab0-1实践](https://classroom.github.com/a/UEOvz4qO) 0intro.html#id3)
+    - [lab1实验](https://classroom.github.com/a/s1v7GyJM) 
+    - [lab2 实验](https://classroom.github.com/a/ghbB1wYX)
+    - [lab3 实验](https://classroom.github.com/a/RxB6h4-x) 
+    - [lab4 实验](https://classroom.github.com/a/94eMW8zi)
+    - [lab5 实验](https://classroom.github.com/a/zqGJEPK-) 
+
+请注意各个实践或实验的具体初始化设置：
+ - [lab0-0实践初始化设置]](https://learningos.github.io/rust-based-os-comp2022/chapter1/0intro.html#id4)
+ - [lab0-1实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter2/
+ - [lab1实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter3/0intro.html#id3)
+ - [lab2 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter4/0intro.html#id3)
+ - [lab3 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter5/0intro.html#id3)
+ - [lab4 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter6/0intro.html#id3)
+ - [lab5 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter8/0intro.html#id5)
+
+然后就可以根据 [OS训练营实验指导](https://learningos.github.io/rust-based-os-comp2022/) 开始具体的实践和实验了。
+
+
+在完成每个实验中的OS代码后，通过执行 `git push` 命令来更新自己的实验专用 repos，并触发GitHub Classroom的CI测试。等一小会后，会看到自己的实验专用 repos 上面会有一个绿色的小勾，表示最新的提交通过了CI测试。如果看到的是红色的小叉，表面没有通过CI测试，你可以点击小叉，并进一步点击 GitHub Classroom Workflow/Autograding 的 details，进入自动测试的详细log记录页面，查看测试中具体在哪一步出现了问题，并尝试自己修复bug/更新功能，争取下一次通过测试。
 
 ## 技术指导委员会
 - 陈向群 
