@@ -106,7 +106,7 @@
 
 请注意各个实践或实验的具体初始化设置：
  - [lab0-0实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter1/0intro.html#id4)
- - [lab0-1实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter2/
+ - [lab0-1实践初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter2/)
  - [lab1实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter3/0intro.html#id3)
  - [lab2 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter4/0intro.html#id3)
  - [lab3 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter5/0intro.html#id3)
