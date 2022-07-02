@@ -36,7 +36,7 @@
 - 在[学习实践过程记录表](https://github.com/LearningOS/rust-based-os-comp2022/issues/1)上登记自己每日/周学习记录情况的repo网址，并在这个repo上记录每日/周学习记录情况  (成绩分数：20%)
 - 在[第一阶段学习issues](https://github.com/LearningOS/rust-based-os-comp2022/issues/)上的提问和回答问题情况，在[第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/) 、 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) 上的Pull Request提交情况（代码改进、文档改进、文档错误等） (成绩分数：15%)
 - step 0 要求的编程代码的完成情况 (成绩分数：15%)
-- step 2 [第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/)的5个实验的完成情况 (成绩分数：50%)
+- step 2 [第一阶段OS学习的5个实验][https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs]的完成情况 (成绩分数：50%)
 
 #### step 0 自学rust编程（大约7~14天）
 
@@ -57,7 +57,7 @@
      - [exercism.io官方站点](https://exercism.io/)
 
 
-#### step 1 自学risc-v系统结构（大约7天）
+#### step 1 自学risc-v系统结构（大约2~7天）
 
 前提条件：要求有基本计算机组成原理，计算机系统结构基础。
 
@@ -88,7 +88,7 @@
 - [rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
 - [2022年春季OS课程讲解和OS实验讲解](./relatedinfo.md)
   
-#### 通过第一阶段学习的要求
+##### 具备步骤
 
 根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，并通过基于GitHub Classroom的CI测试。
 
