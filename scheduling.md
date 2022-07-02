@@ -88,7 +88,7 @@
 - [rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
 - [2022年春季OS课程讲解和OS实验讲解](./relatedinfo.md)
   
-##### 通过第一阶段的要求
+#### 通过第一阶段学习的要求
 
 根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，并通过基于GitHub Classroom的CI测试。
 
