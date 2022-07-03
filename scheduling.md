@@ -50,7 +50,8 @@
 
    - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo） 
      - 要求：**必须完成** 。每完成几个小练习，就执行 ``git push`` 命令，提交到小GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
-
+     - [学习系列视频：Rust中文社群线上学习室--通过 Rustlings 学 Rust](https://space.bilibili.com/24917186/video) 
+        
           **提示：基于github classroom的开发方式**
             
           基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
@@ -67,7 +68,7 @@
           
           6.） 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
           
-          7.） 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
+          7.） 然后就可以基于在线vscode进行测试 (执行命令 `rustlings watch` ），编辑代码的循环实验过程了。
 
           上述的3，4，5步不是必须的，你也可以线下本地开发。
 
