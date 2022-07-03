@@ -25,4 +25,17 @@
 - [20220004 rcore-tutorial-v3 lab4](https://cloud.tsinghua.edu.cn/f/a44d31de255047ceb1fc/)
 - [20220005 rcore-tutorial-v3 lab5](https://cloud.tsinghua.edu.cn/f/7935a70766514c2ca08c/)
 
+
+## 2022春季OS课实验框架OS API DOC
+
+注：下面各章 ``[345678]`` 的源码与 本repo中的 ``os[345678]-ref/src`` 目录下的源码是相同的。
+### OS API docs of rCore Tutorial Code 2022S
+- [OS API docs of ch3 ](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch3/os/index.html)
+- [OS API docs of ch4](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch4/os/index.html)
+- [OS API docs of ch5](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch5/os/index.html)
+- [OS API docs of ch6](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch6/os/index.html)
+   - [easyFS API doc in ch6]( https://learningos.github.io/rCore-Tutorial-Code-2022S/ch6/easy_fs/index.html) 
+- [OS API docs of ch7](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch8/os/index.html)
+- [OS API docs of ch8](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch8/os/index.html)
+
 注：请联系助教了解访问方式
