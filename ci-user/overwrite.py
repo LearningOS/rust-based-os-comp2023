@@ -18,11 +18,3 @@ elif chapter <= 6:
 elif chapter <= 8:
     os.system("cp overwrite/Makefile-ch6 ../os/Makefile")
     os.system("cp overwrite/easy-fs-fuse-ch7.rs ../easy-fs-fuse/src/main.rs")
-
-lines = []
-with open("../os/Cargo.toml", 'r') as f:
-    for line in f.readlines():
-        processed = line.replace(' git = "https://github.com/rcore-os/riscv"', ' path = "../ci-user/riscv" ')
-        lines.append(processed)
-with open("../os/Cargo.toml", 'w+') as f:
-    f.writelines(lines)
