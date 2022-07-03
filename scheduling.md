@@ -51,7 +51,7 @@
    - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo） 
      - 要求：**必须完成** 。每完成几个小练习，就执行 ``git push`` 命令，提交到小GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
 
-          基于github classroom的开发方式
+          **提示：基于github classroom的开发方式**
             
           基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
 
