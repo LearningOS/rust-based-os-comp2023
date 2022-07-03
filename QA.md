@@ -4,11 +4,12 @@ A：
 
 **方法一：**
 
-​       向管理员“助教许善朴”申请删除已生成仓库，再点击 链接重新创建仓库。
+      重新点击加入课程的链接，在页面下方会有一行字“We've configured the repository associated with this assignment (update)”，“update”是一个链接，点击update就可以把自己的仓库更新到与最新状态的repository template一致。
 
+​      
 **方法二：**
 
-​       在自己构建的仓库根目录下执行以下命令:
+​     在自己构建的仓库根目录下执行以下命令:
 
 ```makefile
 git remote add upstream "https://github.com/LearningOS/rust-based-os-comp2022.git"
@@ -20,3 +21,6 @@ git reset --hard origin/main
 git push -f
 ```
 
+**方法三：**
+  
+    向管理员“助教许善朴”申请删除已生成仓库，再点击 链接重新创建仓库。
