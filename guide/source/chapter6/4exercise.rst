@@ -102,6 +102,59 @@ Lab4 编程作业
 
     你也可以完全在用户态进行调试。仿照 ``easy-fs-fuse`` 建立一个在当前操作系统中运行的应用程序，将测试逻辑写在 ``main`` 函数中。这个时候就可以将它引用的 ``easy-fs`` 的 ``no_std`` 去掉并使用 ``println!`` 进行调试。
 
+- 开发并通过所有测例
+
+在 ``YOUR_LAB4_REPO_DIR`` 下进行编码（可学习参考 ``os6-ref/src`` 目录下的源代码，并在 ``os6/src`` 中完成编码），并进行编译测试。
+
+注意：本次实验需要扩展文件系统的功能，所以，除了需要修改扩展 ``os6`` 目录下的代码外，还需要修改扩展 ``easy-fs`` 和 ``easy-fs-fuse`` 下面的部分代码。
+
+.. note::
+
+   **测试方式**
+
+   你的实现只需且必须通过测例，建议读者感到困惑时先检查测例
+   
+   如果实现正确，可在项目仓库的根目录下执行 ``make test6`` ，应该看到类似如下的显示输出：
+
+   .. code-block:: console
+   
+      $ cd  YOUR_LAB4_REPO_DIR
+      $ make test6
+      ......
+      [rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0
+      .______       __    __      _______.___________.  _______..______   __
+      |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
+      |  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
+      |      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |
+      |  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
+      | _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
+      [rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1
+      [rustsbi] Platform Name      : riscv-virtio,qemu
+      [rustsbi] Platform SMP       : 1
+      [rustsbi] Platform Memory    : 0x80000000..0x88000000
+      [rustsbi] Boot HART          : 0
+      [rustsbi] Device Tree Region : 0x87000000..0x87000ef2
+      [rustsbi] Firmware Address   : 0x80000000
+      [rustsbi] Supervisor Address : 0x80200000
+      [rustsbi] pmp01: 0x00000000..0x80000000 (-wr)
+      [rustsbi] pmp02: 0x80000000..0x80200000 (---)
+      [rustsbi] pmp03: 0x80200000..0x88000000 (xwr)
+      ......
+      [PASS] found <Test 04_5 ummap OK53852!>
+      [PASS] found <Test 04_1 OK53852!>
+      .....
+      [PASS] found <Test write C OK53852!>
+      [PASS] found <get_time OK53852! (\d+)>
+      [PASS] not found <FAIL: T.T>
+      [PASS] not found <Should cause error, Test 04_2 fail!>
+      [PASS] not found <Should cause error, Test 04_3 fail!>
+
+      Test passed53852: 27/27
+      Report for lab1 found.
+      Report for lab2 found.
+      Report for lab3 found.
+      Report for lab4 found.
+
 - 提交你的修改
   
    - 如果是基于GitHub Classroom 开发, 在本地环境或在线codespaces环境下，执行 ``git push`` 命令，提交修改的代码到gitub进行CI自动评测。如果评测结果是 红色小叉 （位于repo的中上位置），可进一步点击红色小叉查找具体出错时的CI执行情况。 

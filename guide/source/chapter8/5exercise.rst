@@ -87,7 +87,61 @@ Lab5 编程作业
 -   `lab5(os8)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os8-ref>`_ 
 - 实验目录在 ``os8`` 。
 
-- 通过所有测例
+- 开发并通过所有测例
+
+在 ``YOUR_LAB5_REPO_DIR`` 下进行编码（可学习参考 ``os8-ref/src`` 目录下的源代码，并在 ``os8/src`` 中完成编码），并进行编译测试。
+
+.. note::
+
+   **测试方式**
+
+   你的实现只需且必须通过测例，建议读者感到困惑时先检查测例
+   
+   如果实现正确，可在项目仓库的根目录下执行 ``make test8`` ，应该看到类似如下的显示输出：
+
+   .. code-block:: console
+   
+      $ cd  YOUR_LAB5_REPO_DIR
+      $ make test8
+      ......
+      [rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0
+      .______       __    __      _______.___________.  _______..______   __
+      |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
+      |  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
+      |      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |
+      |  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
+      | _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
+      [rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1
+      [rustsbi] Platform Name      : riscv-virtio,qemu
+      [rustsbi] Platform SMP       : 1
+      [rustsbi] Platform Memory    : 0x80000000..0x88000000
+      [rustsbi] Boot HART          : 0
+      [rustsbi] Device Tree Region : 0x87000000..0x87000ef2
+      [rustsbi] Firmware Address   : 0x80000000
+      [rustsbi] Supervisor Address : 0x80200000
+      [rustsbi] pmp01: 0x00000000..0x80000000 (-wr)
+      [rustsbi] pmp02: 0x80000000..0x80200000 (---)
+      [rustsbi] pmp03: 0x80200000..0x88000000 (xwr)
+      ......
+      [PASS] found <Hello, world from user mode program!>
+      [PASS] found <Test power_3 OK60963!>
+      [PASS] found <Test power_5 OK60963!>
+      ......
+      [PASS] found <threads test passed60963!>
+      [PASS] found <deadlock test mutex 1 OK60963!>
+      [PASS] found <deadlock test semaphore 1 OK60963!>
+      [PASS] found <deadlock test semaphore 2 OK60963!>
+      [PASS] found <ch8 Usertests passed60963!>
+      [PASS] not found <FAIL: T.T>
+      [PASS] not found <Should cause error, Test 04_2 fail!>
+      [PASS] not found <Should cause error, Test 04_3 fail!>
+
+      Test passed60963: 29/29
+      Report for lab1 found.
+      Report for lab2 found.
+      Report for lab3 found.
+      Report for lab4 found.
+      Report for lab5 found.
 
 - 提交你的修改
   
