@@ -463,10 +463,23 @@ qemu-riscv64 --version
 </div>
 <div class="section" id="rcore-tutorial">
 <h2>试运行 rCore-Tutorial<a class="headerlink" href="#rcore-tutorial" title="永久链接至标题">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-$ <span class="nb">cd</span> rust-based-os-comp2022
-$ make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
+<div class="section" id="github-classroom">
+<h3>基于Github Classroom 模式<a class="headerlink" href="#github-classroom" title="永久链接至标题">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone  <span class="sb">``</span>Github-Classroom帮你生成的某个OS实验的仓库<span class="sb">``</span>
+$ <span class="nb">cd</span>  <span class="sb">``</span>刚克隆的本地某个OS实验的仓库<span class="sb">``</span>
+$ make setupclassroom_<span class="sb">``</span>实验编号<span class="sb">``</span>  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。实验编号是与某个实验匹配的编号
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>实验名称 ：实验编号
+-  lab0-0 : test1
+-  lab0-1：test2
+-  lab1：test3
+-  lab2：test4
+-  lab3：test5
+-  lab4：test6
+-  lab5：test8</p>
 </div>
 <p>我们先运行不需要处理用户代码的裸机操作系统 <code class="docutils literal notranslate"><span class="pre">os1</span></code> ：</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> os1
@@ -515,6 +528,7 @@ Panicked at src/main.rs:48 Shutdown machine!
 </div>
 </div>
 <p>恭喜你完成了实验环境的配置，可以开始阅读教程的正文部分了！</p>
+</div>
 </div>
 <div class="section" id="gdb">
 <h2>GDB 调试支持*<a class="headerlink" href="#gdb" title="永久链接至标题">¶</a></h2>
@@ -595,7 +609,10 @@ Panicked at src/main.rs:48 Shutdown machine!
 <li><a class="reference internal" href="#qemu">Qemu 模拟器安装</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#rcore-tutorial">试运行 rCore-Tutorial</a></li>
+<li><a class="reference internal" href="#rcore-tutorial">试运行 rCore-Tutorial</a><ul>
+<li><a class="reference internal" href="#github-classroom">基于Github Classroom 模式</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#gdb">GDB 调试支持*</a></li>
 </ul>
 </li>

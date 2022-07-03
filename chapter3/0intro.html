@@ -318,10 +318,22 @@
 <p>上述的3，4，5步不是必须的，你也可以线下本地开发。</p>
 <p>注：如果是本地的ubuntu中建立开发环境，可在shell中执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ubuntu_local_setenv</span></code> 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。</p>
 </div>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-<span class="gp">$ </span><span class="nb">cd</span> rust-based-os-comp2022/
+<p>获取本章代码：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone <span class="sb">``</span>gitaddr of github-classroom-build-lab1<span class="sb">``</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="sb">``</span>github-classroom-build-lab1<span class="sb">``</span>
 <span class="gp">$ </span>make setupclassroom_test3  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>实验名称 ：实验编号
+-  lab0-0 : test1
+-  lab0-1：test2
+-  lab1：test3
+-  lab2：test4
+-  lab3：test5
+-  lab4：test6
+-  lab5：test8</p>
 </div>
 <p>在 qemu 模拟器上运行 <a class="reference external" href="https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os3-ref">lab1(os3)参考框架:</a> ：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> os3-ref

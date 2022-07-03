@@ -37,21 +37,28 @@
 实践体验
 -------------------------------------------
 
-获取本章代码：
-
-.. code-block:: console
-
-   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-   $ cd rust-based-os-comp2022/
-   $ make setupclassroom_test5  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
-
 
 在 qemu 模拟器上运行`lab3(os5)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os5-ref>`_ ：
 
 .. code-block:: console
 
+   $ git clone ``gitaddr of github-classroom-build-lab3``
+   $ cd ``github-classroom-build-lab3`` 
+   $ make setupclassroom_test5  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。   
    $ cd os5-ref
    $ make run
+
+
+.. note::
+
+   实验名称 ：实验编号 
+   -  lab0-0 : test1
+   -  lab0-1：test2 
+   -  lab1：test3
+   -  lab2：test4
+   -  lab3：test5
+   -  lab4：test6
+   -  lab5：test8
 
 待内核初始化完毕之后，将在屏幕上打印可用的应用列表并进入shell程序：
 

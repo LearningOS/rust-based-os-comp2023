@@ -34,11 +34,24 @@
 
    注：如果是本地的ubuntu中建立开发环境，可在shell中执行 ``make ubuntu_local_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
 
+获取本章代码：
+
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-   $ cd rust-based-os-comp2022/
+   $ git clone ``gitaddr of github-classroom-build-lab1``
+   $ cd ``github-classroom-build-lab1`` 
    $ make setupclassroom_test3  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
+
+.. note::
+
+   实验名称 ：实验编号 
+   -  lab0-0 : test1
+   -  lab0-1：test2 
+   -  lab1：test3
+   -  lab2：test4
+   -  lab3：test5
+   -  lab4：test6
+   -  lab5：test8
 
 在 qemu 模拟器上运行 `lab1(os3)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os3-ref>`_ ：
 

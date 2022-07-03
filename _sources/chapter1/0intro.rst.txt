@@ -61,11 +61,24 @@
 
 .. code-block:: console
 
-   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-   $ cd rust-based-os-comp2022/
+获取本章代码：
+
+.. code-block:: console
+
+   $ git clone ``gitaddr of github-classroom-build-lab0-0``
+   $ cd ``github-classroom-build-lab0-0`` 
    $ make setupclassroom_test1  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
+.. note::
 
+   实验名称 ：实验编号 
+   -  lab0-0 : test1
+   -  lab0-1：test2 
+   -  lab1：test3
+   -  lab2：test4
+   -  lab3：test5
+   -  lab4：test6
+   -  lab5：test8
 
 运行本章代码，并设置日志级别为 ``TRACE``：
 

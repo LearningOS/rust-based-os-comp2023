@@ -313,17 +313,29 @@
 <li><p>完成第二步后，你的第二个实验练习的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。</p></li>
 <li><p>在你的第二个实验练习的网页的中上部可以看到一个醒目的 <cite>code</cite>  绿色按钮，点击后，可以进一步看到  <cite>codespace</cite> 标签和醒目的 <cite>create codesapce on main</cite> 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中</p></li>
 <li><p>再按照下面的环境安装提示在vscode的 <cite>console</cite> 中安装配置开发环境：rustc，qemu等工具。注：也可在vscode的 <cite>console</cite> 中执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">codespaces_setenv</span></code> 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。</p></li>
-<li><p>在vscode的 <cite>console</cite> 中执行 <cite>make setupclassroom_test2</cite>  （该命令仅执行一次）配置githubclassroom 自动评分功能。</p></li>
+<li><p>在vscode的 <cite>console</cite> 中执行 <cite>make setupclassroom_test2</cite>  （该命令仅执行一次）配置githubclassroom 自动评分功能，以后一般就不用执行了，除非 <code class="docutils literal notranslate"><span class="pre">.github/workflows/classroom.yml</span></code> 发生了变化。</p></li>
 <li><p>然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。</p></li>
 </ol>
 <p>上述的3，4，5步不是必须的，你也可以线下本地开发。</p>
 <p>注：如果是本地的ubuntu中建立开发环境，可在shell中执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ubuntu_local_setenv</span></code> 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。</p>
 </div>
 <p>本章我们引入了用户程序。</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-<span class="gp">$ </span><span class="nb">cd</span> rust-based-os-comp2022
+<p>获取本章代码：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone <span class="sb">``</span>gitaddr of github-classroom-build-lab0-1<span class="sb">``</span>
+<span class="gp">$ </span><span class="nb">cd</span> <span class="sb">``</span>github-classroom-build-lab0-1<span class="sb">``</span>
 <span class="gp">$ </span>make setupclassroom_test2  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>实验名称 ：实验编号
+-  lab0-0 : test1
+-  lab0-1：test2
+-  lab1：test3
+-  lab2：test4
+-  lab3：test5
+-  lab4：test6
+-  lab5：test8</p>
 </div>
 <p>在 qemu 模拟器上运行本章代码：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span> os2
