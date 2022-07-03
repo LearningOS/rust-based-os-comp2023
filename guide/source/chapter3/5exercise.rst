@@ -68,9 +68,58 @@ ch3 中，我们的系统已经能够支持多个任务分时轮流运行，我�
    你需要在编译时指定 ``BASE=0`` 控制框架仅编译实验测例（在 os 目录执行 ``make run BASE=0``），
    或指定 ``BASE=2`` 控制框架同时编译基础测例和实验测例。
 
+
 .. note::
 
-    你的实现只需且必须通过测例，建议读者感到困惑时先检查测例。
+   **测试方式**
+
+   你的实现只需且必须通过测例，建议读者感到困惑时先检查测例
+   
+   如果实现正确，可在项目仓库的根目录下执行 ``make test3`` ，应该看到如显示输出：
+
+   .. code-block:: console
+   
+      $ cd  YOUR_LAB1_DIR
+      $ make test3
+      ......
+      [rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0
+      .______       __    __      _______.___________.  _______..______   __
+      |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
+      |  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
+      |      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |
+      |  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
+      | _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
+      [rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1
+      [rustsbi] Platform Name      : riscv-virtio,qemu
+      [rustsbi] Platform SMP       : 1
+      [rustsbi] Platform Memory    : 0x80000000..0x88000000
+      [rustsbi] Boot HART          : 0
+      [rustsbi] Device Tree Region : 0x87000000..0x87000ef2
+      [rustsbi] Firmware Address   : 0x80000000
+      [rustsbi] Supervisor Address : 0x80200000
+      [rustsbi] pmp01: 0x00000000..0x80000000 (-wr)
+      [rustsbi] pmp02: 0x80000000..0x80200000 (---)
+      [rustsbi] pmp03: 0x80200000..0x88000000 (xwr)
+      ......
+      [PASS] found <Hello, world from user mode program!>
+      [PASS] found <Test power_3 OK63518!>
+      [PASS] found <Test power_5 OK63518!>
+      [PASS] found <Test power_7 OK63518!>
+      [PASS] found <get_time OK63518! (\d+)>
+      [PASS] found <Test sleep OK63518!>
+      [PASS] found <current time_msec = (\d+)>
+      [PASS] found <time_msec = (\d+) after sleeping (\d+) ticks, delta = (\d+)ms!>
+      [PASS] found <Test sleep1 passed63518!>
+      [PASS] found <Test write A OK63518!>
+      [PASS] found <Test write B OK63518!>
+      [PASS] found <Test write C OK63518!>
+      [PASS] found <string from task info test>
+      [PASS] found <Test task info OK63518!>
+      [PASS] not found <FAIL: T.T>
+
+      Test passed63518: 15/15
+      Report for lab1 found.
+
 
 - 提交你的修改
   
