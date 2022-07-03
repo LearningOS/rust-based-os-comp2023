@@ -373,6 +373,65 @@
 <li><p>报告命名 lab2.md，位于 <code class="docutils literal notranslate"><span class="pre">reports</span></code> 目录下</p></li>
 </ul>
 <p>TIPS：注意 port 参数的语义，它与内核定义的 MapPermission 有明显不同！</p>
+<ul class="simple">
+<li><p>开发并通过所有测例</p></li>
+</ul>
+<p>在 <code class="docutils literal notranslate"><span class="pre">YOUR_LAB2_REPO_DIR</span></code> 下进行编码（可学习参考 <code class="docutils literal notranslate"><span class="pre">os4-ref/src</span></code> 目录下的源代码，并在 <code class="docutils literal notranslate"><span class="pre">os4/src</span></code> 中完成编码），并进行编译测试。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p><strong>测试方式</strong></p>
+<p>你的实现只需且必须通过测例，建议读者感到困惑时先检查测例</p>
+<p>如果实现正确，可在项目仓库的根目录下执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test4</span></code> ，应该看到类似如下的显示输出：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span>  YOUR_LAB2_REPO_DIR
+<span class="gp">$ </span>make test4
+<span class="go">......</span>
+<span class="go">[rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0</span>
+<span class="go">.______       __    __      _______.___________.  _______..______   __</span>
+<span class="go">|   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |</span>
+<span class="go">|  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |</span>
+<span class="go">|      /     |  |  |  |    \   \       |  |      \   \    |   _  &lt; |  |</span>
+<span class="go">|  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |</span>
+<span class="go">| _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|</span>
+<span class="go">[rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1</span>
+<span class="go">[rustsbi] Platform Name      : riscv-virtio,qemu</span>
+<span class="go">[rustsbi] Platform SMP       : 1</span>
+<span class="go">[rustsbi] Platform Memory    : 0x80000000..0x88000000</span>
+<span class="go">[rustsbi] Boot HART          : 0</span>
+<span class="go">[rustsbi] Device Tree Region : 0x87000000..0x87000ef2</span>
+<span class="go">[rustsbi] Firmware Address   : 0x80000000</span>
+<span class="go">[rustsbi] Supervisor Address : 0x80200000</span>
+<span class="go">[rustsbi] pmp01: 0x00000000..0x80000000 (-wr)</span>
+<span class="go">[rustsbi] pmp02: 0x80000000..0x80200000 (---)</span>
+<span class="go">[rustsbi] pmp03: 0x80200000..0x88000000 (xwr)</span>
+<span class="go">......</span>
+<span class="go">[PASS] found &lt;Hello, world from user mode program!&gt;</span>
+<span class="go">[PASS] found &lt;Test power_3 OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test power_5 OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test power_7 OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;get_time OK29777! (\d+)&gt;</span>
+<span class="go">[PASS] found &lt;Test sleep OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;current time_msec = (\d+)&gt;</span>
+<span class="go">[PASS] found &lt;time_msec = (\d+) after sleeping (\d+) ticks, delta = (\d+)ms!&gt;</span>
+<span class="go">[PASS] found &lt;Test sleep1 passed29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test write A OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test write B OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test write C OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;string from task info test&gt;</span>
+<span class="go">[PASS] found &lt;Test task info OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test 04_1 OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test 04_4 test OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test 04_5 ummap OK29777!&gt;</span>
+<span class="go">[PASS] found &lt;Test 04_6 ummap2 OK29777!&gt;</span>
+<span class="go">[PASS] not found &lt;FAIL: T.T&gt;</span>
+<span class="go">[PASS] not found &lt;Should cause error, Test 04_2 fail!&gt;</span>
+<span class="go">[PASS] not found &lt;Should cause error, Test 04_3 fail!&gt;</span>
+
+<span class="go">Test passed29777: 21/21</span>
+<span class="go">Report for lab1 found.</span>
+<span class="go">Report for lab2 found.</span>
+</pre></div>
+</div>
+</div>
 <ul>
 <li><p>提交你的修改</p>
 <blockquote>

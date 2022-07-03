@@ -424,6 +424,55 @@
 <p>如果你在第一章练习题中已经借助 <code class="docutils literal notranslate"><span class="pre">log</span></code> crate 实现了日志功能，那么你可以直接在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 中引入 <code class="docutils literal notranslate"><span class="pre">log</span></code> crate，通过 <code class="docutils literal notranslate"><span class="pre">log::info!/debug!</span></code> 等宏即可进行调试并在内核中看到日志输出。具体来说，在 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 中的修改是：在 <code class="docutils literal notranslate"><span class="pre">easy-fs/Cargo.toml</span></code> 的依赖中加入一行 <code class="docutils literal notranslate"><span class="pre">log</span> <span class="pre">=</span> <span class="pre">"0.4.0"</span></code>，然后在 <code class="docutils literal notranslate"><span class="pre">easy-fs/src/lib.rs</span></code> 中加入一行 <code class="docutils literal notranslate"><span class="pre">extern</span> <span class="pre">crate</span> <span class="pre">log</span></code> 。</p>
 <p>你也可以完全在用户态进行调试。仿照 <code class="docutils literal notranslate"><span class="pre">easy-fs-fuse</span></code> 建立一个在当前操作系统中运行的应用程序，将测试逻辑写在 <code class="docutils literal notranslate"><span class="pre">main</span></code> 函数中。这个时候就可以将它引用的 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 的 <code class="docutils literal notranslate"><span class="pre">no_std</span></code> 去掉并使用 <code class="docutils literal notranslate"><span class="pre">println!</span></code> 进行调试。</p>
 </div>
+<ul class="simple">
+<li><p>开发并通过所有测例</p></li>
+</ul>
+<p>在 <code class="docutils literal notranslate"><span class="pre">YOUR_LAB4_REPO_DIR</span></code> 下进行编码（可学习参考 <code class="docutils literal notranslate"><span class="pre">os6-ref/src</span></code> 目录下的源代码，并在 <code class="docutils literal notranslate"><span class="pre">os6/src</span></code> 中完成编码），并进行编译测试。</p>
+<p>注意：本次实验需要扩展文件系统的功能，所以，除了需要修改扩展 <code class="docutils literal notranslate"><span class="pre">os6</span></code> 目录下的代码外，还需要修改扩展 <code class="docutils literal notranslate"><span class="pre">easy-fs</span></code> 和 <code class="docutils literal notranslate"><span class="pre">easy-fs-fuse</span></code> 下面的部分代码。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p><strong>测试方式</strong></p>
+<p>你的实现只需且必须通过测例，建议读者感到困惑时先检查测例</p>
+<p>如果实现正确，可在项目仓库的根目录下执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test6</span></code> ，应该看到类似如下的显示输出：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span>  YOUR_LAB4_REPO_DIR
+<span class="gp">$ </span>make test6
+<span class="go">......</span>
+<span class="go">[rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0</span>
+<span class="go">.______       __    __      _______.___________.  _______..______   __</span>
+<span class="go">|   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |</span>
+<span class="go">|  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |</span>
+<span class="go">|      /     |  |  |  |    \   \       |  |      \   \    |   _  &lt; |  |</span>
+<span class="go">|  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |</span>
+<span class="go">| _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|</span>
+<span class="go">[rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1</span>
+<span class="go">[rustsbi] Platform Name      : riscv-virtio,qemu</span>
+<span class="go">[rustsbi] Platform SMP       : 1</span>
+<span class="go">[rustsbi] Platform Memory    : 0x80000000..0x88000000</span>
+<span class="go">[rustsbi] Boot HART          : 0</span>
+<span class="go">[rustsbi] Device Tree Region : 0x87000000..0x87000ef2</span>
+<span class="go">[rustsbi] Firmware Address   : 0x80000000</span>
+<span class="go">[rustsbi] Supervisor Address : 0x80200000</span>
+<span class="go">[rustsbi] pmp01: 0x00000000..0x80000000 (-wr)</span>
+<span class="go">[rustsbi] pmp02: 0x80000000..0x80200000 (---)</span>
+<span class="go">[rustsbi] pmp03: 0x80200000..0x88000000 (xwr)</span>
+<span class="go">......</span>
+<span class="go">[PASS] found &lt;Test 04_5 ummap OK53852!&gt;</span>
+<span class="go">[PASS] found &lt;Test 04_1 OK53852!&gt;</span>
+<span class="go">.....</span>
+<span class="go">[PASS] found &lt;Test write C OK53852!&gt;</span>
+<span class="go">[PASS] found &lt;get_time OK53852! (\d+)&gt;</span>
+<span class="go">[PASS] not found &lt;FAIL: T.T&gt;</span>
+<span class="go">[PASS] not found &lt;Should cause error, Test 04_2 fail!&gt;</span>
+<span class="go">[PASS] not found &lt;Should cause error, Test 04_3 fail!&gt;</span>
+
+<span class="go">Test passed53852: 27/27</span>
+<span class="go">Report for lab1 found.</span>
+<span class="go">Report for lab2 found.</span>
+<span class="go">Report for lab3 found.</span>
+<span class="go">Report for lab4 found.</span>
+</pre></div>
+</div>
+</div>
 <ul>
 <li><p>提交你的修改</p>
 <blockquote>

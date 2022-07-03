@@ -368,10 +368,56 @@ BigStride 表示一个预先定义的大常数，则该调度方案为每个进�
 <p>CI 的原理是用 <code class="docutils literal notranslate"><span class="pre">ch5_usertest</span></code> 替代 <code class="docutils literal notranslate"><span class="pre">ch5b_initproc</span></code> ，使内核在所有测例执行完后直接退出。</p>
 <p>从本章开始，你的内核必须前向兼容，能通过前一章的所有测例。</p>
 </li>
+<li><p>开发并通过所有测例</p></li>
 </ul>
+<p>在 <code class="docutils literal notranslate"><span class="pre">YOUR_LAB3_REPO_DIR</span></code> 下进行编码（可学习参考 <code class="docutils literal notranslate"><span class="pre">os5-ref/src</span></code> 目录下的源代码，并在 <code class="docutils literal notranslate"><span class="pre">os5/src</span></code> 中完成编码），并进行编译测试。</p>
 <div class="admonition note">
 <p class="admonition-title">注解</p>
-<p>利用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code> 系列指令，能方便地将前一章分支 commit 移植到本章分支。</p>
+<p><strong>测试方式</strong></p>
+<p>你的实现只需且必须通过测例，建议读者感到困惑时先检查测例</p>
+<p>如果实现正确，可在项目仓库的根目录下执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test5</span></code> ，应该看到类似如下的显示输出：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"> $ </span><span class="nb">cd</span>  YOUR_LAB3_REPO_DIR
+<span class="gp"> $ </span>make test5
+<span class="go"> ......</span>
+<span class="go"> [rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0</span>
+<span class="go"> .______       __    __      _______.___________.  _______..______   __</span>
+<span class="go"> |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |</span>
+<span class="go"> |  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |</span>
+<span class="go"> |      /     |  |  |  |    \   \       |  |      \   \    |   _  &lt; |  |</span>
+<span class="go"> |  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |</span>
+<span class="go"> | _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|</span>
+<span class="go"> [rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1</span>
+<span class="go"> [rustsbi] Platform Name      : riscv-virtio,qemu</span>
+<span class="go"> [rustsbi] Platform SMP       : 1</span>
+<span class="go"> [rustsbi] Platform Memory    : 0x80000000..0x88000000</span>
+<span class="go"> [rustsbi] Boot HART          : 0</span>
+<span class="go"> [rustsbi] Device Tree Region : 0x87000000..0x87000ef2</span>
+<span class="go"> [rustsbi] Firmware Address   : 0x80000000</span>
+<span class="go"> [rustsbi] Supervisor Address : 0x80200000</span>
+<span class="go"> [rustsbi] pmp01: 0x00000000..0x80000000 (-wr)</span>
+<span class="go"> [rustsbi] pmp02: 0x80000000..0x80200000 (---)</span>
+<span class="go"> [rustsbi] pmp03: 0x80200000..0x88000000 (xwr)</span>
+<span class="go"> ......</span>
+<span class="go"> [PASS] found &lt;current time_msec = (\d+)&gt;</span>
+<span class="go"> [PASS] found &lt;Test wait OK42266!&gt;</span>
+<span class="go"> [PASS] found &lt;time_msec = (\d+) after sleeping (\d+) ticks, delta = (\d+)ms!&gt;</span>
+<span class="go"> [PASS] found &lt;Test 04_4 test OK42266!&gt;</span>
+<span class="go"> [PASS] found &lt;Test 04_6 ummap2 OK42266!&gt;</span>
+<span class="go">......</span>
+<span class="go"> [PASS] found &lt;Test set_priority OK42266!&gt;</span>
+<span class="go"> [PASS] found &lt;Test write B OK42266!&gt;</span>
+<span class="go"> [PASS] not found &lt;FAIL: T.T&gt;</span>
+<span class="go"> [PASS] not found &lt;Should cause error, Test 04_2 fail!&gt;</span>
+<span class="go"> [PASS] not found &lt;Should cause error, Test 04_3 fail!&gt;</span>
+
+<span class="go"> Test passed42266: 24/24</span>
+
+<span class="go"> stride ratio = [15202320, 13745266, 13849200, 12149100, 10944222, 9782240]</span>
+<span class="go"> [PASS] Stride Test</span>
+
+<span class="go"> Test passed42266: 1/1</span>
+</pre></div>
+</div>
 </div>
 <ul>
 <li><p>提交你的修改</p>

@@ -359,9 +359,10 @@
 </pre></div>
 </div>
 <ul>
-<li><p>通过所有测例：</p>
+<li><p>开发并通过所有测例：</p>
 <blockquote>
-<div><p>CI 使用的测例与本地相同，测试中，user 文件夹及其它与构建相关的文件将被替换，请不要试图依靠硬编码通过测试。</p>
+<div><p>在 <code class="docutils literal notranslate"><span class="pre">YOUR_LAB1_REPO_DIR</span></code> 下进行编码（可学习参考 <code class="docutils literal notranslate"><span class="pre">os3-ref/src</span></code> 目录下的源代码，并在 <code class="docutils literal notranslate"><span class="pre">os3/src</span></code> 中完成编码），并进行编译测试。</p>
+<p>CI 使用的测例与本地相同，测试中，user 文件夹及其它与构建相关的文件将被替换，请不要试图依靠硬编码通过测试。</p>
 <p>在 <code class="docutils literal notranslate"><span class="pre">os3</span></code> 目录下，默认情况下，makefile 仅编译基础测例 (<code class="docutils literal notranslate"><span class="pre">BASE=1</span></code>)，即无需修改框架即可正常运行的测例。
 你需要在编译时指定 <code class="docutils literal notranslate"><span class="pre">BASE=0</span></code> 控制框架仅编译实验测例（在 os 目录执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">run</span> <span class="pre">BASE=0</span></code>），
 或指定 <code class="docutils literal notranslate"><span class="pre">BASE=2</span></code> 控制框架同时编译基础测例和实验测例。</p>
@@ -372,7 +373,7 @@
 <p class="admonition-title">注解</p>
 <p><strong>测试方式</strong></p>
 <p>你的实现只需且必须通过测例，建议读者感到困惑时先检查测例</p>
-<p>如果实现正确，可在项目仓库的根目录下执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test3</span></code> ，应该看到如显示输出：</p>
+<p>如果实现正确，可在项目仓库的根目录下执行 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test3</span></code> ，应该看到类似如下的显示输出：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span>  YOUR_LAB1_DIR
 <span class="gp">$ </span>make test3
 <span class="go">......</span>
