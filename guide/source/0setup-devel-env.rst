@@ -222,12 +222,28 @@ Qemu 模拟器安装
 试运行 rCore-Tutorial
 ------------------------------------------------------------
 
+基于Github Classroom 模式
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: bash
 
-   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-   $ cd rust-based-os-comp2022
-   $ make setupclassroom  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
+   $ git clone  ``Github-Classroom帮你生成的某个OS实验的仓库``
+   $ cd  ``刚克隆的本地某个OS实验的仓库``
+   $ make setupclassroom_``实验编号``  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。实验编号是与某个实验匹配的编号
 
+
+.. note::
+
+   实验名称 ：实验编号 
+   -  lab0-0 : test1
+   -  lab0-1：test2 
+   -  lab1：test3
+   -  lab2：test4
+   -  lab3：test5
+   -  lab4：test6
+   -  lab5：test8
+ 
+   
 我们先运行不需要处理用户代码的裸机操作系统 ``os1`` ：
 
 .. code-block:: bash
