@@ -48,8 +48,9 @@
 
 2. 自学编程
 
-   - [Small exercises to get you used to reading and writing Rust code!](https://github.com/rust-lang/rustlings)
-     - 要求：小练习全部通过。代码和README提交在自己在github的公开repo上。
+   - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo） 
+     - 要求：**必须完成** 。每完成几个小练习，就执行 ``git push`` 命令，提交到小GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
+
    - [32 Rust Quizes](https://dtolnay.github.io/rust-quiz/1)
      - 要求：小练习全部通过。
    - [exercisms.io 快速练习(88+道题目的中文详细描述)](http://llever.com/exercism-rust-zh/index.html)
