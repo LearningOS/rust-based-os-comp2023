@@ -104,8 +104,8 @@ Rust 开发环境配置
 
 .. code-block:: bash
 
-   export RUSTUP_DIST_SERVER=https://mirrors.tuna.edu.cn/rustup
-   export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.edu.cn/rustup/rustup
+   export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+   export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
    curl https://sh.rustup.rs -sSf | sh
 
 也可以设置科学上网代理：
