@@ -13,15 +13,20 @@
 
 获取本章代码：
 
-.. code-block:: console
+在 qemu 模拟器上运行本章代码参考框架：
 
-   $ git clone https://github.com/LearningOS/rust-based-os-comp2022.git
-   $ cd rust-based-os-comp2022/
-   //$ make setupclassroom  //注意：在本章不需要做这一步，因为这不是一个作业。（这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。）
+.. code-block:: console
+   
+   $ git clone ``gitaddr of github-classroom-build-lab4``
+   $ cd ``github-classroom-build-lab4`` 
+   $ make setupclassroom_test6  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
+   $ cd os7-ref
+   $ make run
 
 .. note::
 
    实验名称 ：实验编号 
+
    -  lab0-0 : test1
    -  lab0-1：test2 
    -  lab1：test3
