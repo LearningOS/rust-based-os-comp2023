@@ -36,4 +36,4 @@ git push -f
 
 **方法二：**
 
-    对用户的公开仓库进行CI action是不需要付费的。向管理员“助教许善朴”申请把自己的仓库改为公开仓库。这样就可以免费 CI 相关的github action了。
+    对用户的公开仓库进行CI action是不需要付费的。在项目 `Settings` -> `Change visibility` 将项目改成Public, 重新触发Action.
