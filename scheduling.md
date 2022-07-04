@@ -49,7 +49,7 @@
 2. 自学编程
 
    - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo） 
-     - 要求：**必须完成** 。每完成几个小练习，就执行 ``git push`` 命令，提交到小GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
+     - 要求：**必须完成** 。每完成几个小练习，就执行 ``git add; git commit -m"update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
      - [学习系列视频：Rust中文社群线上学习室--通过 Rustlings 学 Rust](https://space.bilibili.com/24917186/video) 
         
           **提示：基于github classroom的开发方式**
