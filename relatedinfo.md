@@ -39,3 +39,10 @@
 - [OS API docs of ch8](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch8/os/index.html)
 
 注：请联系助教了解访问方式
+
+
+
+**rcore tutorial和rustlings视频讲解：**
+
+[视频链接](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
+
