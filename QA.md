@@ -1,6 +1,7 @@
-Q1:已经在classroom中建立了自己的仓库（例如 “LearningOS/lab0-0-setup-env-run-os1-chyyuu2022"），但是源仓库“LearningOS/rust-based-os-comp2022“更新了，如何处理？
+# 常见问题解答
+## Q1：已经在classroom中建立了自己的仓库（例如 “LearningOS/lab0-0-setup-env-run-os1-chyyuu2022"），但是源仓库“LearningOS/rust-based-os-comp2022“更新了，如何处理？
 
-A：
+### A：
 
 **方法一：**
 
@@ -24,3 +25,15 @@ git push -f
 **方法三：**
   
     向管理员“助教许善朴”申请删除已生成仓库，再点击 链接重新创建仓库。
+
+##  Q2：在classroom中建立了自己的仓库中，进行提交 `git push` 后，触发 CI后，出现 Annotations 错误“The job was not stared because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings”，无法完成自动CI功能，比如 `Autograding` 等。
+
+### A:
+
+**方法一：**
+    
+    这是由于对用户的私有仓库进行CI 相关的github action是需要付费的。用户可通过给自己的github账户充值来解决。https://docs.github.com/cn/billing/managing-billing-for-github-actions/about-billing-for-github-actions 给出了具体信息。
+
+**方法二：**
+
+    对用户的公开仓库进行CI action是不需要付费的。向管理员“助教许善朴”申请把自己的仓库改为公开仓库。这样就可以免费 CI 相关的github action了。
