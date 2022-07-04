@@ -36,4 +36,4 @@ git push -f
 
 **方法二：**
 
-    对用户的公开仓库进行CI action是不需要付费的。在项目 `Settings` -> `Change visibility` 将项目改成Public, 重新触发Action.
+    对用户的公开仓库进行CI action是不需要付费的。在项目 `Settings` -> `Change visibility` 将项目改成Public, 重新触发Action。 如果权限不够，可联系助教帮助。
