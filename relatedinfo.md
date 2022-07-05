@@ -42,7 +42,7 @@
 
 
 
-**rcore tutorial和rustlings视频讲解：**
+## rcore tutorial和rustlings视频讲解
 
-[视频链接](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
+- [rustlings & OS lab0-0 搭建环境和初始开发过程](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
 
