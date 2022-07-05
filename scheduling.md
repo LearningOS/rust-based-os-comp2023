@@ -78,10 +78,10 @@
 
           注：如果是本地的ubuntu中建立开发环境，可在shell中执行 ``make ubuntu_local_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
 
-   - [32 Rust Quizes](https://dtolnay.github.io/rust-quiz/1)
-     - 要求：小练习全部通过。
-   - [exercisms.io 快速练习(88+道题目的中文详细描述)](http://llever.com/exercism-rust-zh/index.html)
-     - 要求：大部分练习会做或能读懂。
+   - （Option）[32 Rust Quizes](https://dtolnay.github.io/rust-quiz/1)
+     - 要求：小练习全部通过。（**非必须完成**）
+   - （Option）[exercisms.io 快速练习(88+道题目的中文详细描述)](http://llever.com/exercism-rust-zh/index.html)
+     - 要求：大部分练习会做或能读懂。（**非必须完成**）
      - [exercism.io官方站点](https://exercism.io/)
 
 
