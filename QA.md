@@ -36,6 +36,6 @@ git push -f
 
 **方法二：**
 
-    对用户的公开仓库进行CI github action是不需要付费的。在项目 `Settings` -> `Change visibility` 将项目改成Public, 重新触发Action。 
-    目前设置了让用户具有修改自己的项目从private --> public的能力。可能需要通过“Q1”中的“方法一”来更新自己的仓库配置，具有修改能力。
-    如果用户还是发现自己的权限不够，或看不到这个选项，可以通过联系助教帮助来解决。
+    对用户的公开仓库进行CI github action是不需要付费的。在项目的 `Settings` -> `Change visibility` 将项目改成Public, 重新触发Action。 
+    目前设置了让用户具有修改自己的项目从private --> public的能力。
+    如果用户还是发现自己的权限不够，或看不到  `Settings`  这个选项，可以通过联系助教帮助来解决。
