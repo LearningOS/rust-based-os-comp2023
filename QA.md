@@ -48,3 +48,9 @@ git push -f
     对用户的公开仓库进行CI github action是不需要付费的。在项目的 `Settings` -> `Change visibility` 将项目改成Public, 重新触发Action。 
     目前设置了让用户具有修改自己的项目从private --> public的能力。
     如果用户还是发现自己的权限不够，或看不到  `Settings`  这个选项，可以通过联系助教帮助来解决。
+
+## Q3：我刚开始准备学习Rust，是Rust新手，我应该如何入门？
+
+### A:
+
+  - [Rust 大佬给初学者的学习建议](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-02%5D%20Rust%20%E5%A4%A7%E4%BD%AC%E7%BB%99%E5%88%9D%E5%AD%A6%E8%80%85%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE.md)
