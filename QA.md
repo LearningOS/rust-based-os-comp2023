@@ -55,3 +55,9 @@ git push -f
 
   - [Rust 大佬给初学者的学习建议](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-02%5D%20Rust%20%E5%A4%A7%E4%BD%AC%E7%BB%99%E5%88%9D%E5%AD%A6%E8%80%85%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE.md)
   - [张汉东：学习 Rust 你需要一个认知框架](https://zhuanlan.zhihu.com/p/494001676)
+
+## Q4：我不熟悉GitHub和Git，有啥快速入门的资源吗？
+
+### A:
+   - [包括：从 0 开始学习 GitHub 系列1-7](https://jtxiao.com/main/categories/%E5%B7%A5%E5%85%B7/)
+   - [超级简单的Git入门](https://backlog.com/git-tutorial/cn/)
