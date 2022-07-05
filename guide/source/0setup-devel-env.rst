@@ -49,16 +49,52 @@ Docker方式进行本地OS开发环境配置
 
    **Docker 开发环境**
 
-   感谢 dinghao188 和张汉东老师帮忙配置好的 Docker 开发环境，进入 Docker 开发环境之后不需要任何软件工具链的安装和配置，可以直接将 tutorial 运行起来，目前应该仅支持将 tutorial 运行在 Qemu 模拟器上。
+ 
 
-   使用方法如下（以 Ubuntu18.04 为例）：
+   使用方法如下（以 Ubuntu20.04 为例）：
 
-   1. 通过 ``su`` 切换到管理员账户 ``root`` ；
-   2. 在 ``rCore-Tutorial`` 根目录下 ``make docker`` 进入到 Docker 环境；
-   3. 进入 Docker 之后，会发现当前处于根目录 ``/`` ，我们通过 ``cd mnt`` 将当前工作路径切换到 ``/mnt`` 目录；
-   4. 通过 ``ls`` 可以发现 ``/mnt`` 目录下的内容和 ``rCore-Tutorial-v3`` 目录下的内容完全相同，接下来就可以在这个环境下运行 tutorial 了。例如 ``cd os && make run`` 。
+   1.  以 ``lab0-0`` 为例，下载克隆本次的实验repo 或 https://github.com/LearningOS/rust-based-os-comp2022.git ； 在 ``lab0-0`` repo的根目录下，执行 ``make build_docker`` 来建立基于docker的开发环境;
+   2. 在 ``lab0-0`` repo的根目录下执行 ``make docker`` 进入到 Docker 开发环境；
+   3. 进入 Docker 之后，会发现当前处于根目录 ``/`` ，我们通过 ``cd os1`` 将当前工作路径切换到  ``lab0-0`` repo的根目录下；
+   4. 接下来就可以在这个环境下进行实验了。例如 ``LOG=DEBUG make run`` 。
 
-注：目前的Docker开发环境没有配置 Qemu-7.0.0 和下载 https://github.com/LearningOS/rust-based-os-comp2022.git 。所以还需要按照下面的步骤进行手动配置。
+   大致操作和输出如下：
+
+   .. code-block:: bash
+
+      $ make build_docker
+      $ make docker
+      docker$ cd os1
+      docker$ LOG=DEBUG make run
+      ...
+      [rustsbi] RustSBI version 0.2.2, adapting to RISC-V SBI v1.0.0
+      .______       __    __      _______.___________.  _______..______   __
+      |   _  \     |  |  |  |    /       |           | /       ||   _  \ |  |
+      |  |_)  |    |  |  |  |   |   (----`---|  |----`|   (----`|  |_)  ||  |
+      |      /     |  |  |  |    \   \       |  |      \   \    |   _  < |  |
+      |  |\  \----.|  `--'  |.----)   |      |  |  .----)   |   |  |_)  ||  |
+      | _| `._____| \______/ |_______/       |__|  |_______/    |______/ |__|
+      [rustsbi] Implementation     : RustSBI-QEMU Version 0.1.1
+      [rustsbi] Platform Name      : riscv-virtio,qemu
+      [rustsbi] Platform SMP       : 1
+      [rustsbi] Platform Memory    : 0x80000000..0x88000000
+      [rustsbi] Boot HART          : 0
+      [rustsbi] Device Tree Region : 0x87000000..0x87000ef2
+      [rustsbi] Firmware Address   : 0x80000000
+      [rustsbi] Supervisor Address : 0x80200000
+      [rustsbi] pmp01: 0x00000000..0x80000000 (-wr)
+      [rustsbi] pmp02: 0x80000000..0x80200000 (---)
+      [rustsbi] pmp03: 0x80200000..0x88000000 (xwr)
+      Hello, world!
+      [DEBUG] .rodata [0x80203000, 0x80205000)
+      [ INFO] .data [0x80205000, 0x80206000)
+      [ WARN] boot_stack [0x80206000, 0x80216000)
+      [ERROR] .bss [0x80216000, 0x80217000)
+
+   注：
+
+      - 感谢 qobilidop， dinghao188 和张汉东老师帮忙配置好的 Docker 开发环境，进入 Docker 开发环境之后不需要任何软件工具链的安装和配置，可以直接将 tutorial 运行起来，目前应该仅支持将 本次实验 运行在 Qemu-7.0.0 模拟器上。
+      - 目前的Docker开发环境没有：设置国内crates源（可选） 、下载克隆本次的实验repo，https://github.com/LearningOS/rust-based-os-comp2022.git等 。所以还需要参考下面的步骤进行部分配置和部分安装。
 
 
 手动方式进行本地OS开发环境配置
