@@ -38,11 +38,10 @@
 - [OS API docs of ch7](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch8/os/index.html)
 - [OS API docs of ch8](https://learningos.github.io/rCore-Tutorial-Code-2022S/ch8/os/index.html)
 
-注：请联系助教了解访问方式
-
-
-
 ## rcore tutorial和rustlings视频讲解
 
 - [rustlings & OS lab0-0 搭建环境和初始开发过程](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
 
+
+
+**注：如访问上述网址碰到问题，请联系助教了解访问方式**
