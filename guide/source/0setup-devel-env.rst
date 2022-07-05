@@ -94,7 +94,7 @@ Docker方式进行本地OS开发环境配置
    注：
 
       - 感谢 qobilidop， dinghao188 和张汉东老师帮忙配置好的 Docker 开发环境，进入 Docker 开发环境之后不需要任何软件工具链的安装和配置，可以直接将 tutorial 运行起来，目前应该仅支持将 本次实验 运行在 Qemu-7.0.0 模拟器上。
-      - 目前的Docker开发环境没有：设置国内crates源（可选） 、下载克隆本次的实验repo，https://github.com/LearningOS/rust-based-os-comp2022.git等 。所以还需要参考下面的步骤进行部分配置和部分安装。
+      - 目前的Docker开发环境主要是建立好了实验用的开发环境，还没有设置国内crates源（可选） 、配置基于github classroom的自动测试环境等 。所以还需要参考上面或下面的步骤进行部分配置和部分安装。
 
 
 手动方式进行本地OS开发环境配置
