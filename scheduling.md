@@ -2,7 +2,9 @@
 ## 2022年开源操作系统训练营：第一阶段
 
 - [2022年开源操作系统训练营的新闻和纪要](./news.md)
-  
+- [常见问题解答](./QA.md)
+
+
 欢迎在校学生在2022年暑假参加清华大学、CSDN、毛豆教育等共同举办的**2022年开源操作系统训练营**活动（7月1日～9月10日），本次活动分为两个阶段：线上自学OS基础[基于Rust语言学习和实践操作系统内核](https://github.com/LearningOS/rust-based-os-comp2022)（7月1日～7月31日）和线上实践OS拓展[基于Rust语言的操作系统内核拓展实践](https://github.com/LearningOS/rust-based-os-comp2022/blob/main/stage2-sched.md)（8月1日～9月10日） ,主要是对用**Rust语言进行OS研发开展学习、交流与探索**。
 
 如有兴趣参加，请在2022年7月5日前上传个人简历到清华云盘“简历收件箱[CV-inbox](https://cloud.tsinghua.edu.cn/u/d/3c62302864fd4ff090a1/)”，并填写[2022年开源操作系统训练营报名表](http://oscourse2019.mikecrm.com/yKVchGm)，获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（7月1日～7月31日）的同学如果通过review，将可在8月1日~9月10日，开展第二阶段[基于Rust语言的操作系统内核拓展实践](https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与rCore/zCore等相关的活动。
