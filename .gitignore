@@ -6,3 +6,7 @@ os/src/link_app.S
 os/last-*
 tools
 workplace/
+os2-ref/src/link_app.S
+os3-ref/src/link_app.S
+os4-ref/src/link_app.S
+os5-ref/src/link_app.S
