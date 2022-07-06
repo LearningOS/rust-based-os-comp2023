@@ -9,6 +9,10 @@ FROM ubuntu:20.04
 ARG QEMU_VERSION=7.0.0
 ARG HOME=/root
 
+# -1. (Optional) Add Ubuntu Repo
+ADD docker/registryList /etc/apt/
+RUN sed -i "1r /etc/apt/registryList" /etc/apt/sources.list
+
 # 0. Install general tools
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
