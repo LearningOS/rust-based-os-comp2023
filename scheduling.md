@@ -38,11 +38,13 @@
 #### 总体学习要求和成绩考核方式
 
 - 在[学习实践过程记录表](https://github.com/LearningOS/rust-based-os-comp2022/issues/1)上登记自己每日/周学习记录情况的repo网址，并在这个repo上记录每日/周学习记录情况  (成绩分数：20%)
-   - [学习记录的标杆](https://kiprey.github.io/tags/uCore/)，这是一位本科生的自学ucore for x86的过程记录，是大家学习的榜样，供大家学习参考。
+   - [学习记录的标杆1](https://github.com/LearningOS/record)，浙江大学本科生徐文浩的2020开源操作系统训练营的过程记录，是大家学习的榜样，供大家学习参考。
+   - [学习记录的标杆2](https://kiprey.github.io/tags/uCore/)：湖南大学本科生肖政杭的自学ucore for x86的过程记录，是大家学习的榜样，供大家学习参考。
 
 - 在[第一阶段学习issues](https://github.com/LearningOS/rust-based-os-comp2022/issues/)上的提问和回答问题情况，在[第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/) 、 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) 上的Pull Request提交情况（代码改进、文档改进、文档错误等） (成绩分数：15%)
 - step 0 要求的[Rust-lang Lab Test based on Rustlings（采用Github Classroom模式的Rustling小练习）](https://classroom.github.com/a/YTNg1dEH) 的完成情况 (成绩分数：15%)
-- step 2 [第一阶段OS学习的5个实验](https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs)的完成情况 (成绩分数：50%)
+- step 2 [第一阶段OS学习的5个实验](https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs)的完成情况和总结报告 (成绩分数：50%)
+   - [第一阶段总结报告的参考](https://rcore-os.github.io/blog/2021/07/29/rcore-summary-yangpan/): 杨攀同学的2021年开源操作系统训练营第一阶段总结报告
 
 #### step 0 自学rust编程（大约7~14天）
 
@@ -125,7 +127,8 @@
 
 ##### 具备步骤
 
-根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，并通过基于GitHub Classroom的CI测试。
+根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，通过基于GitHub Classroom的CI测试，并在最后写出总结报告。
+
 
 具体步骤
 - 登录github.com

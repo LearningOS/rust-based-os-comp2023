@@ -1,8 +1,14 @@
 ## 2022年开源操作系统训练营：第二阶段
 
 ## 相关信息
-- **注意：** 为及时了解和指导同学的学习和实践情况并推动学生相互帮助，本次活动要求学生把每日学习实践的过程记录在自己在github的公开repo上。可参见[每日学习实践的具体例子](https://github.com/GCYYfun/DailySchedule)。
-
+- **注意：** 为及时了解和指导同学的学习和实践情况并推动学生相互帮助，本次活动要求学生把每日学习实践的过程记录在自己在github的公开repo上。可参考：
+- [徐文浩的2020开源操作系统训练营的过程记录](https://github.com/LearningOS/record)
+- [2021开源操作系统训练营第二阶段总结列表](https://rcore-os.github.io/blog/categories/report/)
+- [2020开源操作系统训练营第二阶段总结：K210组RustSBI开发总结 -- 洛佳](https://rcore-os.github.io/blog/2020/09/06/os-report-final-luojia65/)
+- [2020开源操作系统训练营第二阶段总结：zCore Summer of Code 2020 报告 -- 车春池](https://rcore-os.github.io/blog/2020/09/02/zcore_report_chechunchi/)
+- [2020开源操作系统训练营第二阶段总结：移植rCore-Tutorial 到k210 -- 徐文浩](https://rcore-os.github.io/blog/2020/08/30/report-k210/)
+- [2020开源操作系统训练营第二阶段总结：rCore 到 zCore 功能迁移组报告 -- 郑昱笙、李宇](https://rcore-os.github.io/blog/2020/08/30/report-of-rCore-to-zCore/)
+- [陈兴的每日学习实践的过程记录](https://github.com/GCYYfun/DailySchedule)
 
 
 ## 日程：第一周：zCore讲解与学习（7天）
