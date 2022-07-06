@@ -114,6 +114,7 @@ pub struct SyscallInfo {
 
 const MAX_SYSCALL_NUM: usize = 500;
 
+#[repr(C)]
 #[derive(Debug)]
 pub struct TaskInfo {
     pub status: TaskStatus,
