@@ -61,5 +61,23 @@ git push -f
 ## Q4：我不熟悉GitHub和Git，有啥快速入门的资源吗？
 
 ### A:
+
    - [包括：从 0 开始学习 GitHub 系列1-7](https://jtxiao.com/main/categories/%E5%B7%A5%E5%85%B7/)
    - [超级简单的Git入门](https://backlog.com/git-tutorial/cn/)
+   - [git - 简明指南](https://rogerdudler.github.io/git-guide/index.zh.html)
+   - [中文git-tips](https://github.com/521xueweihan/git-tips)
+   - [GitHub 官方制作的 Git 速查表](https://education.github.com/git-cheat-sheet-education.pdf)
+
+## Q5：我不熟悉Linux的各种命令，有啥快速入门的资源吗？
+
+### A:
+
+   - [中文Linux命令（linux-command）搜索引擎](https://wangchujiang.com/linux-command/)：随用随搜Linux命令，而且还支持中文搜索
+   - [新版 Linux 命令百科全书》（英文）](https://github.com/tldr-pages/tldr)
+
+## Q6：我碰到一些命令/应用(比如vim, curl)、操作（比如vscode）或语言用法（比如Makefile）等不知到哪里能快速查找，怎么办？
+  
+### A:
+
+   - [Rico's cheatsheets](https://devhints.io/) 开源、全面的速查表网站，涵盖了前端、后端、运维、IDE 多个方面，而且界面友好简洁支持在线查看
+   - [所有与命令行相关的cheatsheet](http://cheat.sh/)：号称「你唯一需要的命令行相关速查表」
