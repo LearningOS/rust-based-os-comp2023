@@ -53,6 +53,7 @@
 1. 自学：[阅读书籍/课程/视频等资源汇总](https://github.com/rcore-os/rCore/wiki/study-resource-of-system-programming-in-RUST)
 
    - 推荐：[Rust语言圣经(Rust教程 Rust Course和配套练习)](https://course.rs/)
+   - 推荐：[Rust速查表（cheatsheet）](https://cheats.rs/) 该项目不仅提供了基础的语法速查，还有执行顺序详解和编写时需要关注的注意事项。项目还包含了示例代码（EX）、书籍（BK）、标准（STD）等相关资料的扩展。
 
 2. 自学编程
 
