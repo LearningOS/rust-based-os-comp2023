@@ -55,9 +55,29 @@ git push -f
 
   - [Rust 大佬给初学者的学习建议](https://github.com/rustlang-cn/Rustt/blob/main/Articles/%5B2022-04-02%5D%20Rust%20%E5%A4%A7%E4%BD%AC%E7%BB%99%E5%88%9D%E5%AD%A6%E8%80%85%E7%9A%84%E5%AD%A6%E4%B9%A0%E5%BB%BA%E8%AE%AE.md)
   - [张汉东：学习 Rust 你需要一个认知框架](https://zhuanlan.zhihu.com/p/494001676)
+  - [Rust语言圣经(Rust Course)](https://course.rs/)
+  - [Rust速查表（cheatsheet）](https://cheats.rs/) 该项目不仅提供了基础的语法速查，还有执行顺序详解和编写时需要关注的注意事项。项目还包含了示例代码（EX）、书籍（BK）、标准（STD）等相关资料的扩展。
 
 ## Q4：我不熟悉GitHub和Git，有啥快速入门的资源吗？
 
 ### A:
+
    - [包括：从 0 开始学习 GitHub 系列1-7](https://jtxiao.com/main/categories/%E5%B7%A5%E5%85%B7/)
    - [超级简单的Git入门](https://backlog.com/git-tutorial/cn/)
+   - [git - 简明指南](https://rogerdudler.github.io/git-guide/index.zh.html)
+   - [中文git-tips](https://github.com/521xueweihan/git-tips)
+   - [GitHub 官方制作的 Git 速查表](https://education.github.com/git-cheat-sheet-education.pdf)
+
+## Q5：我不熟悉Linux的各种命令，有啥快速入门的资源吗？
+
+### A:
+
+   - [中文Linux命令（linux-command）搜索引擎](https://wangchujiang.com/linux-command/)：随用随搜Linux命令，而且还支持中文搜索
+   - [新版 Linux 命令百科全书》（英文）](https://github.com/tldr-pages/tldr)
+
+## Q6：我碰到一些命令/应用(比如vim, curl)、操作（比如vscode）或语言用法（比如Makefile）等不知到哪里能快速查找，怎么办？
+  
+### A:
+
+   - [Rico's cheatsheets](https://devhints.io/) 开源、全面的速查表网站，涵盖了前端、后端、运维、IDE 多个方面，而且界面友好简洁支持在线查看
+   - [所有与命令行相关的cheatsheet](http://cheat.sh/)：号称「你唯一需要的命令行相关速查表」
