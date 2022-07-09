@@ -118,6 +118,12 @@ println! 宏是由标准库 std 提供的，且会使用到一个名为 write �
 分析被移除标准库的程序
 -----------------------------
 
+首先安装 cargo-binutils 工具集：
+
+.. code-block:: console
+   $ cargo install cargo-binutils
+   $ rustup component add llvm-tools-preview
+
 我们可以通过一些工具来分析目前的程序：
 
 .. code-block:: console
