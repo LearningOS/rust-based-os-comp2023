@@ -20,10 +20,10 @@ else ifeq ($(CHAPTER), 8)
 endif
 
 randomize:
-	find user/src/bin -name "*.rs" | xargs sed -i 's/OK/OK$(RAND)/g'
-	find user/src/bin -name "*.rs" | xargs sed -i 's/passed/passed$(RAND)/g'
-	find check -name "*.py" | xargs sed -i 's/OK/OK$(RAND)/g'
-	find check -name "*.py" | xargs sed -i 's/passed/passed$(RAND)/g'
+	find user/src/bin -name "*.rs" | xargs perl -pi -e s,OK,OK$(RAND),g
+	find user/src/bin -name "*.rs" | xargs perl -pi -e s,passed,passed$(RAND),g
+	find check -name "*.py" | xargs perl -pi -e s,OK,OK$(RAND),g
+	find check -name "*.py" | xargs perl -pi -e s,passed,passed$(RAND),g
 
 test: randomize
 	python3 overwrite.py $(CHAPTER)
