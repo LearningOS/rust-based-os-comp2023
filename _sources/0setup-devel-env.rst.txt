@@ -18,7 +18,7 @@
 
 
 目前，实验主要支持 Ubuntu18.04/20.04 操作系统。使用 Windows10 和 macOS 的读者，可以安装一台 Ubuntu18.04 虚拟机或 Docker
-进行实验。也可基于 **gihub classroom with codespaces** 进行开发。
+进行实验。也可基于 **github classroom with codespaces** 进行开发。
 
 
 Github Classroom方式进行在线OS 环境配置
