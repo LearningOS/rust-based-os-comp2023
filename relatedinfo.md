@@ -46,3 +46,8 @@
 
 [视频链接](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
 
+
+**rust所有权和借用相关：**
+
+[视频链接](https://www.bilibili.com/video/BV1ze4y1R7C9?share_source=copy_web)
+
