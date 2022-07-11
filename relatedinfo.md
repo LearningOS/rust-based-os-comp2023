@@ -41,6 +41,7 @@
 ## rcore tutorial和rustlings视频讲解
 
 - [rustlings & OS lab0-0 搭建环境和初始开发过程](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
+- [rustlings:rust所有权和借用相关](https://www.bilibili.com/video/BV1ze4y1R7C9?share_source=copy_web)
 
 
 ## 20220705"开源操作系统学习训练营开幕式" 相关slides
