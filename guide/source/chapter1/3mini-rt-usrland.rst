@@ -162,10 +162,14 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
 
   如果你觉得理解 Rust 宏有困难，把它当成黑盒就好！
 
+  学习rust宏的参考链接: `The Little Book of Rust Macros <https://veykril.github.io/tlborm/introduction.html>`_
+
 
 首先封装一下对 ``SYSCALL_WRITE`` 系统调用。
 
 .. code-block:: rust
+
+  // os/src/main.rs
 
   const SYSCALL_WRITE: usize = 64;
 
@@ -177,6 +181,8 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
 
 
 .. code-block:: rust
+
+  // os/src/console.rs
 
   struct Stdout;
 
@@ -196,19 +202,30 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
 
 .. code-block:: rust
 
-  #[macro_export]
+  // os/src/console.rs
+
   macro_rules! print {
       ($fmt: literal $(, $($arg: tt)+)?) => {
           $crate::console::print(format_args!($fmt $(, $($arg)+)?));
       }
   }
 
-  #[macro_export]
   macro_rules! println {
       ($fmt: literal $(, $($arg: tt)+)?) => {
-          print(format_args!(concat!($fmt, "\n") $(, $($arg)+)?));
+        $crate::console::print(format_args!(concat!($fmt, "\n") $(, $($arg)+)?));
       }
   }
+
+  // os/src/main.rs
+  
+  #![no_std]
+  #![no_main]
+
+  #[macro_use]
+  mod console;
+  mod lang_items;
+
+  ...
 
 接下来，我们调整一下应用程序，让它发出显示字符串和退出的请求：
 

@@ -61,10 +61,6 @@
 
 .. code-block:: console
 
-获取本章代码：
-
-.. code-block:: console
-
    $ git clone ``gitaddr of github-classroom-build-lab0-0``
    $ cd ``github-classroom-build-lab0-0`` 
    $ make setupclassroom_test1  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
