@@ -7,7 +7,7 @@ macro_rules! read_csr {
                 #[cfg(all(riscv, feature = "inline-asm"))]
                 () => {
                     let r: usize;
-                    asm!("csrrs {0}, {1}, x0", out(reg) r, const $csr_number);
+                    core::arch::asm!("csrrs {0}, {1}, x0", out(reg) r, const $csr_number);
                     r
                 }
 
@@ -36,7 +36,7 @@ macro_rules! read_csr_rv32 {
                 #[cfg(all(riscv32, feature = "inline-asm"))]
                 () => {
                     let r: usize;
-                    asm!("csrrs {0}, {1}, x0", out(reg) r, const $csr_number);
+                    core::arch::asm!("csrrs {0}, {1}, x0", out(reg) r, const $csr_number);
                     r
                 }
 
@@ -102,7 +102,7 @@ macro_rules! write_csr {
         unsafe fn _write(bits: usize) {
             match () {
                 #[cfg(all(riscv, feature = "inline-asm"))]
-                () => asm!("csrrw x0, {1}, {0}", in(reg) bits, const $csr_number),
+                () => core::arch::asm!("csrrw x0, {1}, {0}", in(reg) bits, const $csr_number),
 
                 #[cfg(all(riscv, not(feature = "inline-asm")))]
                 () => {
@@ -128,7 +128,7 @@ macro_rules! write_csr_rv32 {
         unsafe fn _write(bits: usize) {
             match () {
                 #[cfg(all(riscv32, feature = "inline-asm"))]
-                () => asm!("csrrw x0, {1}, {0}", in(reg) bits, const $csr_number),
+                () => core::arch::asm!("csrrw x0, {1}, {0}", in(reg) bits, const $csr_number),
 
                 #[cfg(all(riscv32, not(feature = "inline-asm")))]
                 () => {
@@ -178,7 +178,7 @@ macro_rules! set {
         unsafe fn _set(bits: usize) {
             match () {
                 #[cfg(all(riscv, feature = "inline-asm"))]
-                () => asm!("csrrs x0, {1}, {0}", in(reg) bits, const $csr_number),
+                () => core::arch::asm!("csrrs x0, {1}, {0}", in(reg) bits, const $csr_number),
 
                 #[cfg(all(riscv, not(feature = "inline-asm")))]
                 () => {
@@ -204,7 +204,7 @@ macro_rules! clear {
         unsafe fn _clear(bits: usize) {
             match () {
                 #[cfg(all(riscv, feature = "inline-asm"))]
-                () => asm!("csrrc x0, {1}, {0}", in(reg) bits, const $csr_number),
+                () => core::arch::asm!("csrrc x0, {1}, {0}", in(reg) bits, const $csr_number),
 
                 #[cfg(all(riscv, not(feature = "inline-asm")))]
                 () => {

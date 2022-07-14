@@ -7,7 +7,7 @@ macro_rules! instruction {
         pub unsafe fn $fnname() {
             match () {
                 #[cfg(all(riscv, feature = "inline-asm"))]
-                () => asm!($asm),
+                () => core::arch::asm!($asm),
 
                 #[cfg(all(riscv, not(feature = "inline-asm")))]
                 () => {
@@ -58,7 +58,7 @@ instruction!(
 pub unsafe fn sfence_vma(asid: usize, addr: usize) {
     match () {
         #[cfg(all(riscv, feature = "inline-asm"))]
-        () => asm!("sfence.vma {0}, {1}", in(reg) asid, in(reg) addr),
+        () => core::arch::asm!("sfence.vma {0}, {1}", in(reg) asid, in(reg) addr),
 
         #[cfg(all(riscv, not(feature = "inline-asm")))]
         () => {
@@ -87,7 +87,7 @@ mod hypervisor_extension {
                 match () {
                     #[cfg(all(riscv, feature = "inline-asm"))]
                     // Since LLVM does not recognize the two registers, we assume they are placed in a0 and a1, correspondingly.
-                    () => asm!($asm, in("x10") rs1, in("x11") rs2),
+                    () => core::arch::asm!($asm, in("x10") rs1, in("x11") rs2),
 
                     #[cfg(all(riscv, not(feature = "inline-asm")))]
                     () => {
@@ -112,7 +112,7 @@ mod hypervisor_extension {
                     #[cfg(all(riscv, feature = "inline-asm"))]
                     () => {
                         let mut result : usize;
-                        asm!($asm, inlateout("x10") rs1 => result);
+                        core::arch::asm!($asm, inlateout("x10") rs1 => result);
                         return result;
                     }
 
