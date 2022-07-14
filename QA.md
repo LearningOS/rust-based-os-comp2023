@@ -103,3 +103,48 @@ git push -f
 **方法四：**
 
     如果你能看到这个 QA，说明相关 Pull request 已被 merge，可以按 QA1 中方法更新仓库。
+
+## Q8：在用vscode的esbonio （for Sphinx：rst-->html,...）和rust-analyzer插件时，不能正常工作。请问如何配置？
+
+### A：
+
+**esbonio error：找不到 conf.py 文件**
+
+**解决方法**
+
+    在 .vscode/settings.json中添加如下内容：
+
+    "esbonio.sphinx.confDir": "${workspaceFolder}/guide/source"
+
+**rust-analyzer插件无法正常解析源代码中的相关定义**
+
+    比如 os/main.rs中，有如下代码：
+
+    #[cfg(feature = "board_k210")]
+    #[path = "boards/k210.rs"]
+    mod board;
+    #[cfg(not(any(feature = "board_k210")))]
+    #[path = "boards/qemu.rs"]
+    mod board;
+
+    这使得 mod board 可能是 k210.rs中的代码，也可能是qemu.rs中的代码，取决于编译时的参数，即 os/Makefile 中的：
+
+    @cargo build --release --features "board_$(BOARD)"
+
+    rust-analyzer会报错：unresolved import `crate::drivers::chardev::UART` 等错误
+
+**解决方法**
+
+    在 .vscode/settings.json中添加如下内容：
+
+    // Prevent "can't find crate for `test`" error on no_std
+    // Ref: https://github.com/rust-lang/vscode-rust/issues/729
+    // For vscode-rust plugin users:
+    "rust.target": "riscv64gc-unknown-none-elf",
+    "rust.all_targets": false,
+    // For Rust Analyzer plugin users:
+    "rust-analyzer.cargo.target": "riscv64gc-unknown-none-elf",
+    "rust-analyzer.checkOnSave.allTargets": false,
+    "rust-analyzer.cargo.features": [
+        "board_qemu"
+    ]
