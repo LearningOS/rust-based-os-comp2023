@@ -17,6 +17,12 @@
 
 注：缺第七次课
 
+## 2022春季Advanced OS课相关资源
+- [2021 AOS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
+- [论文阅读列表](https://github.com/chyyuu/aos_course_info/blob/master/readinglist.md)
+- [OS比赛相关的一些硬件/OS实例/教程](https://github.com/oscomp/os-competition-info/blob/main/ref-info.md)
+- [Rust based OS/Hypervisor/VMM/Firmwire](https://github.com/chyyuu/aos_course_info/blob/master/oslist.md)
+
 ## 2022春季OS课实验框架讲解
 
 - [20220001 rcore-tutorial-v3 lab1](https://cloud.tsinghua.edu.cn/f/9440395fad1a44b690f9/)
