@@ -1,0 +1,17 @@
+{
+    "esbonio.sphinx.confDir": "${workspaceFolder}/guide/source",
+    "rust-analyzer.linkedProjects": [
+        "guide-code/ch1-3mini-rt-usrland/Cargo.toml",
+        "os1-ref/Cargo.toml",
+        "os2-ref/Cargo.toml",
+        "os3-ref/Cargo.toml",
+        "os4-ref/Cargo.toml",
+        "os5-ref/Cargo.toml",
+        "os6-ref/Cargo.toml",
+        "os7-ref/Cargo.toml",
+        "os8-ref/Cargo.toml",
+        "easy-fs/Cargo.toml",
+        "easy-fs-fuse/Cargo.toml",
+        "user/Cargo.toml",
+      ]
+}
