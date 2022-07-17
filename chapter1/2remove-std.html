@@ -345,7 +345,14 @@
 <span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-<p>目前我们遇到错误什么都不做，只在原地 <code class="docutils literal notranslate"><span class="pre">loop</span></code> 。</p>
+<p>在把 <code class="docutils literal notranslate"><span class="pre">panic_handler</span></code> 配置在单独的文件 <code class="docutils literal notranslate"><span class="pre">os/src/lang_items.rs</span></code> 后，需要在os/src/main.rs文件中添加以下内容才能正常编译整个软件：</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// os/src/main.rs</span>
+<span class="cp">#![no_std]</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">lang_items</span><span class="p">;</span><span class="w"></span>
+<span class="c1">// ... other code</span>
+</pre></div>
+</div>
+<p>注意，panic 处理函数的函数签名需要一个 <code class="docutils literal notranslate"><span class="pre">PanicInfo</span></code> 的不可变借用作为输入参数，它在核心库中得以保留，这也是我们第一次与核心库打交道。之后我们会从 <code class="docutils literal notranslate"><span class="pre">PanicInfo</span></code> 解析出错位置并打印出来，然后杀死应用程序。但目前编译出的简单OS在运行时如果遇到错误什么都不做，只在原地 <code class="docutils literal notranslate"><span class="pre">loop</span></code> 。</p>
 </div>
 <div class="section" id="main">
 <h2>移除 main 函数<a class="headerlink" href="#main" title="永久链接至标题">¶</a></h2>
@@ -367,12 +374,13 @@ error: requires `start` lang_item
 <span class="go">    Finished dev [unoptimized + debuginfo] target(s) in 0.06s</span>
 </pre></div>
 </div>
-<p>至此，我们终于移除了所有标准库依赖，目前的代码如下：</p>
+<p>至此，我们终于移除了所有标准库依赖。目前的主要代码包括 <code class="docutils literal notranslate"><span class="pre">main.rs</span></code> 和 <code class="docutils literal notranslate"><span class="pre">lang_items.rs</span></code> ，大致内容如下：</p>
 <div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="c1">// os/src/main.rs</span>
-<span class="cp">#![no_std]</span><span class="w"></span>
 <span class="cp">#![no_main]</span><span class="w"></span>
-
+<span class="cp">#![no_std]</span><span class="w"></span>
 <span class="k">mod</span> <span class="nn">lang_items</span><span class="p">;</span><span class="w"></span>
+<span class="c1">// ... other code</span>
+
 
 <span class="c1">// os/src/lang_items.rs</span>
 <span class="k">use</span><span class="w"> </span><span class="n">core</span>::<span class="n">panic</span>::<span class="n">PanicInfo</span><span class="p">;</span><span class="w"></span>
@@ -387,7 +395,7 @@ error: requires `start` lang_item
 <div class="section" id="id2">
 <h2>分析被移除标准库的程序<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <p>首先安装 cargo-binutils 工具集：</p>
-<p>我们可以通过一些工具来分析目前的程序：</p>
+<p>我们可以通过各种工具来分析目前的程序：</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[文件格式]</span>
 <span class="gp">$ </span>file target/riscv64gc-unknown-none-elf/debug/os
 <span class="go">target/riscv64gc-unknown-none-elf/debug/os: ELF 64-bit LSB executable, UCB RISC-V, ......</span>
