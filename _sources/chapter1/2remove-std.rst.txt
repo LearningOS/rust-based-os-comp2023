@@ -8,7 +8,13 @@
    :maxdepth: 5
 
 
-首先在 ``os`` 目录下新建 ``.cargo`` 目录，并在这个目录下创建 ``config`` 文件，输入如下内容：
+由于后续实验需要 ``rustc`` 编译器缺省生成RISC-V 64的目标代码，所以我们首先要给  ``rustc`` 添加一个target : ``riscv64gc-unknown-none-elf`` 。这可通过如下命令来完成：
+
+.. code-block:: bash
+
+   $ rustup target add riscv64gc-unknown-none-elf
+
+然后在 ``os`` 目录下新建 ``.cargo`` 目录，并在这个目录下创建 ``config`` 文件，输入如下内容：
 
 .. code-block:: toml
 

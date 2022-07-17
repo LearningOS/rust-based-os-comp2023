@@ -292,7 +292,11 @@
 <span id="id1"></span><h1>移除标准库依赖<a class="headerlink" href="#term-remove-std" title="永久链接至标题">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p>首先在 <code class="docutils literal notranslate"><span class="pre">os</span></code> 目录下新建 <code class="docutils literal notranslate"><span class="pre">.cargo</span></code> 目录，并在这个目录下创建 <code class="docutils literal notranslate"><span class="pre">config</span></code> 文件，输入如下内容：</p>
+<p>由于后续实验需要 <code class="docutils literal notranslate"><span class="pre">rustc</span></code> 编译器缺省生成RISC-V 64的目标代码，所以我们首先要给  <code class="docutils literal notranslate"><span class="pre">rustc</span></code> 添加一个target : <code class="docutils literal notranslate"><span class="pre">riscv64gc-unknown-none-elf</span></code> 。这可通过如下命令来完成：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ rustup target add riscv64gc-unknown-none-elf
+</pre></div>
+</div>
+<p>然后在 <code class="docutils literal notranslate"><span class="pre">os</span></code> 目录下新建 <code class="docutils literal notranslate"><span class="pre">.cargo</span></code> 目录，并在这个目录下创建 <code class="docutils literal notranslate"><span class="pre">config</span></code> 文件，输入如下内容：</p>
 <div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="c1"># os/.cargo/config</span>
 <span class="k">[build]</span>
 <span class="n">target</span> <span class="o">=</span> <span class="s">"riscv64gc-unknown-none-elf"</span>
