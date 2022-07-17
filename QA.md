@@ -148,3 +148,26 @@ git push -f
     "rust-analyzer.cargo.features": [
         "board_qemu"
     ]
+
+**rust-analyzer插件无法正常解析repo中多个不同projects中的代码**
+
+**解决方法**
+
+    以本repo为例，在 .vscode/settings.json中添加如下内容：
+
+    "rust-analyzer.linkedProjects": [
+        "guide-code/ch1-3mini-rt-usrland/Cargo.toml",
+        "os1-ref/Cargo.toml",
+        "os2-ref/Cargo.toml",
+        "os3-ref/Cargo.toml",
+        "os4-ref/Cargo.toml",
+        "os5-ref/Cargo.toml",
+        "os6-ref/Cargo.toml",
+        "os7-ref/Cargo.toml",
+        "os8-ref/Cargo.toml",
+        "easy-fs/Cargo.toml",
+        "easy-fs-fuse/Cargo.toml",
+        "user/Cargo.toml",
+      ]
+
+    如果还有新的projects想要rust-analyzer分析，参考上面的例子，把projects对应路径加入即可。  
