@@ -177,59 +177,59 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
     syscall(SYSCALL_WRITE, [fd, buffer.as_ptr() as usize, buffer.len()])
   }
 
-然后实现基于 ``Write`` Trait 的数据结构，并完成 ``Write`` Trait 所需要的  ``write_str`` 函数，并用 ``print`` 函数进行包装。
-
-
-.. code-block:: rust
-
-  // os/src/console.rs
-
-  struct Stdout;
-
-  impl Write for Stdout {
-      fn write_str(&mut self, s: &str) -> fmt::Result {
-          sys_write(1, s.as_bytes());
-          Ok(())
-      }
-  }
-
-  pub fn print(args: fmt::Arguments) {
-      Stdout.write_fmt(args).unwrap();
-  }
-
-最后，实现基于 ``print`` 函数，实现Rust语言 **格式化宏** ( `formatting macros <https://doc.rust-lang.org/std/fmt/#related-macros>`_ )。
-
+然后实现基于 ``Write`` Trait 的数据结构，并完成 ``Write`` Trait 所需要的  ``write_str`` 函数，并用 ``print`` 函数进行包装。最后，基于 ``print`` 函数，实现Rust语言 **格式化宏** ( `formatting macros <https://doc.rust-lang.org/std/fmt/#related-macros>`_ )。
 
 .. code-block:: rust
 
-  // os/src/console.rs
+    //  os/src/console.rs
+    use core::fmt::{Write, Arguments, Result};
+    use crate::sys_write;
 
-  macro_rules! print {
-      ($fmt: literal $(, $($arg: tt)+)?) => {
-          $crate::console::print(format_args!($fmt $(, $($arg)+)?));
-      }
-  }
+    struct Stdout;
 
-  macro_rules! println {
-      ($fmt: literal $(, $($arg: tt)+)?) => {
-        $crate::console::print(format_args!(concat!($fmt, "\n") $(, $($arg)+)?));
-      }
-  }
+    impl Write for Stdout {
+        fn write_str(&mut self, s: &str) -> Result {
+            sys_write(1, s.as_bytes());
+            Ok(())
+        }
+    }
 
-  // os/src/main.rs
-  
-  #![no_std]
-  #![no_main]
+    pub fn print(args: Arguments) {
+        Stdout.write_fmt(args).unwrap();
+    }
 
-  #[macro_use]
-  mod console;
-  mod lang_items;
+    macro_rules! print {
+        ($fmt: literal $(, $($arg: tt)+)?) => {
+            $crate::console::print(format_args!($fmt $(, $($arg)+)?));
+        }
+    }
+
+    macro_rules! println {
+        ($fmt: literal $(, $($arg: tt)+)?) => {
+            $crate::console::print(format_args!(concat!($fmt, "\n") $(, $($arg)+)?));
+        }
+    }
+
+注： ``os/src/console.rs`` 文件的代码中使用到了 ``main.rs`` 文件中的sys_write方法，需要说明在文件头部声明 ``use crate::sys_write;`` 。
+
+而 ``main.rs`` 为了能够用到 ``console.rs`` 提供的功能，也需要添加对 console 的引用。主要的添加如下：
+ 
+.. code-block:: rust
+
+    // os/src/main.rs
+
+    //... other code
+    #[macro_use]
+    mod console;
+    //... other code
 
   ...
 
 接下来，我们调整一下应用程序，让它发出显示字符串和退出的请求：
 
 .. code-block:: rust
+
+  // os/src/main.rs
 
   #[no_mangle]
   extern "C" fn _start() {
