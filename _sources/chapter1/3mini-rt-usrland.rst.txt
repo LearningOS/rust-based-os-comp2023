@@ -233,7 +233,8 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
 
   #[no_mangle]
   extern "C" fn _start() {
-      println!("Hello, world!");
+      print!("Hello, "");
+      println!("world!");
       sys_exit(9);
   }
 
