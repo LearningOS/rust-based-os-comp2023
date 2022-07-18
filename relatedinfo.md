@@ -50,6 +50,8 @@
 - [rustlings:rust所有权和借用相关](https://www.bilibili.com/video/BV1ze4y1R7C9?share_source=copy_web)
 - [chapter1&chapter2实践的框架和代码分析讲解](https://cloud.tsinghua.edu.cn/f/254e6cc6921849e29e8c/)
 - [chapter3实践的框架和代码分析讲解](https://cloud.tsinghua.edu.cn/f/17a7c9d9b57f4838ae5f/)
+- [chapter4的代码分析和编程练习讲解](https://cloud.tsinghua.edu.cn/f/d44189eff077452e99a5/)
+
 ## 20220705"开源操作系统学习训练营开幕式" 相关slides
 
 - [2022年开源操作系统学习训练营安排：向勇](https://github.com/LearningOS/resrouce-on-rust-based-os-comp2022/blob/main/20220705-%E5%90%91%E5%8B%87-%E5%BC%80%E5%B9%95%E5%BC%8F%E4%B8%8A%E7%9A%84%E4%BB%8B%E7%BB%8D-v4.pdf)
