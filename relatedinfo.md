@@ -1,7 +1,9 @@
 
 
-## 2022春季OS课课程视频
-
+## 2022春季OS课资源
+### 课程Slides
+- [2022春季课程Slides](https://learningos.github.io/os-lectures/)
+### 课程视频
 - [20220221第一次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=5fcc9ef3-cb43-48f6-9d33-f75f640e8c38&from=3)
 - [20220228第二次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=0c2a73ec-238a-453b-8f0f-aaadaeb55eca&from=3)
 - [20220307第三次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=c21406cf-96f9-4df6-8cab-af4dbd798769&from=3)
@@ -49,8 +51,9 @@
 - [rustlings & OS lab0-0 搭建环境和初始开发过程](https://www.bilibili.com/video/BV1fY4y1n7up?share_source=copy_web)
 - [rustlings:rust所有权和借用相关](https://www.bilibili.com/video/BV1ze4y1R7C9?share_source=copy_web)
 - [chapter1&chapter2实践的框架和代码分析讲解](https://cloud.tsinghua.edu.cn/f/254e6cc6921849e29e8c/)
-- [chapter3实践的框架和代码分析讲解](https://cloud.tsinghua.edu.cn/f/17a7c9d9b57f4838ae5f/)
-- [chapter4的代码分析和编程练习讲解](https://cloud.tsinghua.edu.cn/f/d44189eff077452e99a5/)
+- [chapter3(lab1)实践的框架和代码分析讲解](https://cloud.tsinghua.edu.cn/f/17a7c9d9b57f4838ae5f/)
+- [chapter4(lab2)的代码分析和编程练习讲解](https://cloud.tsinghua.edu.cn/f/d44189eff077452e99a5/)
+- [chapter5(lab3)进程管理的代码解析和编程练习讲解](https://cloud.tsinghua.edu.cn/f/e2a8b8b54037484fac73/)
 
 ## 20220705"开源操作系统学习训练营开幕式" 相关slides
 
