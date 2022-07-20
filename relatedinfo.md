@@ -3,6 +3,10 @@
 ## 2022春季OS课资源
 ### 课程Slides
 - [2022春季课程Slides](https://learningos.github.io/os-lectures/)
+
+### 课程参考书
+- [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
+- [rCore Tutorial Book v3](https://rcore-os.github.io/rCore-Tutorial-Book-v3/)
 ### 课程视频
 - [20220221第一次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=5fcc9ef3-cb43-48f6-9d33-f75f640e8c38&from=3)
 - [20220228第二次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=0c2a73ec-238a-453b-8f0f-aaadaeb55eca&from=3)
