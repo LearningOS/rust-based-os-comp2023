@@ -14,10 +14,11 @@ Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练�
 - [learning rust guide](https://course.rs/)（Rust语言圣经）
 - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习）
 ## Guide for OS
-- Guide deployed version can be found [here](https://learningos.github.io/rust-based-os-comp2022/)（精简OS实验指导）
-- [rCore Tutorial v3 Guide](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) (2022春季OS课程讲义)
+- Guide deployed version can be found [here](https://learningos.github.io/rust-based-os-comp2022/)（精简OS实验指导，适合已经学过操作系统的过来人）
+- [rCore Tutorial v3 Guide](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) (2022春季OS课程讲义，内容相对详细，适合没有学过操作系统的初学者)
 - [OS Course Slides in 2022 spring](https://learningos.github.io/os-lectures/)(2022春季OS课程Slides)
-- [OS Course Videos in 2022 spring](./relatedinfo.md)(2022春季OS课程Videos)
+- [训练营实验讲解videos](./relatedinfo.md#训练营rcore-tutorial和rustlings视频讲解)(训练营助教的实验详细讲解，适合参加本次训练营的学员)
+- [OS Course Videos in 2022 spring](./relatedinfo.md)(2022春季OS课程Videos，内容相对详细，适合没有学过操作系统的初学者)
 - [OS API Docs in 2022 spring](./relatedinfo.md)(2022春季OS课程实验中 ``cargo doc`` 生成的各章参考OS的API文档)
  
 First, you can read [Guide](https://learningos.github.io/rust-based-os-comp2022/) to:
