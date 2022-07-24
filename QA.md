@@ -194,5 +194,8 @@ git push -f
 
 目前 @chenzhiy2001 已经有了一个初步的实现方案，https://github.com/chenzhiy2001/code-debug 请访问 [coredebugger安装与使用](https://github.com/chenzhiy2001/code-debug#%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8) 了解具体操作过程。@chyyuu 试用后，觉得很不错！
 
-提示：目前项目在开发中，还没有设计得对用户特别友好，建议新手慎用。
+提示：
+
+1. 目前项目在开发中，还没有设计得对用户特别友好，建议新手慎用。
+2. 因为opt-level被设置成0，rCore Tutorial v3在qemu中会比较慢（在耗时的for循环等情况下，要有耐心等待）
 
