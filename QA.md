@@ -171,3 +171,28 @@ git push -f
       ]
 
     如果还有新的projects想要rust-analyzer分析，参考上面的例子，把projects对应路径加入即可。  
+
+
+**rust-analyzer插件无法正常解析rustlings repo中不同源码**
+
+**解决方法**
+
+访问 https://crates.io/crates/rustlings-fix  安装并允许rustlings-fix工具，它会生成一个配置文件  rust-project.json ，然后就可以看了
+
+    # Install rustlings-fix from cargo
+    cargo install rustlings-fix
+
+    # Change directory into wherever rustlings is cloned
+    cd ~/src/rustlings
+
+    # Run the binary
+    rustlings-fix
+
+## Q9：在用vscode中能否像一般应用一样，源码级调试rcore-tutorial-v3？如果可以，如何做？    
+
+**解决方法**
+
+目前 @chenzhiy2001 已经有了一个初步的实现方案，https://github.com/chenzhiy2001/code-debug 请访问 [coredebugger安装与使用](https://github.com/chenzhiy2001/code-debug#%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8) 了解具体操作过程。@chyyuu 试用后，觉得很不错！
+
+提示：目前项目在开发中，还没有设计得对用户特别友好，建议新手慎用。
+
