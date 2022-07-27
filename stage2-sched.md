@@ -40,7 +40,10 @@
   - https://github.com/rcore-os/rCore-Tutorial-v3
   - https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html
 
-10. 一个月可行的进阶步骤（当然也是一种挑战） 内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 --> 内核支持多核结构  --> 内核支持Linux syscall（即支持Linux应用）
+10. 一个月可行的进阶步骤（当然也是一种挑战） 
+      - 选择1：内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 （rcore tutorial v3的ch9已经完成） --> 内核支持多核结构  --> 内核支持Linux syscall（即支持Linux应用）
+      - 选择2：内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 --> 图形界面支持 （rcore tutorial v3的ch9已经完成） --> 改进图形界面支持
+      - 选择3：内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 （rcore tutorial v3的ch9已经完成） --> 实现对TUI界面的支持（即可以在字符界面实现窗口界面和各种基于TUI界面的游戏）
 
 ### 操作系统课程的有趣大实验
 1. 项目标题：操作系统课程的有趣大实验
