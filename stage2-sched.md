@@ -21,28 +21,31 @@
 目前设置了多个项目，学生可选择参加下面的项目，指导老师制定以周为单位的项目研究计划。
 
 
-### rCore-Tutorial-v3 进一步扩展
+### rCore-Tutorial-v3 进一步进阶/扩展
 1. 项目标题：rCore-Tutorial-v3 进一步扩展
-2. 项目描述：rCore-Tutorial-v3 的一个重要目标是以简洁的设计实现对应到操作系统的核心知识点上，所以还有很多可以扩展的地方。我们希望通过设计一个一个相对独立的实验，来展现操作系统的核心设计思想，在操作系统实现与操作系统原理之间建立桥梁。
-3. 项目难度：低/中
+2. 项目描述：rCore-Tutorial-v3 的一个重要目标是以简洁的设计实现对应到操作系统的核心知识点上，所以还有很多可以扩展的地方。我们希望通过设计一个一个相对独立的实验，来展现操作系统的核心设计思想，在操作系统实现与操作系统原理之间建立桥梁。学生设计实现新OS功能后，学生的系统能力也随之提高。
+3. 项目难度：低/中 （适合完成了lab1-5，且希望能够一小步一小步地继续提升自己OS编程能力/系统能力的同学）
 4. 项目社区导师：陈渝 github id: chyyuu     weichat id: chyyuu 
 5. 项目社区导师：吴一凡 github id: wyfcyx     weichat id: yifanwu1998
-6. 项目产出要求：
+6. 项目社区导师：许善朴 github id: xushanpu123   weichat id: bitmeet520
+7. 项目产出要求：
    - 补充完善 rCore-Tutorial-v3
 
-7. 项目技术要求：
+8. 项目技术要求：
    - 具备一定的 Rust 语言基础，能看懂并模仿现有代码即可
    - 熟悉操作系统原理与简易实现
    - 具有基础英文阅读和写作能力
 
-8. 相关的开源软件仓库列表：
+9.  相关的开源软件仓库列表：
   - https://github.com/rcore-os/rCore-Tutorial-v3
   - https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html
+
+10. 一个月可行的进阶步骤（当然也是一种挑战） 内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 --> 内核支持多核结构  --> 内核支持Linux syscall（即支持Linux应用）
 
 ### 操作系统课程的有趣大实验
 1. 项目标题：操作系统课程的有趣大实验
 2. 项目描述：操作系统课程的大实验的重要目标基于学生兴趣来开展各种操作系统技术的探索，拓展学生的视野，培养未来操作系统人才。
-3. 项目难度：中/高
+3. 项目难度：中/高 （适合完成了lab1-5，并希望能够较快进入更实际一些的OS能力训练或做OS方向研究的同学）
 4. 项目社区导师：向勇 github id: xyongcn     weichat id: xyongcn 
 5. 项目产出要求：
    - 各种大实验的设计与实现
@@ -64,9 +67,9 @@
 
 1. 项目标题：zCore 的文档与单元测试完善
 2. 项目描述：zCore 是用 Rust 实现的支持协程/异步等新机制的操作系统，目前zCore的实现已经初步支持 x86_64/RISC-V 64/AArch64。然而，随着后期开发进程的加快，大量代码缺少文档描述，并且没有实现单元测试，只能在 QEMU 中运行用户程序以检验代码正确性。本项目的目标是完善 zCore 的文档及单元测试，使其成为一个高质量的 Rust 社区项目。
-3. 项目难度：低
-4. 项目社区导师：石振兴
-5. 导师联系方式：github id: shzhxh    weichat id: szx-bj
+3. 项目难度：低 （适合完成了lab1-5，并希望在OS领域找到一份测试/研发工作，或提升软件工程能力的同学）
+4. 项目社区导师：石振兴  github id: shzhxh    weichat id: szx-bj
+5. 项目社区导师：董峰  github id: workerwork  weichat id: Mr_dong-feng
 6. 项目产出要求：
    - 补充完善 zCore 各模块的代码文档。
 
@@ -93,9 +96,9 @@
 
 1. 项目标题：zCore 的星光/SiFive开发板支持
 2. 项目描述：zCore 是用 Rust 实现的支持协程/异步等新机制的操作系统，目前zCore的实现已经初步支持 x86_64/RISC-V 64/AArch64。zCore需要继续完善相关驱动和系统调用。
-3. 项目难度：中
-4. 项目社区导师：肖络元
-5. 导师联系方式：github id: shzhxh    weichat id: xiaoxiaoluckyard
+3. 项目难度：中（适合完成了lab1-5，并希望在系统类企业找到一份OS底层研发工作，或提升软件工程能力的同学）
+4. 项目社区导师：肖络元 github id: shzhxh    weichat id: xiaoxiaoluckyard
+5. 项目社区导师：杨德睿 github id:YdrMaster  weichat id: ydrdwx
 6. 项目产出要求：
    - 能够在某开发板上比较稳定地运行 zCore
    - （可选）能够在 Linux 系统上运行 zCore libos
@@ -117,7 +120,7 @@
 1. 项目标题：rCore 到 zCore 的功能迁移
 2. 项目描述：rCore 是用 Rust 语言实现的兼容 Linux 内核。它支持四种指令集，能够运行比较丰富的应用程序。但是随着时间的积累，rCore 的代码越堆越多，很多内部实现缺乏推敲，需要优化和重构。后来我们从头开始实现了 zCore 项目，采用了更加清晰的分层结构，同时复用 Zircon 微内核的内核对象实现了 Linux 内核的部分功能（如内存管理和进程管理）。目前 zCore 中的 linux 模块已经能够运行基础的 Busybox 等小程序，但仍有大量原本 rCore 支持的功能没有实现。本项目希望将 rCore 的功能迁移到 zCore 当中，并借此机会进行重构。其中一些代码可以直接搬过来，剩下的可能需要调整适配（例如涉及到 async），还有一些可以直接基于 Zircon 内核对象进行实现（例如 epoll）。
 3. 项目难度：中
-4. 项目社区导师：陈乐
+4. 项目社区导师：陈乐（适合完成了lab1-5，并希望在系统类企业找到一份OS底层研发工作，或提升软件工程能力的同学）
 5. 导师联系方式：github id: yuoo655    weichat id: Endagorion_
 6. 项目产出要求：
    - 能够在 zCore 上运行 rCore 支持的 Linux 程序：GCC，Nginx，Rustc 等
