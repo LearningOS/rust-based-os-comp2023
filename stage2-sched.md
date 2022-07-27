@@ -28,15 +28,16 @@
 4. 项目社区导师：陈渝 github id: chyyuu     weichat id: chyyuu 
 5. 项目社区导师：吴一凡 github id: wyfcyx     weichat id: yifanwu1998
 6. 项目社区导师：许善朴 github id: xushanpu123   weichat id: bitmeet520
-7. 项目产出要求：
+7. 项目社区导师：杨德睿 github id:YdrMaster  weichat id: ydrdwx 
+8. 项目产出要求：
    - 补充完善 rCore-Tutorial-v3
 
-8. 项目技术要求：
+9. 项目技术要求：
    - 具备一定的 Rust 语言基础，能看懂并模仿现有代码即可
    - 熟悉操作系统原理与简易实现
    - 具有基础英文阅读和写作能力
 
-9.  相关的开源软件仓库列表：
+10. 相关的开源软件仓库列表：
   - https://github.com/rcore-os/rCore-Tutorial-v3
   - https://rcore-os.github.io/rCore-Tutorial-Book-v3/final-lab.html
 
