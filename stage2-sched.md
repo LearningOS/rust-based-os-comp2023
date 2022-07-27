@@ -122,9 +122,9 @@
 
 1. 项目标题：rCore 到 zCore 的功能迁移
 2. 项目描述：rCore 是用 Rust 语言实现的兼容 Linux 内核。它支持四种指令集，能够运行比较丰富的应用程序。但是随着时间的积累，rCore 的代码越堆越多，很多内部实现缺乏推敲，需要优化和重构。后来我们从头开始实现了 zCore 项目，采用了更加清晰的分层结构，同时复用 Zircon 微内核的内核对象实现了 Linux 内核的部分功能（如内存管理和进程管理）。目前 zCore 中的 linux 模块已经能够运行基础的 Busybox 等小程序，但仍有大量原本 rCore 支持的功能没有实现。本项目希望将 rCore 的功能迁移到 zCore 当中，并借此机会进行重构。其中一些代码可以直接搬过来，剩下的可能需要调整适配（例如涉及到 async），还有一些可以直接基于 Zircon 内核对象进行实现（例如 epoll）。
-3. 项目难度：中
-4. 项目社区导师：陈乐（适合完成了lab1-5，并希望在系统类企业找到一份OS底层研发工作，或提升软件工程能力的同学）
-5. 导师联系方式：github id: yuoo655    weichat id: Endagorion_
+3. 项目难度：中（适合完成了lab1-5，并希望在系统类企业找到一份OS底层研发工作，或提升软件工程能力的同学）
+4. 项目社区导师：董峰  github id: workerwork  weichat id: Mr_dong-feng
+5. 项目社区导师：陈乐 github id: yuoo655    weichat id: Endagorion_
 6. 项目产出要求：
    - 能够在 zCore 上运行 rCore 支持的 Linux 程序：GCC，Nginx，Rustc 等
    - 对新迁移过来的代码，要求补充代码文档和必要的单元测试
