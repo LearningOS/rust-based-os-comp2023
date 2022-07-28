@@ -583,6 +583,87 @@ Panicked at src/main.rs:48 Shutdown machine!
 </ul>
 <p>解压后在 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 目录下即可找到 <code class="docutils literal notranslate"><span class="pre">riscv64-unknown-elf-gdb</span></code> 以及另外一些常用工具 <code class="docutils literal notranslate"><span class="pre">objcopy/objdump/readelf</span></code> 等。</p>
 </div>
+<div class="section" id="vscode">
+<h2>VSCode 可视化调试支持<a class="headerlink" href="#vscode" title="永久链接至标题">¶</a></h2>
+<p>本节将介绍如何在VSCode可视化环境中进行调试。所使用的的环境为Codespace + 本地VScode。（网页版本的VSCode没有试过，个人感觉使用本地VSCode连接到Codespace会比使用在线版本稳定一些。具体方法就是在打开Codespace时，点击Open In Visual Studio Code即可）</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>本操作指南参考了2022版实验手册，以及kidcats同学在http://rcore-os.cn/rCore-Tutorial-Book-v3/chapter0/5setup-devel-env.html所发表的评论内容。</p>
+</div>
+<p>第一步，我们需要安装RiscV对应的GDB调试器，对应不同操作系统的调试器的下载地址可以参考上一节给出的链接。因为我们的Codespace是在Linux环境下的，所以我们可以在Terminal中使用如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /tmp
+wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
+tar -zxf riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
+<span class="nb">cd</span> riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin
+sudo cp ./* /usr/local/bin/
+<span class="nb">cd</span> /usr/local/bin/
+sudo chmod <span class="m">777</span> ./*
+</pre></div>
+</div>
+<p>上述shell命令进行了以下操作：</p>
+<ol class="arabic simple">
+<li><p>下载调试器到一个临时路径</p></li>
+<li><p>解压缩</p></li>
+<li><p>将调试器复制到/usr/local/bin目录下</p></li>
+<li><p>确保文件权限正确</p></li>
+</ol>
+<p>完成上述操作后，新打开一个Terminal窗口，在任意目录下运行 <code class="docutils literal notranslate"><span class="pre">riscv64-unknown-elf-gdb</span></code> ，应该都可以找到这个可执行文件。</p>
+<p>第二步：安装并设置VSCode插件</p>
+<p>首先打开VSCode的插件管理器，搜索并安装插件 <code class="docutils literal notranslate"><span class="pre">C/C++</span></code> ，随后在 <code class="docutils literal notranslate"><span class="pre">.vscode</span></code> 目录下新建 <code class="docutils literal notranslate"><span class="pre">launch.json</span></code> 文件，并写入如下内容：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+   // Use IntelliSense to learn about possible attributes.
+   // Hover to view descriptions of existing attributes.
+   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+   "version": "0.2.0",
+   "configurations": [
+      {
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "Attach to gdbserver",
+            "program": "${workspaceFolder}/os8/target/riscv64gc-unknown-none-elf/release/os",
+            "miDebuggerServerAddress": "localhost:1234",
+            "miDebuggerPath": "riscv64-unknown-elf-gdb",
+            "cwd": "${workspaceRoot}/os8",
+
+      }
+   ]
+}
+</pre></div>
+</div>
+<p>注意要修改其中的 <code class="docutils literal notranslate"><span class="pre">program</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cwd</span></code> 两项为自己当前要调试的代码的路径，上面的例子是在调试 <code class="docutils literal notranslate"><span class="pre">os8</span></code> 这个实验。</p>
+<p>其中的 <code class="docutils literal notranslate"><span class="pre">type</span></code> 字段指定的 <code class="docutils literal notranslate"><span class="pre">cppdbg</span></code> 类型的调试器，是由我们刚才安装的 <code class="docutils literal notranslate"><span class="pre">C/C++</span></code> 插件提供的， <code class="docutils literal notranslate"><span class="pre">miDebuggerServerAddress</span></code> 指定了一个本地的1234端口，开始调试后，VSCode会控制debugger去连接本机的1234端口，而我们后续启动qemu后，qemu会在1234端口监听，作为一个服务器等待调试器连接上来。</p>
+<p>第三步，调整项目编译配置</p>
+<p>打开对应实验目录下的 <code class="docutils literal notranslate"><span class="pre">Cargo.toml</span></code> 文件，例如你在开发os8，那么就是 <code class="docutils literal notranslate"><span class="pre">os8/Cargo.toml</span></code> 文件，在其结尾添加如下几行：</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>[profile.release]
+debug = true
+opt-level = "s"
+</pre></div>
+</div>
+<p>这段配置的意思是说，我们要覆盖默认release模式编译的参数，默认情况下，release模式的编译会移除debug信息，也就是 <code class="docutils literal notranslate"><span class="pre">debug=false</span></code> ，并且使用 <code class="docutils literal notranslate"><span class="pre">opt-level=2</span></code> ，也就是最高级别的优化进行编译，这样会导致打断点的时候很痛苦，很多代码都被优化的面目全非，对调试很不友好。</p>
+<p>在上述代码中，我们将debug信息保留，并且使用 <code class="docutils literal notranslate"><span class="pre">s</span></code> 级别进行优化，这里可选的其他级别还有 0、1、2、z、s三种，其中设置成2的话，相当于没有设置，因为release模式默认就是2，如果设置成0的话，经过我的实验，会导致内核加载的时候直接崩溃掉，（我初步猜测是因为0表示关闭优化，关闭后的内核二进制文件体积有点大？以上是乱猜的，时间有限没有去详细验证，感兴趣的同学欢迎后续指正）
+如果设置为1的话，感觉还是会有很多地方被优化，导致代码很多地方无法打断点。经过个人实验，感觉选择 <code class="docutils literal notranslate"><span class="pre">s</span></code> 级别可以在代码大小和优化之间取得一个比较好的平衡。</p>
+<p>第四步，修改Makefile文件</p>
+<p>打开对应实验目录下的 <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> 文件，例如你在开发os8，那么就是 <code class="docutils literal notranslate"><span class="pre">os8/Makefile</span></code> 文件，在其结尾添加如下几行：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dbg: build
+   qemu-system-riscv64 -machine virt -nographic -bios <span class="k">$(</span>BOOTLOADER<span class="k">)</span> -device loader,file<span class="o">=</span><span class="k">$(</span>KERNEL_BIN<span class="k">)</span>,addr<span class="o">=</span><span class="k">$(</span>KERNEL_ENTRY_PA<span class="k">)</span> -drive <span class="nv">file</span><span class="o">=</span><span class="k">$(</span>FS_IMG<span class="k">)</span>,if<span class="o">=</span>none,format<span class="o">=</span>raw,id<span class="o">=</span>x0 -device virtio-blk-device,drive<span class="o">=</span>x0,bus<span class="o">=</span>virtio-mmio-bus.0 -s -S
+</pre></div>
+</div>
+<p>聪明的同学们应该可以发现，上面这一段代码是复制了Makefile中 <code class="docutils literal notranslate"><span class="pre">debug</span></code> 目标的配置，并且把里面的启动tmux和gdb相关的部分给去掉了，只保留了启动qemu的命令，仅此而已。
+之所以要说这个，是因为os6开始，qemu的启动命令增加了文件系统相关的内容， 而os6之前的qemu启动命令是比较简短的，这里是以os8为例进行说明的，如果你要调试的是os1~os5的程序，那么你现在就知道应该怎么修改上面的代码了。</p>
+<p>上面启动命令的核心就是后面的 <code class="docutils literal notranslate"><span class="pre">-s</span></code> 和 <code class="docutils literal notranslate"><span class="pre">-S</span></code> 两个参数，第一个小写s告诉qemu启动之后在1234端口监听，等待调试器连接，第二个大写S表示，在调试器连接上来之前，别运行程序，等到调试器让你开始跑以后你再开始执行，这样就给了我们挂接调试器的时间。</p>
+<p>好了，现在可以开始享受调试过程了。首先进入到代码目录里，例如os8这个目录，然后输入</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make dbg <span class="nv">BASE</span><span class="o">=</span><span class="m">2</span>
+</pre></div>
+</div>
+<p>之后，是照常的编译流程，编译完成后，Terminal会卡在启动qemu后的状态，此时，在VSCode中按下F5键，就可以享受调试啦~</p>
+<p>再送上一个小提示，如果你关心的某个变量在调试过程中被优化掉了，你可以试着在这个地方加一个print语句，打印一下这个变量的内容，这样大概率可以防止编译器优化掉这个变量。</p>
+<p>使用上述方法调试，只要保证目录结构相对正确，那么编译生成的elf文件中也保留了诸如easy-fs文件系统相关符号的信息，也就意味着，在调试os6的时候，你可以在单步调试的过程中，从kernel所在的crate直接跟踪执行，跳转到easy-fs的源码中，so cool!</p>
+<p>最后，如果大家：</p>
+<ul class="simple">
+<li><p>对Cargo.toml的配置文件感兴趣，可以参考 &lt;<a class="reference external" href="https://doc.rust-lang.org/cargo/reference/profiles.html">https://doc.rust-lang.org/cargo/reference/profiles.html</a>&gt;</p></li>
+<li><p>对VSCode、GDB、qemu之间的互相调用关系感兴趣，可以参考：&lt;<a class="reference external" href="https://www.bilibili.com/video/BV1jP4y1u7Nb">https://www.bilibili.com/video/BV1jP4y1u7Nb</a>&gt;</p></li>
+</ul>
+</div>
 </div>
 
       </article>
@@ -652,6 +733,7 @@ Panicked at src/main.rs:48 Shutdown machine!
 </ul>
 </li>
 <li><a class="reference internal" href="#gdb">GDB 调试支持*</a></li>
+<li><a class="reference internal" href="#vscode">VSCode 可视化调试支持</a></li>
 </ul>
 </li>
 </ul>
