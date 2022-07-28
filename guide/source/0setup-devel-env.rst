@@ -355,3 +355,115 @@ GDB 调试支持*
 - `CentOS 平台 <https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-centos6.tar.gz>`_
 
 解压后在 ``bin`` 目录下即可找到 ``riscv64-unknown-elf-gdb`` 以及另外一些常用工具 ``objcopy/objdump/readelf`` 等。
+
+
+
+
+VSCode 可视化调试支持
+------------------------------
+本节将介绍如何在VSCode可视化环境中进行调试。所使用的的环境为Codespace + 本地VScode。（网页版本的VSCode没有试过，个人感觉使用本地VSCode连接到Codespace会比使用在线版本稳定一些。具体方法就是在打开Codespace时，点击Open In Visual Studio Code即可）
+
+.. attention::
+   本操作指南参考了2022版实验手册，以及kidcats同学在http://rcore-os.cn/rCore-Tutorial-Book-v3/chapter0/5setup-devel-env.html所发表的评论内容。
+
+第一步，我们需要安装RiscV对应的GDB调试器，对应不同操作系统的调试器的下载地址可以参考上一节给出的链接。因为我们的Codespace是在Linux环境下的，所以我们可以在Terminal中使用如下命令：
+
+.. code-block:: bash
+
+  cd /tmp
+  wget https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz
+  tar -zxf riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14.tar.gz 
+  cd riscv64-unknown-elf-gcc-8.3.0-2020.04.1-x86_64-linux-ubuntu14/bin
+  sudo cp ./* /usr/local/bin/
+  cd /usr/local/bin/
+  sudo chmod 777 ./*
+
+上述shell命令进行了以下操作：
+
+1. 下载调试器到一个临时路径
+#. 解压缩
+#. 将调试器复制到/usr/local/bin目录下
+#. 确保文件权限正确
+
+完成上述操作后，新打开一个Terminal窗口，在任意目录下运行 ``riscv64-unknown-elf-gdb`` ，应该都可以找到这个可执行文件。
+
+第二步：安装并设置VSCode插件
+
+首先打开VSCode的插件管理器，搜索并安装插件 ``C/C++`` ，随后在 ``.vscode`` 目录下新建 ``launch.json`` 文件，并写入如下内容：
+
+.. code-block:: json
+
+   {
+      // Use IntelliSense to learn about possible attributes.
+      // Hover to view descriptions of existing attributes.
+      // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+      "version": "0.2.0",
+      "configurations": [
+         {
+               "type": "cppdbg",
+               "request": "launch",
+               "name": "Attach to gdbserver",
+               "program": "${workspaceFolder}/os8/target/riscv64gc-unknown-none-elf/release/os",
+               "miDebuggerServerAddress": "localhost:1234",
+               "miDebuggerPath": "riscv64-unknown-elf-gdb",
+               "cwd": "${workspaceRoot}/os8",
+
+         }
+      ]
+   }
+
+
+注意要修改其中的 ``program`` 和 ``cwd`` 两项为自己当前要调试的代码的路径，上面的例子是在调试 ``os8`` 这个实验。
+
+其中的 ``type`` 字段指定的 ``cppdbg`` 类型的调试器，是由我们刚才安装的 ``C/C++`` 插件提供的， ``miDebuggerServerAddress`` 指定了一个本地的1234端口，开始调试后，VSCode会控制debugger去连接本机的1234端口，而我们后续启动qemu后，qemu会在1234端口监听，作为一个服务器等待调试器连接上来。
+
+
+第三步，调整项目编译配置
+
+打开对应实验目录下的 ``Cargo.toml`` 文件，例如你在开发os8，那么就是 ``os8/Cargo.toml`` 文件，在其结尾添加如下几行：
+
+.. code-block:: json
+
+   [profile.release]
+   debug = true
+   opt-level = "s"
+
+这段配置的意思是说，我们要覆盖默认release模式编译的参数，默认情况下，release模式的编译会移除debug信息，也就是 ``debug=false`` ，并且使用 ``opt-level=2`` ，也就是最高级别的优化进行编译，这样会导致打断点的时候很痛苦，很多代码都被优化的面目全非，对调试很不友好。
+
+在上述代码中，我们将debug信息保留，并且使用 ``s`` 级别进行优化，这里可选的其他级别还有 0、1、2、z、s三种，其中设置成2的话，相当于没有设置，因为release模式默认就是2，如果设置成0的话，经过我的实验，会导致内核加载的时候直接崩溃掉，（我初步猜测是因为0表示关闭优化，关闭后的内核二进制文件体积有点大？以上是乱猜的，时间有限没有去详细验证，感兴趣的同学欢迎后续指正）
+如果设置为1的话，感觉还是会有很多地方被优化，导致代码很多地方无法打断点。经过个人实验，感觉选择 ``s`` 级别可以在代码大小和优化之间取得一个比较好的平衡。
+
+第四步，修改Makefile文件
+
+打开对应实验目录下的 ``Makefile`` 文件，例如你在开发os8，那么就是 ``os8/Makefile`` 文件，在其结尾添加如下几行：
+
+.. code-block:: bash 
+
+   dbg: build
+      qemu-system-riscv64 -machine virt -nographic -bios $(BOOTLOADER) -device loader,file=$(KERNEL_BIN),addr=$(KERNEL_ENTRY_PA) -drive file=$(FS_IMG),if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 -s -S
+
+聪明的同学们应该可以发现，上面这一段代码是复制了Makefile中 ``debug`` 目标的配置，并且把里面的启动tmux和gdb相关的部分给去掉了，只保留了启动qemu的命令，仅此而已。
+之所以要说这个，是因为os6开始，qemu的启动命令增加了文件系统相关的内容， 而os6之前的qemu启动命令是比较简短的，这里是以os8为例进行说明的，如果你要调试的是os1~os5的程序，那么你现在就知道应该怎么修改上面的代码了。
+
+上面启动命令的核心就是后面的 ``-s`` 和 ``-S`` 两个参数，第一个小写s告诉qemu启动之后在1234端口监听，等待调试器连接，第二个大写S表示，在调试器连接上来之前，别运行程序，等到调试器让你开始跑以后你再开始执行，这样就给了我们挂接调试器的时间。
+
+
+好了，现在可以开始享受调试过程了。首先进入到代码目录里，例如os8这个目录，然后输入
+
+.. code-block:: bash 
+
+  make dbg BASE=2
+
+之后，是照常的编译流程，编译完成后，Terminal会卡在启动qemu后的状态，此时，在VSCode中按下F5键，就可以享受调试啦~
+
+
+再送上一个小提示，如果你关心的某个变量在调试过程中被优化掉了，你可以试着在这个地方加一个print语句，打印一下这个变量的内容，这样大概率可以防止编译器优化掉这个变量。
+
+使用上述方法调试，只要保证目录结构相对正确，那么编译生成的elf文件中也保留了诸如easy-fs文件系统相关符号的信息，也就意味着，在调试os6的时候，你可以在单步调试的过程中，从kernel所在的crate直接跟踪执行，跳转到easy-fs的源码中，so cool!
+
+
+
+最后，如果大家：
+
+* 对Cargo.toml的配置文件感兴趣，可以参考 <https://doc.rust-lang.org/cargo/reference/profiles.html>
+* 对VSCode、GDB、qemu之间的互相调用关系感兴趣，可以参考：<https://www.bilibili.com/video/BV1jP4y1u7Nb>
