@@ -15,3 +15,7 @@ riscv = { git = "https://github.com/rcore-os/riscv", features = ["inline-asm"] }
 spin = "0.9"
 lock_api = "=0.4.6"
 xmas-elf = "0.7.0"
+
+[profile.release]
+debug = true
+opt-level = 0

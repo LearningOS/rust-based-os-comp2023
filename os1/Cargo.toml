@@ -8,3 +8,7 @@ edition = "2018"
 
 [dependencies]
 log = "0.4"
+
+[profile.release]
+debug = true
+opt-level = 0

@@ -7,7 +7,7 @@ use std::sync::Mutex;
 
 /// Use a block size of 512 bytes
 const BLOCK_SZ: usize = 512;
-const BLOCK_NUM: usize = 16384;
+const BLOCK_NUM: usize = 131072; //64*2048
 
 /// Wrapper for turning a File into a BlockDevice
 struct BlockFile(Mutex<File>);
