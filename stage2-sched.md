@@ -160,3 +160,24 @@
    - https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials （树莓派上的 Rust OS 教程）
    - https://github.com/siemens/jailhouse （基于 Linux module 的 Hypervisor）
 
+
+### 面向 Rust-based OS的vscode 动态调试工具
+
+1. 项目标题：面向 Rust-based OS的vscode 动态调试工具
+2. 项目描述：方便的源代码级调试工具，对监测程序运行状态和理解程序的逻辑十分重要；高效的Rust语言跟踪能力，是Rust操作系统内核开发的必要工具，对基于Rust的操作系统教学和实验很有帮助。然而现有RISC-V、Rust实验环境搭建成本高，上手难度大，不利于学习与开发工作。本项目拟实现一种基于网页访问的在线实验系统，提供方便、高效的手段实现在QEMU和RISC-V开发板上的Rust教学操作系统的源代码调试。
+3. 项目难度：中（适合完成了lab1-5，熟悉typescript, 了解vscode plugin，并希望能够较快进入更实际一些的OS能力训练或做OS方向研究的同学）
+4. 项目社区导师：陈志扬
+5. 导师联系方式：github id: chenzhiy2001    weichat id: untilthedayibecome
+6. 项目产出要求：
+   - 能够在vscode上动态调试Rust-based OS && APP in OS(比如rcore，zcore等)
+   - 形成vscode插件
+   - 提供使用说明和设计实现文档
+7. 项目技术要求：
+   - 熟悉 vscode 插件开发
+   - 了解 VS Code的 Debug Adapter 协议
+   - 了解QEMU 中的 gdbserver 与 gdb之间的通信协议
+   - 熟悉 typescript开发
+8. 相关的开源软件仓库列表：
+   - https://github.com/chenzhiy2001/code-debug
+
+注：欢迎进入第二阶段的同学提出自己感兴趣的题目，并尽快联系助教或老师进行立项。
