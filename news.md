@@ -9,4 +9,5 @@
 - 2022.07.04：大约150人在线报名，微信群目前120人左右，162人在 https://github.com/learningos 开始并建立了“lab0-0-setup-env-run-os1”作业的repos
 - 2022.07.05：晚上20:30， 基于腾讯会议（会议号：201-785-984）召开"开源操作系统学习训练营开幕式"
 - 2022.07.15: [训练营在线排行榜](https://os2edu.cn/grading/)发布
-- 2022.07.29：[训练营第一阶段结束的调查问卷](https://www.wjx.cn/wjx/activitystat/verifyreportpassword.aspx?viewtype=1&activity=175118009&type=1)发布
+- 2022.07.30：[训练营第一阶段结束的调查问卷](https://www.wjx.cn/vm/w8a5pG0.aspx)发布；第二阶段技术交流报告日程安排发布
+- 2022.08.01：训练营第二阶段开始
