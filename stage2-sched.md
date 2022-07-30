@@ -19,9 +19,34 @@
 - 题目：zCore网络框架，报告人：萧络元，时间：2022.08.03 20:30(周四晚上)
 - 题目：zCore单元测试框架，报告人：石振兴，时间：2022.08.05 20:30(周五晚上)
 
-## 日程：第二~第四周：rCore/zCore研究项目 (34天)
+## 日程：第二~第四周：操作系统研究与探索项目 (34天)
 目前设置了多个项目，学生可选择参加下面的项目，指导老师制定以周为单位的项目研究计划。
 
+#### 模块化的 rCore-Tutorial-v3
+
+1. 项目标题：模块化的 rCore-Tutorial-v3
+2. 项目描述：rCore-Tutorial-v3 是一套简洁，易于上手的教程，但是目前代码将不同章节用分支隔离的组织形式导致前一章实验的成果很难迁移到后一章，且若要修改某一章的实现，就需要手动同步到后续所有章节。我们希望能发挥 Rust 语言 workspace/crates/traits 的先进设计理念，重构rCore-Tutorial，将学习时对仓库的操作变为以下形式：
+
+   | 操作          | 使用 git 分支        | 使用 crate
+   | ------------ | ------------------- | ---------------
+   | 学习另一个章节 | 切换分支             | 修改 workspace（即切换相关 crates）
+   | 做课后实验     | 切换到 lab 分支写代码 | 封装一个 crate 加入 workspace
+
+   这样操作系统将以模块化/Traits的形式呈现给同学，同学按照模块化/Traits实现的方法来完成实验。实验的内容也可随之灵活调整。
+
+3. 项目难度：中（适合完成了lab1-5，熟悉 Rust workspace/crates/traits 的同学）
+4. 项目社区导师：杨德睿 github id:YdrMaster weichat id: ydrdwx ； 许善朴 github id: xushanpu123   weichat id: bitmeet520
+5. 项目产出要求：
+
+   项目应该将现有的 rCore-Tutorial-v3 变得模块化。形式包括：
+   - 章节模块化：所有章节不再被 git 分支隔离开，而是只有逻辑上的隔离关系，后一章节能够以依赖库的形式继承前一章节的成果
+   - 实现模块化：能在所有章节中复用的代码形成单独的 crate 甚至 package，crates之间在调用方面有层次依赖关系, crates的粒度尽量小。
+   - 系统调用接口模块化：系统调用的分发封装到一个 crate。使得添加系统调用的模式不是为某个 match 增加分支，而是实现一个分发库要求的 trait 并将实例传递给分发库
+
+8. 相关的开源软件仓库列表：
+   - https://github.com/theseus-os/Theseus （OS的目标不同，但在OS的设计上有部分内容与此相近）
+
+      Theseus is a modern OS written from scratch in Rust that explores 𝐢𝐧𝐭𝐫𝐚𝐥𝐢𝐧𝐠𝐮𝐚𝐥 𝐝𝐞𝐬𝐢𝐠𝐧, novel OS structure, and state management. It strives to close the semantic gap between compiler and hardware to maximally leverage the power of language safety, and thus shift OS responsibilities like resource management into the compiler.
 
 ### rCore-Tutorial-v3 进一步进阶/扩展
 1. 项目标题：rCore-Tutorial-v3 进一步扩展
@@ -69,6 +94,7 @@
   - [用rust重新实现Linux的KVM](https://github.com/KaitoD/linux) 
   - [基于x86_64的rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3-x86_64)
   - [基于AARCH64的rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3-arm64)
+  - rCore-Tutorial-v3/zCore直接支持Rust std标准库：已完成的本科毕设，有初步结果
 ### zCore 的文档与单元测试完善
 
 1. 项目标题：zCore 的文档与单元测试完善
