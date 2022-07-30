@@ -190,12 +190,22 @@ git push -f
 
 ## Q9：在用vscode中能否像一般应用一样，源码级调试rcore-tutorial-v3？如果可以，如何做？    
 
-**解决方法**
+**方法一：（适合vscode 一般用户）**
+
+请看 [VSCode 可视化调试支持](https://learningos.github.io/rust-based-os-comp2022/0setup-devel-env.html#vscode)。
+感谢  @myrfy 米明恒的贡献！
+
+**方法二：（适合vscode熟手）**
 
 目前 @chenzhiy2001 已经有了一个初步的实现方案，https://github.com/chenzhiy2001/code-debug 请访问 [coredebugger安装与使用](https://github.com/chenzhiy2001/code-debug#%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8) 了解具体操作过程。@chyyuu 试用后，觉得很不错！
+
+感谢  @chenzhiy2001 陈志扬的贡献！
 
 提示：
 
 1. 目前项目在开发中，还没有设计得对用户特别友好，建议新手慎用。
 2. 因为opt-level被设置成0，rCore Tutorial v3在qemu中会比较慢（在耗时的for循环等情况下，要有耐心等待）
 
+**方法三：（适合Linux 命令行熟手）**
+
+请看 [GDB 调试支持](https://learningos.github.io/rust-based-os-comp2022/0setup-devel-env.html#gdb)
