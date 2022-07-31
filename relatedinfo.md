@@ -60,6 +60,7 @@
 - [chapter5(lab3)进程管理的代码解析和编程练习讲解](https://cloud.tsinghua.edu.cn/f/e2a8b8b54037484fac73/)
 - [chapter6(lab4)文件系统的代码解析和练习讲解视频](https://cloud.tsinghua.edu.cn/f/a5d5ece6e5b849a3ae8a/)
 - [chapter8(lab5)同步互斥的代码解析和练习讲解视频](https://cloud.tsinghua.edu.cn/f/b6b94ccebe084b31aa6b/)
+- [chapter9（第二阶段训练）内核中断/外设管理的代码解析讲解视频](https://cloud.tsinghua.edu.cn/f/1c9706422ad54cad997c/)
 ## 20220705"开源操作系统学习训练营开幕式" 相关slides
 
 - [2022年开源操作系统学习训练营安排：向勇](https://github.com/LearningOS/resrouce-on-rust-based-os-comp2022/blob/main/20220705-%E5%90%91%E5%8B%87-%E5%BC%80%E5%B9%95%E5%BC%8F%E4%B8%8A%E7%9A%84%E4%BB%8B%E7%BB%8D-v4.pdf)
