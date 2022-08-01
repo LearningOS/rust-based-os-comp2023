@@ -25,7 +25,7 @@
 #### 模块化的 rCore-Tutorial-v3
 
 1. 项目标题：模块化的 rCore-Tutorial-v3
-2. 项目描述：rCore-Tutorial-v3 是一套简洁，易于上手的教程，但是目前代码将不同章节用分支隔离的组织形式导致前一章实验的成果很难迁移到后一章，且若要修改某一章的实现，就需要手动同步到后续所有章节。我们希望能发挥 Rust 语言 workspace/crates/traits 的先进设计理念，重构并形成[模块化rCore-Tutorial](./module-rCore-Tutorial.md)，将学习时对仓库的操作变为以下形式：
+2. 项目描述：rCore-Tutorial-v3 是一套简洁，易于上手的教程，但是目前代码将不同章节用分支隔离的组织形式导致前一章实验的成果很难迁移到后一章，且若要修改某一章的实现，就需要手动同步到后续所有章节。我们希望能发挥 Rust 语言 workspace/crates/traits 的先进设计理念，重构并形成模块化rCore-Tutorial，将学习时对仓库的操作变为以下形式：
 
    | 操作          | 使用 git 分支        | 使用 crate
    | ------------ | ------------------- | ---------------
@@ -43,7 +43,7 @@
    - 实现模块化：能在所有章节中复用的代码形成单独的 crate 甚至 package，crates之间在调用方面有层次依赖关系, crates的粒度尽量小。
    - 系统调用接口模块化：系统调用的分发封装到一个 crate。使得添加系统调用的模式不是为某个 match 增加分支，而是实现一个分发库要求的 trait 并将实例传递给分发库
 
-8. 相关的开源软件仓库列表：
+6. 相关的开源软件仓库列表：
    - https://github.com/theseus-os/Theseus （OS的目标不同，但在OS的设计上有部分内容与此相近）
 
       Theseus is a modern OS written from scratch in Rust that explores 𝐢𝐧𝐭𝐫𝐚𝐥𝐢𝐧𝐠𝐮𝐚𝐥 𝐝𝐞𝐬𝐢𝐠𝐧, novel OS structure, and state management. It strives to close the semantic gap between compiler and hardware to maximally leverage the power of language safety, and thus shift OS responsibilities like resource management into the compiler.
