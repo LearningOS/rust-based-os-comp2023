@@ -1,5 +1,9 @@
 ## 邀请进入训练营第二阶段实战的人员名单
 
+<img width="1523" alt="image" src="https://user-images.githubusercontent.com/1249369/182071587-48cc097b-b145-4ab6-985c-156001149578.png">
+
+（备注：下面的表格数据还在更新校对，以上图数据为准）
+
 | github_username | student_repository_url                                 |
 | --------------- | ------------------------------------------------------ |
 | Yakkhini        | https://github.com/LearningOS/lab3-os5-Yakkhini        |
