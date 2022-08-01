@@ -95,6 +95,33 @@
   - [基于x86_64的rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3-x86_64)
   - [基于AARCH64的rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3-arm64)
   - rCore-Tutorial-v3/zCore直接支持Rust std标准库：已完成的本科毕设，有初步结果
+### 异步操作系统
+1. 项目标题：异步操作系统设计和完善
+2. 项目描述：在RISC-V平台上设计并实现一个基于Rust语言的异步操作系统。最终目标是，利用Rust语言和开源工具链的特征，在操作系统内核中实现细粒度的并发安全、模块化和可定制特征；利用Rust语言的异步机制，优化操作系统内核的并发性能；向应用程序提供的异步系统调用接口，优化操作系统的系统调用访问性能；结合LLVM中Rust语言编译器的异步支持技术，完善操作系统的进程、线程和协程概念，统一进程、线程和协程的调度机制；利用RISC-V平台的用户态中断技术，优化操作系统的信号和进程通信性能；开发原型系统，设计用户态测试用例库和操作系统动态分析跟踪工具，对异步操作系统的特征进行定量性的评估。
+3. 项目难度：中/高 （适合完成了lab1-5，并希望能够较快进入更实际一些的OS能力训练或做OS方向研究的同学）
+4. 项目社区导师：向勇 github id: xyongcn     weichat id: xyongcn 
+5. 项目产出要求：
+   - 参与正在进行的异步操作系统开发项目，提供力所能及改进和完善；
+   - 针对异步操作系统中还没有开工的模块，提供初始的参考实现；
+6. 项目技术要求：
+   - 具备一定的 Rust 语言基础，能看懂并模仿现有代码即可
+   - 熟悉操作系统原理与简易实现
+   - 具有基础英文阅读和写作能力
+
+7. 已有相关工作：
+  - [异步操作系统设计](https://github.com/async-kernel/documents/blob/main/design/design.md)
+  - 用户态中断扩展
+      - 尤予阳，[软硬协同的用户态中断](https://gallium70.github.io/rv-n-ext-impl/intro.html)：RISC-V的用户态中断规范建议；
+      - [软硬协同的用户态中断机制研究](https://github.com/Gallium70/final-project/blob/master/论文.pdf)：本科毕设论文；
+      - 王之栋、项晨东、孙迅，[基于Intel x86用户态中断的高效进程间通信](https://github.com/OS-F-4/usr-intr/blob/main/ppt/2022-6-11.pptx)：Intel用户态中断的QEMU支持、基于用户态中断的异步系统调用实现
+  - 内核模块的异步通信框架：
+      - 吴一凡，[Async-modules extension of zCore](https://github.com/wyfcyx/zCore/tree/async-modules)：异步模块间的通信框架实现；
+  - 用户态的异步支持库：
+      - 车春池，[基于Rust的io-uring实现](https://github.com/SKTT1Ryze/Graduation2022/releases/download/v0.1.0/thesis.pdf)：Rust和C++的异步支持库，本科毕设论文；
+  - 异步操作系统调度
+      - 车春池、蒋周奇：共享调度器 https://github.com/HUST-OS/tornado-os#如何运行
+      - 刘松铭、于子淳：[zCore多核异步调度器](https://github.com/OSLab-zCore/OSLab-Docs)
+      - 王文智：[线程与协程的统一调度](https://github.com/AmoyCherry/UnifieldScheduler/blob/02f3d17cafd6b3ca4091df6a47798f67a44e7788/%E5%BC%82%E6%AD%A5OS%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.md)
 ### zCore 的文档与单元测试完善
 
 1. 项目标题：zCore 的文档与单元测试完善
