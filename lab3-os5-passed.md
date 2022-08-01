@@ -1,5 +1,3 @@
-## 邀请进入训练营第二阶段实战的人员名单
-
 | github_username  | student_repository_url                                  |
 | ---------------- | ------------------------------------------------------- |
 | jackyliu16       | https://github.com/LearningOS/lab3-os5-jackyliu16       |
