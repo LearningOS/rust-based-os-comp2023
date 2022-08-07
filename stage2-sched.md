@@ -60,10 +60,11 @@
 6. 项目社区导师：吴一凡 github id: wyfcyx     weichat id: yifanwu1998
 7. 项目社区导师：许善朴 github id: xushanpu123   weichat id: bitmeet520
 8. 项目社区导师：杨德睿 github id:YdrMaster  weichat id: ydrdwx 
-9. 项目产出要求：
+9. 项目社区导师：陈乐 github id: yuoo655    weichat id: Endagorion_
+10. 项目产出要求：
    - 补充完善 rCore-Tutorial-v3
 
-10. 项目技术要求：
+11. 项目技术要求：
    - 具备一定的 Rust 语言基础，能看懂并模仿现有代码即可
    - 熟悉操作系统原理与简易实现
    - 具有基础英文阅读和写作能力
@@ -76,6 +77,11 @@
       - 选择1：内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 （rcore tutorial v3的ch9已经完成） --> 内核支持多核结构  --> 内核支持Linux syscall（即支持Linux应用）
       - 选择2：内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 --> 图形界面支持 （rcore tutorial v3的ch9已经完成） --> 改进图形界面支持
       - 选择3：内核支持中断响应 --> 内核支持 读取设备树，支持virtio外设，支持串口外设 （rcore tutorial v3的ch9已经完成） --> 实现对TUI界面的支持（即可以在字符界面实现窗口界面和各种基于TUI界面的游戏）
+
+选择2/3的OS参考
+
+- [带TUI界面的Lateral OS](https://github.com/carterisonline/lateral)
+- [有snake/2048图形界面游戏的SnakeOS](https://github.com/trusch/snakeos)
 
 ### 操作系统课程的有趣大实验
 1. 项目标题：操作系统课程的有趣大实验
