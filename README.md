@@ -32,7 +32,7 @@ First, you can read [Guide](https://learningos.github.io/rust-based-os-comp2022/
 ## os reference framework
 The 'os[1-8]-ref' are the 'os[1-8]'  reference frameworks.  You can read and copy some codes into os[1-8]
 
-## kernel labs
+## kernel labs based on GitHub Classroom
 There are two simple practice work, and five kernel labs.
 
 注：登录github.com，点击并打开下面的lab0~lab5的github classroom的链接后，点击醒目绿色按钮"Accept this assignment"选择接受，github就为你创建了一个对应实验的git repo
