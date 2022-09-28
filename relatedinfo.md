@@ -1,5 +1,8 @@
 
 
+## 2022夏季Rust程序设计训练课资源
+- [清华计算机系大一学生2022暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
+
 ## 2022春季OS课资源
 ### 课程Slides
 - [2022春季课程Slides](https://learningos.github.io/os-lectures/)
