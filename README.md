@@ -11,6 +11,7 @@ Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练�
 - [open-source  os training  comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 
 ## Guide & Lab Test for Rust
+- [清华计算机系大一学生暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
 - [learning rust guide](https://course.rs/)（Rust语言圣经）
 - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习）
 ## Guide for OS
