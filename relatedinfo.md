@@ -21,7 +21,7 @@
 - [20220523第12次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=5c2c8e4b-f9a0-4228-bb4d-b83c648057a0&from=3)
 - [20220530第13次课视频](https://meeting.tencent.com/v2/cloud-record/share?id=34309e7e-3835-4d3f-a056-eceec5598f66&from=3)
 
-注：缺第七次课
+注：缺第七次课，各次课的密码是8位数字中的后4位数字
 
 ## 2022春季Advanced OS课相关资源
 - [2021 AOS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
@@ -37,6 +37,7 @@
 - [20220004 rcore-tutorial-v3 lab4](https://cloud.tsinghua.edu.cn/f/a44d31de255047ceb1fc/)
 - [20220005 rcore-tutorial-v3 lab5](https://cloud.tsinghua.edu.cn/f/7935a70766514c2ca08c/)
 
+注：密码是 `xushanpu123`
 
 ## 2022春季OS课实验框架OS API DOC
 
