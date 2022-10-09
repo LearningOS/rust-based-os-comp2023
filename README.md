@@ -48,14 +48,14 @@ According to the  [Guide](https://learningos.github.io/rust-based-os-comp2022/),
 - [lab5 in 'os8' DIR](https://classroom.github.com/a/zqGJEPK-) ：[Important NOTICE](https://learningos.github.io/rust-based-os-comp2022/chapter8/0intro.html#id5)
 
 注：lab0-0\lab0-1用于搭建线上或本地实验环境，以及熟悉"提交/CI等"的操作过程，基本上不需要编程。lab1~lab5是实际的OS实验内容，需要编程。
-## Check your results
+### Check your results
 - lab1: `make test3` for lab1
 - lab2: `make test4`  for lab2 
 - lab3: `make test5`  for lab3
 - lab4: `make test6`  &&  `make test7` for lab4 
 - lab5: `make test8`  for lab5 
 
-## QA &Send issues
+### QA &Send issues
 
 There are some methods for common questions & problems, please read [QA](./QA.md).
 
