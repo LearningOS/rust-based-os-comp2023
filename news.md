@@ -1,5 +1,6 @@
 #  2022年开源操作系统训练营的新闻与活动纪要
 
+- 2022.10.01：2022秋季训练营筹备中。
 - 2022.09.28：[oscomp-kernel-training Github Class Room](https://github.com/LearningOS/oscomp-kernel-training)上线，基于全国大学生操作系统比赛内核挑战赛内容，提供编写支持Linux App的操作系统在线训练。
 - 2022.09.10：祝贺[完成暑期训练营的学员](./final-reporters-2022summer.md)完成最终技术报告，并将获得训练营证书。
 - 2022.08.07：形成三个微信群：训练营异步澳洲系统、训练营操作系统探索、训练营rcore/zcore，建立部分classroom， 进行有针对性的讨论，开展相关项目。
