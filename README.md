@@ -10,7 +10,7 @@ Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练�
 - [open-source  os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source  os training  comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 
-## Guide & Lab Test for Rust
+## Guide & Lab Test for Rust（第一阶段）
 - [清华计算机系大一学生2022暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
 - [learning rust guide](https://course.rs/)（Rust语言圣经）
 - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习）
@@ -30,10 +30,10 @@ First, you can read [Guide](https://learningos.github.io/rust-based-os-comp2022/
 - (Option) you can [use github classroom&code space to develop all os labs](https://learningos.github.io/rust-based-os-comp2022/chapter1/0intro.html#id4) just in a net browser.
 
 
-## os reference framework
+## os reference framework（第一阶段）
 The 'os[1-8]-ref' are the 'os[1-8]'  reference frameworks.  You can read and copy some codes into os[1-8]
 
-## kernel labs based on GitHub Classroom
+## kernel labs based on GitHub Classroom（第一阶段）
 There are two simple practice work, and five kernel labs.
 
 注：登录github.com，点击并打开下面的lab0~lab5的github classroom的链接后，点击醒目绿色按钮"Accept this assignment"选择接受，github就为你创建了一个对应实验的git repo
