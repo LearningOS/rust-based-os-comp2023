@@ -1,9 +1,9 @@
 
 
-## 2022夏季Rust程序设计训练课资源
+## 2022夏季Rust程序设计训练课资源（easy）
 - [清华计算机系大一学生2022暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
 
-## 2022春季OS课资源
+## 2022春季OS课资源（normal）
 ### 课程Slides
 - [2022春季课程Slides](https://learningos.github.io/os-lectures/)
 
@@ -26,7 +26,7 @@
 
 注：缺第七次课，各次课的密码是8位数字中的后4位数字
 
-## 2022春季Advanced OS课相关资源
+## 2022春季Advanced OS课相关资源（hard）
 - [2021 AOS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
 - [论文阅读列表](https://github.com/chyyuu/aos_course_info/blob/master/readinglist.md)
 - [OS比赛相关的一些硬件/OS实例/教程](https://github.com/oscomp/os-competition-info/blob/main/ref-info.md)
