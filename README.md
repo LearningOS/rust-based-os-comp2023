@@ -27,7 +27,7 @@ Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练�
 - 李国良
 - 任炬
 
-## 训练营支持与合作单位
+## 支持与合作单位
 - [rcore-os 开源社区](https://github.com/rcore-os)
 - [木兰开源社区](https://portal.mulanos.cn)
 - CCF开源发展委员会
