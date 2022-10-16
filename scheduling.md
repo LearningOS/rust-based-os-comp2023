@@ -3,7 +3,10 @@
 
 - [新闻与纪要](./news.md)
 - [常见问题解答](./QA.md)
-- [训练营在线排行榜](https://os2edu.cn/grading/)
+- [Learning Resource](./relatedinfo.md) (训练营学习资源)
+- Online Ranking （训练营在线排行榜）
+  - [第一阶段排行：Rust Lang & rCore Kernel](https://learningos.github.io/classroom-grading/)
+  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
 
 欢迎在校学生/工程师在2022年秋冬季参加清华大学、CSDN、毛豆教育等共同举办的**2022年秋冬季开源操作系统训练营**活动（2022.11.01～2023.02.01），本次活动分为两个阶段：线上自学OS基础[基于Rust语言学习和实践操作系统内核](https://github.com/LearningOS/rust-based-os-comp2022)（2022.11.01～2022.12.15）和线上实践OS拓展[基于Rust语言的操作系统内核拓展实践](https://github.com/LearningOS/oscomp-kernel-training)（2022.12.16～2023.02.01） ,主要是对用**Rust语言进行支持Linux APP的OS研发开展学习、交流与探索**。如果有其它有趣的想法或愿意参加更有挑战的训练，请与助教和老师联系。
 
