@@ -27,7 +27,7 @@
 注：缺第七次课，各次课的密码是8位数字中的后4位数字
 
 ## 2022春季Advanced OS课相关资源（hard）
-- [清华计算机系研究生2021春季AOS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
+- [清华计算机系研究生2021春季Advanced OS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
 - [论文阅读列表](https://github.com/chyyuu/aos_course_info/blob/master/readinglist.md)
 - [OS比赛相关的一些硬件/OS实例/教程](https://github.com/oscomp/os-competition-info/blob/main/ref-info.md)
 - [Rust based OS/Hypervisor/VMM/Firmwire](https://github.com/chyyuu/aos_course_info/blob/master/oslist.md)
