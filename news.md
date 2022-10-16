@@ -1,5 +1,5 @@
 #  2022年开源操作系统训练营的新闻与活动纪要
-- 2022.10.16：2022秋冬季训练营开始招生，请在[报名登记处](https://github.com/LearningOS/rust-based-os-comp2022/issues/101) 填写相关个人信息，并加入[相关微信群]()。
+- 2022.10.16：2022秋冬季训练营开始招生)(时间段 2022.10.16 ~ 2022.10.30)，请在[报名登记处](https://github.com/LearningOS/rust-based-os-comp2022/issues/101) 填写相关个人信息，并加入[相关微信群]()。
 - 2022.10.01：2022秋冬季训练营筹备中。
 - 2022.09.28：[oscomp-kernel-training Github Class Room](https://github.com/LearningOS/oscomp-kernel-training)上线，基于全国大学生操作系统比赛内核挑战赛内容，提供编写支持Linux App的操作系统在线训练。
 - 2022.09.10：祝贺[完成暑期训练营的学员](./final-reporters-2022summer.md)完成最终技术报告，并将获得训练营证书。
