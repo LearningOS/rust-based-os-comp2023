@@ -5,7 +5,9 @@ Welcome to Open-Source OS Training Comp 2022（2022年开源操作系统训练�
 - NOTICE current [**Stage1 SCHEDULING**](./scheduling.md) & [**Stage2 SCHEDULING**](https://github.com/LearningOS/oscomp-kernel-training)（2022年开源操作系统训练营的第一/二阶段安排）!
 - [News](./news.md)（2022年开源操作系统训练营的新闻和纪要）
 - [QA](./QA.md)（常见问题解答）
-- [Online Ranking](https://learningos.github.io/classroom-grading/)（训练营在线排行榜）
+- Online Ranking（训练营在线排行榜）
+  - [第一阶段排行：Rust Lang & rCore Kernel](https://learningos.github.io/classroom-grading/)
+  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
 
 ## History
