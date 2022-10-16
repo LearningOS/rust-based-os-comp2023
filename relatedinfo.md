@@ -5,7 +5,7 @@
 
 ## 2022春季OS课资源（normal）
 ### 课程Slides
-- [清华计算机系大三学生2022春季课程Slides](https://learningos.github.io/os-lectures/)
+- [清华计算机系大三学生2022春季OS课程Slides](https://learningos.github.io/os-lectures/)
 
 ### 课程参考书
 - [Operating Systems: Three Easy Pieces](https://pages.cs.wisc.edu/~remzi/OSTEP/)
@@ -27,7 +27,7 @@
 注：缺第七次课，各次课的密码是8位数字中的后4位数字
 
 ## 2022春季Advanced OS课相关资源（hard）
-- [清华计算机系研究生2021 AOS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
+- [清华计算机系研究生2021春季AOS课程视频/slides](https://www.xuetangx.com/course/thu080917777/3234209)
 - [论文阅读列表](https://github.com/chyyuu/aos_course_info/blob/master/readinglist.md)
 - [OS比赛相关的一些硬件/OS实例/教程](https://github.com/oscomp/os-competition-info/blob/main/ref-info.md)
 - [Rust based OS/Hypervisor/VMM/Firmwire](https://github.com/chyyuu/aos_course_info/blob/master/oslist.md)
