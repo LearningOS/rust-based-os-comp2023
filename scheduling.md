@@ -155,7 +155,7 @@
  - [lab4 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter6/0intro.html#id3)
  - [lab5 实验初始化设置](https://learningos.github.io/rust-based-os-comp2022/chapter8/0intro.html#id5)
 
-然后就可以根据 [OS训练营实验指导](https://learningos.github.io/rust-based-os-comp2022/) 开始具体的实践和实验了。
+然后就可以开始具体的实践和实验了。
 
 
 在完成每个实验中的OS代码后，通过执行 `git push` 命令来更新自己的实验专用 repos，并触发GitHub Classroom的CI测试。等一小会后，会看到自己的实验专用 repos 上面会有一个绿色的小勾，表示最新的提交通过了CI测试。如果看到的是红色的小叉，表面没有通过CI测试，你可以点击小叉，并进一步点击 GitHub Classroom Workflow/Autograding 的 details，进入自动测试的详细log记录页面，查看测试中具体在哪一步出现了问题，并尝试自己修复bug/更新功能，争取下一次通过测试。
