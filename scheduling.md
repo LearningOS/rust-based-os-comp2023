@@ -65,18 +65,17 @@
 
        **提示：基于github classroom的开发方式**
 
-       基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
+       基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace（在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
+
+       > codespace 不是必须的。如果是本地的ubuntu中建立开发环境，可在shell中执行 `make ubuntu_local_setenv` 来自动安装配置开发环境（执行需要 `sudo` root 权限，仅需要执行一次）。
 
        1. 在网络浏览器中用自己的 github id 登录 github.com。
        2. 接收 [Rust-lang Lab Test based on Rustlings 的github classroom在线邀请](https://classroom.github.com/a/YTNg1dEH)  ，根据提示一路选择OK即可。
        3. 完成第二步后，你的rustings实验练习 的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的实验了。
-       4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到  `codespace` 标签和醒目的 `create codesapce on edu` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
+       4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到 `codespace` 标签和醒目的 `create codesapce on edu` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
        5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc等工具。
-          > 如果是本地的ubuntu中建立开发环境，可在shell中执行 `make ubuntu_local_setenv` 来自动安装配置开发环境（执行需要 `sudo` root 权限，仅需要执行一次）。
        6. 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
        7. 然后就可以基于在线vscode进行测试 (执行命令 `rustlings watch` ），编辑代码的循环实验过程了。
-
-       上述的3，4，5步不是必须的，你也可以线下本地开发。
 
    - （Option）[32 Rust Quizes](https://dtolnay.github.io/rust-quiz/1)
      - 要求：小练习全部通过。（**非必须完成**）
@@ -127,18 +126,15 @@
 
 根据[rust-based-os-comp2022](https://github.com/LearningOS/rust-based-os-comp2022)中的各个实验的具体实验要求在自己的仓库中完成5个实验，通过基于GitHub Classroom的CI测试，并在最后写出总结报告。
 
-具体步骤
+访问 [训练营 kernel labs](https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs)，点击下列链接，形成各个自己实验专用 repos：
 
-- 登录github.com
-- 访问 [训练营 kernel labs](https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs) ，点击如下链接，形成各个自己实验专用 repos：
-
-  - [lab0-0 实践](https://classroom.github.com/a/hnoWuKGF)
-  - [lab0-1 实践](https://classroom.github.com/a/UEOvz4qO)
-  - [lab1 实验](https://classroom.github.com/a/s1v7GyJM)
-  - [lab2 实验](https://classroom.github.com/a/ghbB1wYX)
-  - [lab3 实验](https://classroom.github.com/a/RxB6h4-x)
-  - [lab4 实验](https://classroom.github.com/a/94eMW8zi)
-  - [lab5 实验](https://classroom.github.com/a/zqGJEPK-)
+- [lab0-0 实践](https://classroom.github.com/a/hnoWuKGF)
+- [lab0-1 实践](https://classroom.github.com/a/UEOvz4qO)
+- [lab1 实验](https://classroom.github.com/a/s1v7GyJM)
+- [lab2 实验](https://classroom.github.com/a/ghbB1wYX)
+- [lab3 实验](https://classroom.github.com/a/RxB6h4-x)
+- [lab4 实验](https://classroom.github.com/a/94eMW8zi)
+- [lab5 实验](https://classroom.github.com/a/zqGJEPK-)
 
 请注意各个实践或实验的具体初始化设置：
 
