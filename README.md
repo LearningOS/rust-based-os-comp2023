@@ -1,8 +1,8 @@
 # Open-Source OS Training Comp 2022
 
-Welcome to Open-Source OS Training Comp 2022（2022 年开源操作系统训练营）.
+Welcome to Open-Source OS Training Comp 2022（欢迎加入2022 年开源操作系统训练营）
 
-## Important Info
+## 重要信息
 
 - [**Stage1 SCHEDULING**](./scheduling.md) & [**Stage2 SCHEDULING**](https://github.com/LearningOS/oscomp-kernel-training)（2022 年开源操作系统训练营的第一/二阶段安排，可根据这些阶段安排的信息进行自学和自我训练）
 - [**News**](./news.md)（2022 年开源操作系统训练营的新闻和纪要）
@@ -12,7 +12,7 @@ Welcome to Open-Source OS Training Comp 2022（2022 年开源操作系统训练�
   - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
 - [**Learning Resource**](./relatedinfo.md)（训练营学习资源）
 
-## History
+## 历史
 
 - [open-source os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source os training comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
