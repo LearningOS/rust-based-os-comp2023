@@ -213,7 +213,7 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
 注： ``os/src/console.rs`` 文件的代码中使用到了 ``main.rs`` 文件中的sys_write方法，需要说明在文件头部声明 ``use crate::sys_write;`` 。
 
 而 ``main.rs`` 为了能够用到 ``console.rs`` 提供的功能，也需要添加对 console 的引用。主要的添加如下：
- 
+
 .. code-block:: rust
 
     // os/src/main.rs
@@ -233,7 +233,7 @@ Rust 的 core 库内建了以一系列帮助实现显示字符的基本 Trait �
 
   #[no_mangle]
   extern "C" fn _start() {
-      print!("Hello, "");
+      print!("Hello, ");
       println!("world!");
       sys_exit(9);
   }
