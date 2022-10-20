@@ -40,7 +40,7 @@
 .. note::
 
    基于github classroom的开发方式
-   
+
    基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
 
    1. 在网络浏览器中用自己的 github  id 登录 github.com
@@ -62,15 +62,15 @@
 .. code-block:: console
 
    $ git clone ``gitaddr of github-classroom-build-lab0-0``
-   $ cd ``github-classroom-build-lab0-0`` 
+   $ cd ``github-classroom-build-lab0-0``
    $ make setupclassroom_test1  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
 .. note::
 
-   实验名称 ：实验编号 
-   
+   实验名称 ：实验编号
+
    -  lab0-0 : test1
-   -  lab0-1：test2 
+   -  lab0-1：test2
    -  lab1：test3
    -  lab2：test4
    -  lab3：test5
@@ -111,7 +111,7 @@
    │       ├── logging.rs (为本项目实现了日志功能)
    │       ├── main.rs (内核主函数)
    │       └── sbi.rs (封装底层 SBI 实现提供的 SBI 接口)
-   └── rust-toolchain (整个项目的工具链版本)
+   └── rust-toolchain.toml (整个项目的工具链版本)
 
    cloc os
    -------------------------------------------------------------------------------

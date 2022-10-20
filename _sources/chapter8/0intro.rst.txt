@@ -87,7 +87,7 @@
 .. note::
 
    基于github classroom的开发方式
-   
+
    基于github classroom，可方便建立开发用的git repository，并可基于github的 codespace （在线版ubuntu +vscode）在线开发使用。整个开发环境仅仅需要一个网络浏览器。
 
    1. 在网络浏览器中用自己的 github id 登录 github.com
@@ -101,27 +101,27 @@
    上述的3，4，5步不是必须的，你也可以线下本地开发。
 
    注：如果是本地的ubuntu中建立开发环境，可在shell中执行 ``make ubuntu_local_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
-   
+
 获取本章代码：
 
 .. code-block:: console
 
    $ git clone ``gitaddr of github-classroom-build-lab5``
-   $ cd ``github-classroom-build-lab5`` 
+   $ cd ``github-classroom-build-lab5``
    $ make setupclassroom_test8  //注意：这一步很重要，是用于github classroom自动评测你的工作。这一步只需在首次克隆项目仓库时执行一次，以后一般就不用执行了，除非 .github/workflows/classroom.yml发生了变化。
 
 .. note::
 
-   实验名称 ：实验编号 
-   
+   实验名称 ：实验编号
+
    -  lab0-0 : test1
-   -  lab0-1：test2 
+   -  lab0-1：test2
    -  lab1：test3
    -  lab2：test4
    -  lab3：test5
    -  lab4：test6
    -  lab5：test8
-  
+
 在 qemu 模拟器上运行本章代码 `lab5(os8)参考框架: <https://github.com/LearningOS/rust-based-os-comp2022/tree/main/os8-ref>`_ ：
 
 .. code-block:: console
@@ -263,4 +263,4 @@
     │           ├── mod.rs (修改：使用线程对应的中断上下文地址而非固定的 TRAP_CONTEXT)
     │           └── trap.S
     ├── README.md
-    └── rust-toolchain
+    └── rust-toolchain.toml
