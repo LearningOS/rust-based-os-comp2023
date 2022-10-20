@@ -9,7 +9,7 @@ Welcome to Open-Source OS Training Comp 2022（2022 年开源操作系统训练�
 - [**QA**](./Q**A.md)（常见问题解答）
 - **Online Ranking**（训练营在线排行榜）
   - [第一阶段排行：Rust Lang & rCore Kernel](https://learningos.github.io/classroom-grad**ing/)
-  - [第二阶段排行**：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
+  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
 - [**Learning Resource**](./relatedinfo.md)（训练营学习资源）
 
 ## History
@@ -17,7 +17,7 @@ Welcome to Open-Source OS Training Comp 2022（2022 年开源操作系统训练�
 - [open-source os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source os training comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 
-- ## 助教 & 事务管理负责人
+## 助教 & 事务管理负责人
 
 - 姓名：许善朴
   - 微信号id： bitmeet520
