@@ -77,9 +77,7 @@ RUN rustup --version && \
 # See os1/Makefile `env:` for example.
 # This avoids having to wait for these steps each time using a new container.
 RUN rustup target add riscv64gc-unknown-none-elf && \
-    cargo install cargo-binutils --vers ~0.2 && \
-    rustup component add rust-src && \
-    rustup component add llvm-tools-preview
+    cargo install cargo-binutils
 
 # Ready to go
 WORKDIR ${HOME}
