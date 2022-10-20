@@ -1,8 +1,11 @@
-.vscode
-.idea
-Cargo.lock
-target
-os/last-*
+**/.*/*
+!.github/*
+!.cargo/*
+
+**/target
+**/Cargo.lock
+/os*/src/link_app.S
+/os/last-*
+
 tools
 workplace/
-/os*/link_app.S
