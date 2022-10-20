@@ -1,3 +1,6 @@
+# 注意事项
+ [**Stage1 SCHEDULING**](./scheduling.md) & [**Stage2 SCHEDULING**](https://github.com/LearningOS/oscomp-kernel-training)是开源操作系统训练营的第一/二阶段安排，可根据阶段安排中的信息和下面列出的资源信息进行自学和自我联系。
+
 
 # 2022夏季Rust程序设计训练课资源（easy）
 
