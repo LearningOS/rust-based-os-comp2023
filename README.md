@@ -2,7 +2,7 @@
 
 Welcome to Open-Source OS Training Comp 2022（2022 年开源操作系统训练营）.
 
-## Scheduling
+## Important Info
 
 - [**Stage1 SCHEDULING**](./scheduling.md) & [**Stage2 SCHEDULING**](https://github.com/LearningOS/oscomp-kernel-training)（2022 年开源操作系统训练营的第一/二阶段安排，可根据这些阶段安排的信息进行自学和自我训练）!
 - [News](./news.md)（2022 年开源操作系统训练营的新闻和纪要）
