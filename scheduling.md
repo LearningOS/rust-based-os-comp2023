@@ -8,7 +8,7 @@
   - [第一阶段排行：Rust Lang & rCore Kernel](https://learningos.github.io/classroom-grading/)
   - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
 
-欢迎在校学生/工程师在2022年秋冬季参加清华大学、CSDN、毛豆教育等共同举办的**2022年秋冬季开源操作系统训练营**活动（2022.11.01～2023.02.01），本次活动分为两个阶段，第一阶段：线上自学Rust编程和OS基础[基于Rust语言学习和Rust-based OS Kernel实验](./scheduling.md)（2022.11.01～2022.12.15）和第二阶段：线上自学OS拓展[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training)（2022.12.16～2023.02.01） ,主要是**用Rust语言设计实现支持Linux APP的OS Kernel**，大约要支持50个左右的Linux Syscalls，能通过上百个Linux App测试用例。如果有其它有趣的想法或愿意参加更有挑战的训练（比如实现支持Rust协程的OS，支持unikernel&微库形态的OS等），请与助教和老师联系。
+欢迎在校学生/工程师在2022年秋冬季参加清华大学、CSDN、毛豆教育等共同举办的**2022年秋冬季开源操作系统训练营**活动（2022.11.01～2023.02.01），本次活动分为两个阶段，第一阶段：线上自学Rust编程和OS基础，并进行[Rust语言编程实验](https://github.com/LearningOS/rustlings)和[Rust-based OS Kernel实验](https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs)（2022.11.01～2022.12.15）和第二阶段：线上自学并挑战[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training)（2022.12.16～2023.02.01） ,主要是**用Rust语言设计实现支持Linux APP的OS Kernel**，大约要支持50个左右的Linux Syscalls，能通过上百个Linux App测试用例。如果有其它有趣的想法或愿意参加更有挑战的训练（比如实现支持Rust协程的OS，支持unikernel&微库形态的OS等），请与助教和老师联系。
 
 如有兴趣参加，请在2022年10月30日前请在[报名登记处](https://github.com/LearningOS/rust-based-os-comp2022/issues/101)填写相关个人信息，并加入[相关微信群](./wechat1016.png)。获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（2022.11.01～2022.12.15）的同学如果通过review，将可在2022.12.16～2023.02.01，开展第二阶段[基于Rust语言的操作系统内核拓展实践](https://github.com/LearningOS/oscomp-kernel-training)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与到企业/科研院所的操作系统实习/实践/工作/学习等相关的活动。
 
