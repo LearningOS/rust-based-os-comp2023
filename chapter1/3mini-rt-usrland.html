@@ -475,10 +475,10 @@
 
 <span class="cp">#[no_mangle]</span><span class="w"></span>
 <span class="k">extern</span><span class="w"> </span><span class="s">"C"</span><span class="w"> </span><span class="k">fn</span> <span class="nf">_start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="fm">print!</span><span class="p">(</span><span class="s">"Hello, "");</span>
-<span class="s">    println!("</span><span class="n">world</span><span class="o">!</span><span class="s">");</span>
-<span class="s">    sys_exit(9);</span>
-<span class="s">}</span>
+<span class="w">    </span><span class="fm">print!</span><span class="p">(</span><span class="s">"Hello, "</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"world!"</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">sys_exit</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>现在，我们编译并执行一下，可以看到正确的字符串输出，且程序也能正确退出！</p>
