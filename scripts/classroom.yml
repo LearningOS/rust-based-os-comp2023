@@ -13,12 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: nightly-2022-04-11
-          components: rust-src, llvm-tools-preview
-          target: riscv64gc-unknown-none-elf
       - uses: actions-rs/install@v0.1
         with:
           crate: cargo-binutils
