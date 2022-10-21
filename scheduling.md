@@ -120,7 +120,7 @@
 - [OS课程slides](https://learningos.github.io/os-lectures/)
 - [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/)
 - [rCore Tutorial v3的实验代码](https://github.com/rcore-os/rCore-Tutorial-v3)
-- [2022年春季OS课程讲解和OS实验讲解](./relatedinfo.md)
+- [视频：2022年春季OS课程讲解和OS实验讲解](./relatedinfo.md#课程视频)
 - [2022年春季OS课程实验中 ``cargo doc`` 生成的各章参考OS的API文档](./relatedinfo.md)
 
 ##### 具体步骤
