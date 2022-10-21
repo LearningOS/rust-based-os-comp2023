@@ -56,6 +56,7 @@
 
    - 推荐：[Rust语言圣经(Rust教程 Rust Course和配套练习)](https://course.rs/)
    - 推荐：[Rust速查表（cheatsheet）](https://cheats.rs/) 该项目不仅提供了基础的语法速查，还有执行顺序详解和编写时需要关注的注意事项。项目还包含了示例代码（EX）、书籍（BK）、标准（STD）等相关资料的扩展。
+   - [清华计算机系大一学生2022暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
 
 2. 自学编程
 
