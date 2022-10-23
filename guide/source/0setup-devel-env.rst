@@ -361,9 +361,44 @@ GDB 调试支持*
 
 VSCode 可视化调试支持
 ------------------------------
-本节将介绍如何在VSCode可视化环境中进行调试。所使用的的环境为Codespace + 本地VScode。（网页版本的VSCode没有试过，个人感觉使用本地VSCode连接到Codespace会比使用在线版本稳定一些。具体方法就是在打开Codespace时，点击Open In Visual Studio Code即可）
+本节将介绍如何在VSCode可视化环境中进行调试。所使用的的环境为Codespace + 本地VScode。
+
+本地VSCode + 远程Codespace环境配置
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. attention::
+
+	网页版本的VSCode没有试过，个人感觉使用本地VSCode连接到Codespace会比使用在线版本稳定一些。
+	
+1. 打开自己lab仓库的Codespaces（lab_repository-->Code-->Codespaces）
+
+.. image:: ./chapter0/vscode_codespaces_01.png
+
+2. 在Codespaces截面，点击左下角"Codespaces"，在弹窗中点击"Open in VS Code Desktop"
+
+.. image:: ./chapter0/vscode_codespaces_02.png
+
+3. 在“要打开Visual Studio Code吗？”弹窗中点击"打开Visual Studio Code"
+
+.. image:: ./chapter0/vscode_codespaces_03.png
+
+4. 本地VSCode可能会提示GitHub Codespaces尚未安装，按照提示安装
+
+.. image:: ./chapter0/vscode_codespaces_04.png
+
+5. 完成4后，重新进行2,3操作
+
+6. 本地VSCode左下角可能会提示"Please sign in to connect to GitHub Codespaces",按照提示登录。登录过程中可能会提示GitHub要求VSCode至少在1.66版本以上，按要求更新本地VSCode
+
+.. image:: ./chapter0/vscode_codespaces_06.png
+
+7. 完成6后，重新进行2,3操作，即可实现本地VSCode远程连接Codespace
+
+可视化调试环境配置
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. attention::
+
    本操作指南参考了2022版实验手册，以及kidcats同学在http://rcore-os.cn/rCore-Tutorial-Book-v3/chapter0/5setup-devel-env.html所发表的评论内容。
 
 第一步，我们需要安装RiscV对应的GDB调试器，对应不同操作系统的调试器的下载地址可以参考上一节给出的链接。因为我们的Codespace是在Linux环境下的，所以我们可以在Terminal中使用如下命令：
