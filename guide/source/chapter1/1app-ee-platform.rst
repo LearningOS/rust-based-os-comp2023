@@ -88,7 +88,7 @@ cargo 为我们准备好了 ``Hello world!`` 源代码：
 其中 host 一项表明默认目标平台是 ``x86_64-unknown-linux-gnu``，
 CPU 架构是 x86_64，CPU 厂商是 unknown，操作系统是 linux，运行时库是 gnu libc。
 
-接下来，我们希望把 ``Hello, world!`` 移植到 RICV 目标平台 ``riscv64gc-unknown-none-elf`` 上运行。
+接下来，我们希望把 ``Hello, world!`` 移植到 RISC-V 目标平台 ``riscv64gc-unknown-none-elf`` 上运行。
 
 .. note::
 
