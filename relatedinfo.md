@@ -78,7 +78,11 @@
 - [chapter8(lab5)同步互斥的代码解析和练习讲解视频](https://cloud.tsinghua.edu.cn/f/b6b94ccebe084b31aa6b/)
 - [chapter9（第二阶段训练）内核中断/外设管理的代码解析讲解视频](https://cloud.tsinghua.edu.cn/f/1c9706422ad54cad997c/)
 
-## 20220705"开源操作系统学习训练营开幕式" 相关slides
+## “秋冬季开源操作系统训练营”过程相关内容
+- [20221101 秋冬季训练营启动交流会视频回放](https://meeting.tencent.com/v2/cloud-record/share?id=00e0e809-1e03-4f41-8e6a-4e71c0ca1342&from=3)
+
+
+## 20220705"夏季开源操作系统学习训练营开幕式" 相关slides
 
 - [2022年开源操作系统学习训练营安排：向勇](https://github.com/LearningOS/resrouce-on-rust-based-os-comp2022/blob/main/20220705-%E5%90%91%E5%8B%87-%E5%BC%80%E5%B9%95%E5%BC%8F%E4%B8%8A%E7%9A%84%E4%BB%8B%E7%BB%8D-v4.pdf)
 - [Rust学习与领域应用：张汉东](https://github.com/LearningOS/resrouce-on-rust-based-os-comp2022/blob/main/20220705-%E5%BC%A0%E6%B1%89%E4%B8%9C-Rust%E5%AD%A6%E4%B9%A0%E4%B8%8E%E9%A2%86%E5%9F%9F%E5%BA%94%E7%94%A8.pptx)
