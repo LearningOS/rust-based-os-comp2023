@@ -79,7 +79,7 @@
 - [chapter9（第二阶段训练）内核中断/外设管理的代码解析讲解视频](https://cloud.tsinghua.edu.cn/f/1c9706422ad54cad997c/)
 
 ## “秋冬季开源操作系统训练营”过程相关内容
-- [20221101 秋冬季训练营启动交流会视频回放](https://meeting.tencent.com/v2/cloud-record/share?id=00e0e809-1e03-4f41-8e6a-4e71c0ca1342&from=3)
+- [20221101：秋冬季训练营启动交流会视频回放](https://meeting.tencent.com/v2/cloud-record/share?id=00e0e809-1e03-4f41-8e6a-4e71c0ca1342&from=3)
 
 
 ## "夏季开源操作系统学习训练营开幕式" 相关slides
