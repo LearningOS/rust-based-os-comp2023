@@ -48,7 +48,7 @@
   - [学习记录的标杆2](https://kiprey.github.io/tags/uCore/)：湖南大学本科生肖政杭的自学ucore for x86的过程记录，是大家学习的榜样，供大家学习参考。
 
 - 在[第一阶段学习issues](https://github.com/LearningOS/rust-based-os-comp2022/issues/)上的提问和回答问题情况，在[第一阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2022/) 、 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) 上的Pull Request提交情况（代码改进、文档改进、文档错误等） (成绩分数：15%)
-- step 0 要求的[Rust-lang Lab Test based on Rustlings（采用Github Classroom模式的Rustling小练习）](https://classroom.github.com/a/YTNg1dEH) 的完成情况 (成绩分数：15%)
+- step 0 要求的[Rust-lang Lab Test based on Rustlings（采用Github Classroom模式的Rustling小练习）](https://classroom.github.com/a/U37u3veU) 的完成情况 (成绩分数：15%)
 - step 2 [第一阶段OS学习的5个实验](https://github.com/LearningOS/rust-based-os-comp2022#kernel-labs)的完成情况和总结报告 (成绩分数：50%)
   - [第一阶段总结报告的参考](https://rcore-os.github.io/blog/2021/07/29/rcore-summary-yangpan/): 杨攀同学的2021年开源操作系统训练营第一阶段总结报告
 
@@ -64,7 +64,7 @@
 
 2. 自学编程
 
-   - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/YTNg1dEH)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo）
+   - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/U37u3veU)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo）
      - 要求：**必须完成** 。每完成几个小练习，就执行 ``git add; git commit -m"update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
      - [学习系列视频：Rust中文社群线上学习室--通过 Rustlings 学 Rust](https://space.bilibili.com/24917186/video)
 
@@ -75,12 +75,11 @@
        > codespace 不是必须的。如果是本地的ubuntu中建立开发环境，可在shell中执行 `make ubuntu_local_setenv` 来自动安装配置开发环境（执行需要 `sudo` root 权限，仅需要执行一次）。
 
        1. 在网络浏览器中用自己的 github id 登录 github.com。
-       2. 接收 [Rust-lang Lab Test based on Rustlings 的github classroom在线邀请](https://classroom.github.com/a/YTNg1dEH)  ，根据提示一路选择OK即可。
+       2. 接收 [Rust-lang Lab Test based on Rustlings 的github classroom在线邀请](https://classroom.github.com/a/U37u3veU)  ，根据提示一路选择OK即可。
        3. 完成第二步后，你的rustings实验练习 的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的实验了。
        4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到 `codespace` 标签和醒目的 `create codesapce on edu` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
        5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc等工具。
-       6. 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
-       7. 然后就可以基于在线vscode进行测试 (执行命令 `rustlings watch` ），编辑代码的循环实验过程了。
+       6. 然后就可以基于在线vscode进行测试 (执行命令 `rustlings watch` ），编辑代码的循环实验过程了。
 
    - （Option）[32 Rust Quizes](https://dtolnay.github.io/rust-quiz/1)
      - 要求：小练习全部通过。（**非必须完成**）
