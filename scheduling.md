@@ -78,7 +78,7 @@
        2. 接收 [Rust-lang Lab Test based on Rustlings 的github classroom在线邀请](https://classroom.github.com/a/YTNg1dEH)  ，根据提示一路选择OK即可。
        3. 完成第二步后，你的rustings实验练习 的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的实验了。
        4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到 `codespace` 标签和醒目的 `create codesapce on edu` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
-       5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc等工具。
+       5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：具体来说第一步[安装rustup环境](https://www.rust-lang.org/tools/install)，第二步在命令行下输入`cargo install --force --path .` 运行即可即可。（不要用just run的自动安装的方法，否则会出现rustlings环境配置错误）
        6. 在vscode的 `console` 中执行 `make setupclassroom`  （该命令仅执行一次）配置githubclassroom 自动评分功能。
        7. 然后就可以基于在线vscode进行测试 (执行命令 `rustlings watch` ），编辑代码的循环实验过程了。
 
