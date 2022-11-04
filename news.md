@@ -1,5 +1,5 @@
 # 2022 年开源操作系统训练营的新闻与活动纪要
-
+- 2022.11.04：到目前为止，参与训练营的学员在 https://github.com/LearningOS 上创建了**2000 多个 public/private gitclassroom repos**。
 - 2022.11.01：2022 秋冬季训练营启动交流会，会议时间：2022/11/01 20:00-21:00 ，#腾讯会议号：838-197-763。请报名的同学参加。[视频回放](https://meeting.tencent.com/v2/cloud-record/share?id=00e0e809-1e03-4f41-8e6a-4e71c0ca1342&from=3)
 - 2022.10.16：2022 秋冬季训练营开始招生(报名时间段 2022.10.16 ~ 2022.10.30)，请在[报名登记处](https://github.com/LearningOS/rust-based-os-comp2022/issues/101) 填写相关个人信息，并加入[相关微信群](./wechat1016.png)。（如加不了微信群，请写“OS训练营”联系助教许善朴 微信号id： bitmeet520 帮助加入。另外，如果你有时间，其实不用等待报名结束，现在就可以开始基于[第一阶段](./scheduling.md)安排进行自学&自我训练--这就是训练营的主要内容）
 - 2022.10.01：2022 秋冬季训练营筹备中，正在准备 2022 年开源操作系统训练营的第一/二阶段安排：[**Stage1 SCHEDULING**](./scheduling.md) & [**Stage2 SCHEDULING**](https://github.com/LearningOS/oscomp-kernel-training)。
