@@ -18,7 +18,7 @@ Welcome to Open-Source OS Training Comp 2022（欢迎加入2022 年开源操作�
 - [open-source os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source os training comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 
-## 事务管理负责人
+## 开源社区负责人
 - 李明 微信id：limingth
 
 ## 助教
