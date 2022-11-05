@@ -18,10 +18,13 @@ Welcome to Open-Source OS Training Comp 2022（欢迎加入2022 年开源操作�
 - [open-source os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source os training comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 
-## 助教 & 事务管理负责人
+## 事务管理负责人
+- 李明 微信id：limingth
 
-- 许善朴
-
+## 助教
+- 唐洪雨 微信id：thy1037
+- 刘逸珑 微信id：onedragon424
+- 陈文杰 微信id：tor4zS6
 
 ## 技术指导委员会
 
