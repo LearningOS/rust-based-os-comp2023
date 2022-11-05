@@ -5,3 +5,7 @@ https://github.com/chyyuu/aos_course_info/blob/master/unikernel-related.md  unik
 - 2022.11.05 删除报名表
 
 根据学员的反馈，考虑到大家的信息安全和隐私， https://github.com/LearningOS/rust-based-os-comp2022/issues/101 的报名作用也已经完成。如果没有收到进一步的异议，用于训练营前期报名的issues https://github.com/LearningOS/rust-based-os-comp2022/issues/101 将在今天下午被删除。
+
+- 2022.11.05 微信群助教名单
+
+"2022秋冬季开源OS训练营-泛在OS" 微信群助教是@助教-唐洪雨 @刘逸珑 @陈文杰 @李明 @陈渝
