@@ -14,7 +14,7 @@ log = "0.4"
 riscv = { git = "https://github.com/rcore-os/riscv", features = ["inline-asm"] }
 lock_api = "=0.4.6"
 xmas-elf = "0.7.0"
-virtio-drivers = { git = "https://github.com/rcore-os/virtio-drivers" }
+virtio-drivers = { git = "https://github.com/rcore-os/virtio-drivers", rev = "93f821c" }
 easy-fs = { path = "../easy-fs" }
 
 [profile.release]
