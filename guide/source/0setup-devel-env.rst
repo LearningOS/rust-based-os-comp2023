@@ -469,3 +469,4 @@ VSCode 可视化调试支持
 
 * 对Cargo.toml的配置文件感兴趣，可以参考 <https://doc.rust-lang.org/cargo/reference/profiles.html>
 * 对VSCode、GDB、qemu之间的互相调用关系感兴趣，可以参考：<https://www.bilibili.com/video/BV1jP4y1u7Nb>
+* os1和os2无需大家进行coding，从os3开始，需要大家coding完成相应的功能
