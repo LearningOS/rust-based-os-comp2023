@@ -34,8 +34,8 @@ Github Classroom方式进行在线OS 环境配置
    2. 接收 `第一个实验练习 setup-env-run-os1 的github classroom在线邀请 <https://classroom.github.com/a/hnoWuKGF>`_  ，根据提示一路选择OK即可。
    3. 完成第二步后，你的第一个实验练习 setup-env-run-os1 的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的第一个实验了。
    4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到  `codespace` 标签和醒目的 `create codesapce on main` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
-   5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc，qemu等工具。注：也可在vscode的 `console` 中执行 ``make codespaces_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
-   6. **重要：** 在vscode的 `console` 中执行 `make setupclassroom_testX`  （该命令仅执行一次，X的范围为 1-8）配置githubclassroom 自动评分功能。
+   5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc（nightly版本），qemu等工具。注：也可在vscode的 `console` 中执行 ``make codespaces_setenv`` 来自动安装配置开发环境（执行``sudo``需要root权限，仅需要执行一次）。
+   6. **重要：** 在vscode的 `console` 中执行 `make setupclassroom_testX`  （该命令仅执行一次，X的范围为 1-8，**无论是否更换环境，都无需再执行**）配置githubclassroom 自动评分功能。
    7. 然后就可以基于在线vscode进行开发、运行、提交等完整的实验过程了。
 
    上述的3，4，5步不是必须的，你也可以仅仅基于 ``Github Classromm`` 生成git repository，并进行本地开发。
