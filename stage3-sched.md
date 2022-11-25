@@ -17,8 +17,8 @@
 - 题目：[zCore结构和核心组件，报告人：张译仁，时间：2022.08.01 20:30(周一晚上)](https://www.bilibili.com/video/BV1LN4y1j7ce/?spm_id_from=333.999.0.0)
 - 题目：[操作系统多核启动，报告人：杨德睿，时间：2022.08.02 20:30(周二晚上)](https://www.bilibili.com/video/BV1d14y147L1/?spm_id_from=333.999.0.0)
 - 题目：[实现zCore syscall，报告人：董峰，时间：2022.08.03 20:30(周三晚上)](https://www.bilibili.com/video/BV1xN4y1V7uL/?spm_id_from=333.999.0.0)
-- 题目：[zCore网络框架，报告人：萧络元，时间：2022.08.03 20:30(周四晚上)](https://www.bilibili.com/video/BV1gP411j78D/?spm_id_from=333.999.0.0)
-- 题目：[zCore单元测试框架，报告人：石振兴，时间：2022.08.05 20:30(周五晚上)](https://www.bilibili.com/video/BV1ia411V7eA/?spm_id_from=333.999.0.0)
+- 题目：[zCore网络框架，报告人：萧络元，时间：2022.08.03 20:30(周四晚上)](https://www.bilibili.com/video/BV1ia411V7eA/?spm_id_from=333.999.0.0)
+- 题目：[zCore单元测试框架，报告人：石振兴，时间：2022.08.05 20:30(周五晚上)](https://www.bilibili.com/video/BV1gP411j78D/?spm_id_from=333.999.0.0)
 
 ## 日程：第二~第四周：操作系统研究与探索项目 (34天)
 
