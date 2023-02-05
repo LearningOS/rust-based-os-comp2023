@@ -80,8 +80,8 @@
 
 ## “秋冬季开源操作系统训练营”过程相关内容
 - 2022.11.01：[20221101：秋冬季训练营启动交流会视频回放](https://meeting.tencent.com/v2/cloud-record/share?id=00e0e809-1e03-4f41-8e6a-4e71c0ca1342&from=3)
-- 2022.02.05：[2022 秋冬季训练营总结会&组件化操作系统设计与实现技术交流会-part2](https://meeting.tencent.com/v2/cloud-record/share?id=b2bd335e-c3fb-4169-8558-7621c71dfb75&from=3&is-single=true)
-- 2022.02.02：[组件化操作系统设计与实现技术交流会-part1](https://meeting.tencent.com/v2/cloud-record/share?id=af9f763c-a862-4dd4-9552-7061b1355b0d&from=3)
+- 2023.02.05：[2022 秋冬季训练营总结会&组件化操作系统设计与实现技术交流会-part2](https://meeting.tencent.com/v2/cloud-record/share?id=b2bd335e-c3fb-4169-8558-7621c71dfb75&from=3&is-single=true)
+- 2023.02.02：[组件化操作系统设计与实现技术交流会-part1](https://meeting.tencent.com/v2/cloud-record/share?id=af9f763c-a862-4dd4-9552-7061b1355b0d&from=3)
 
 ## "夏季开源操作系统学习训练营开幕式" 相关slides
 
