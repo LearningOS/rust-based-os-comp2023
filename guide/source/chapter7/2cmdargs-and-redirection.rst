@@ -35,7 +35,7 @@ shell程序的命令行参数分割
 
 .. code-block:: rust
 
-    // user/src/bin/ch6b_user_shell.rs
+    // user/src/bin/ch7b_user_shell.rs
 
     let args: Vec<_> = line.as_str().split(' ').collect();
     let mut args_copy: Vec<String> = args
@@ -57,7 +57,7 @@ shell程序的命令行参数分割
 
 .. code-block:: rust
 
-    // user/src/bin/ch6b_user_shell.rs
+    // user/src/bin/ch7b_user_shell.rs
 
     let mut args_addr: Vec<*const u8> = args_copy
     .iter()
@@ -214,7 +214,7 @@ sys_exec 将命令行参数压入用户栈
 
 可以看到，在入口 ``_start`` 中我们就接收到了命令行参数个数 ``argc`` 和字符串数组的起始地址 ``argv`` 。但是这个起始地址不太好用，我们希望能够将其转化为编写应用的时候看到的 ``&[&str]`` 的形式。转化的主体在第 10~23 行，就是分别取出 ``argc`` 个字符串的起始地址（基于字符串数组的 base 地址 ``argv`` ），从它向后找到第一个 ``\0`` 就可以得到一个完整的 ``&str`` 格式的命令行参数字符串并加入到向量 ``v`` 中。最后通过 ``v.as_slice`` 就得到了我们在 ``main`` 主函数中看到的 ``&[&str]`` 。
 
-有了命令行参数支持，我们就可以编写命令行工具 ``ch6b_cat`` 来输出指定文件的内容了。读者可以自行参阅其实现。
+有了命令行参数支持，我们就可以编写命令行工具 ``ch7b_cat`` 来输出指定文件的内容了。读者可以自行参阅其实现。
 
 标准输入输出重定向
 -------------------------------------------------
@@ -262,7 +262,7 @@ sys_exec 将命令行参数压入用户栈
 
 .. code-block:: rust
 
-    // user/src/bin/ch6b_user_shell.rs
+    // user/src/bin/ch7b_user_shell.rs
 
     // redirect input
     let mut input = String::new();
