@@ -1,5 +1,6 @@
 DOCKER_NAME ?= rust-os-camp-2022
 DIR := workplace
+SHELL := /bin/bash
 .PHONY: docker build_docker
 
 test: test3 test4 test5 test6 test7 test8
@@ -178,7 +179,7 @@ ubuntu_local_setenv:
 	qemu-riscv64 --version
 	curl https://sh.rustup.rs -sSf | sh -s -- -y
 	source ${HOME}/.cargo/env
-	rustc --version
+	${HOME}/.cargo/bin/rustc --version
 
 # for github codespaces ubuntu with zsh SHELL, need root for sudo
 codespaces_setenv:
