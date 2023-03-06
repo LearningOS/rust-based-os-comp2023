@@ -108,14 +108,7 @@ Docker方式进行本地OS开发环境配置
 Windows10 用户可以通过系统内置的 **WSL2** 虚拟机（请不要使用 WSL1）来安装 Ubuntu 18.04 / 20.04 。读者请自行在互联网上搜索相关安装教程，或 `适用于 Linux 的 Windows 子系统安装指南 (Windows 10) <https://docs.microsoft.com/zh-cn/windows/wsl/install-win10#step-4---download-the-linux-kernel-update-package>`_ 。
 
 
-
-
-使用 macOS 进行实验理论上也是可行的，但本章节仅介绍 Ubuntu 下的环境配置方案。
-
-.. note::
-
-   经初步测试，使用 M1 芯片的 macOS 也可以运行本实验的框架，即我们的实验对平台的要求不是很高。但我们仍建议同学配置 Ubuntu 环境，以避免未知的环境问题。
-
+使用 macOS 进行实验也是可行的，在下文中有介绍。
 
 Rust 开发环境配置
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -254,6 +247,59 @@ Qemu 模拟器安装
 
    qemu-system-riscv64 --version
    qemu-riscv64 --version
+
+在 macOS 上配置开发环境
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+实验的运行环境基本依赖于 Qemu，因此在基于 Arm64 架构 M1 芯片的 macOS 上也能正常运行实验环境，经验证 lab0 到 lab5 的实验代码均可在 M1 macOS 及 x86_64 macOS 上通过测试。
+
+本节介绍使用 brew 包管理工具安装 Qemu 及 Rust 工具链，brew 中维护了较新的 Qemu（2022年7月时版本为7.0.0），因此可以不需要源码编译。
+
+brew 可以通过官网下载 `brew 官网 <https://brew.sh/>`_。
+
+.. code-block:: bash
+
+   brew install qemu
+   brew install rustup-init
+   
+
+确认 Qemu 的版本：
+
+.. code-block:: bash
+
+   qemu-system-riscv64 --version
+
+在安装完 rustup-init 后执行该程序进行工具链的初始化：
+
+.. code-block:: bash
+
+   rustup-init
+
+会进入如下的安装过程，按回车确定使用默认选项即可。
+
+.. code-block:: bash
+
+   1) Proceed with installation (default)
+   2) Customize installation
+   3) Cancel installation
+   >
+
+安装后需将 rustup 所在路径添加为环境变量，如在 zsh 或 bash 中则可输入 ``source "$HOME/.cargo/env"``。
+
+需要额外手动安装支持 RiscV 上的编译目标：
+
+.. code-block:: bash
+
+   rustup target add riscv64gc-unknown-none-elf
+
+另外，评测脚本使用了 timeout 命令，并不属于 macOS 内置命令，需额外安装，集成在 coreutils 里：
+
+.. code-block:: bash
+
+   brew install coreutils
+
+.. note::
+   上述各命令可能会有权限问题，如遇见 ``Permission Denied`` 请自行在命令前加上 ``sudo``。完成以上安装后就可以在 macOS 上正常运行实验了。
 
 试运行 rCore-Tutorial
 ------------------------------------------------------------
