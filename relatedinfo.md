@@ -7,6 +7,9 @@
 - [清华计算机系大一学生2022暑期课程：Rust程序设计训练](https://lab.cs.tsinghua.edu.cn/rust/)
 - [Rust相关书籍/课程/视频等资源汇总](https://github.com/rcore-os/rCore/wiki/study-resource-of-system-programming-in-RUST)
 
+## RISC-V 计算机硬件相关资源（normal）
+- [RISC-V相关课程资源](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021#step-1-%E8%87%AA%E5%AD%A6risc-v%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%A7%E7%BA%A67%E5%A4%A9)
+
 ## 2022春季OS课资源（normal）
 
 ### 课程Slides
