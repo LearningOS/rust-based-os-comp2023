@@ -1,4 +1,0 @@
-Vsscratch
-576
-end
-Virtual Supervisor Scratch Register.

@@ -1,6 +1,0 @@
-Vscause
-578
-interrupt,63,63,number,Is cause interrupt.
-code,62,0,number,Exception code
-end
-Virtual Supervisor Cause Register.

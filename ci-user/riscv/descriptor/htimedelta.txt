@@ -1,5 +1,0 @@
-Htimedelta
-1541
-end
-Hypervisor Time Delta Register.
-read_composite_csr!(super::htimedeltah::read(), read());

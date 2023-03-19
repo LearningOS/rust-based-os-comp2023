@@ -1,4 +1,0 @@
-Hgeip
-3602
-end
-Hypervisor Guest External Interrupt Pending Register.

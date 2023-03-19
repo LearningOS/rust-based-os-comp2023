@@ -1,20 +1,25 @@
-# Open-Source OS Training Comp 2022
+# Open-Source OS Training Comp 2023
 
-Welcome to Open-Source OS Training Comp 2022（欢迎加入2022 年开源操作系统训练营）
+Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作系统训练营）
 
 ## 重要信息
-
-- **2022.11.01：2022 秋冬季训练营启动交流会，会议时间：2022/11/01 20:00-21:00 ，#腾讯会议号：838-197-763。请报名的同学参加。**
-- [**Stage1 SCHEDULING**](./scheduling.md) & [**Stage2 SCHEDULING**](https://github.com/LearningOS/oscomp-kernel-training)（2022 年开源操作系统训练营的第一/二阶段安排，可根据这些阶段安排的信息进行自学和自我训练）
-- [**News**](./news.md)（2022 年开源操作系统训练营的新闻和纪要）
+- 2023.04.01：2023 年春夏季开源操作系统训练营正式启动。
+- 2023.03.19: 2023 年春夏季开源操作系统训练营启动&报名交流会，会议时间：2023/03/25 11:00-12:00 ，#腾讯会议号：231-190-126 会议密码：0325。请报名的同学参加。
+- [**第一阶段训练安排**](./scheduling-1.md) 
+- [**第二阶段训练安排**](./scheduling-2.md) 
+- [**(可选)竞赛级训练安排**](https://github.com/LearningOS/oscomp-kernel-training)
+- [**News**](./news.md)（2023 年开源操作系统训练营的新闻和纪要）
 - [**QA**](./QA.md)（常见问题解答）
 - **Online Ranking**（训练营在线排行榜）
   - [第一阶段排行：Rust Lang & rCore Kernel](https://learningos.github.io/classroom-grading/)
-  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
+  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/) 
 - [**Learning Resource**](./relatedinfo.md)（训练营学习资源）
 
-## 历史
 
+## 
+
+## 历史
+- [open-source os training comp 2022](https://github.com/LearningOS/rust-based-os-comp2023/tree/comp2022)
 - [open-source os training comp 2021](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2021)
 - [open-source os training comp 2020](https://github.com/rcore-os/rCore/wiki/os-tutorial-summer-of-code-2020)
 
@@ -22,9 +27,9 @@ Welcome to Open-Source OS Training Comp 2022（欢迎加入2022 年开源操作�
 - 李明 微信id：limingth
 
 ## 助教
-- 唐洪雨 微信id：thy1037
-- 刘逸珑 微信id：onedragon424
-- 陈文杰 微信id：tor4zS6
+- 田凯夫 微信id：tkf15944806118
+- 闭浩扬 微信id：scpointer
+- 杨金博 微信id：yangjinbo2000
 
 ## 技术指导委员会
 

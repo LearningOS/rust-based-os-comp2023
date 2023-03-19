@@ -1,4 +1,0 @@
-Hgeie
-1543
-end
-Hypervisor Guest External Interrupt Enable Register.

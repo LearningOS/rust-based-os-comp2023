@@ -1,7 +1,0 @@
-Hgatp
-1664
-mode,63,60,HgatpValues,Bare=0;Sv39x4=8;Sv48x4=9,Guest address translation mode.
-vmid,57,44,number,Virtual machine ID.
-ppn,43,0,number,Physical Page Number for root page table.
-end
-Hypervisor Guest Address Translation and Protection Register.
