@@ -27,6 +27,7 @@ Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作�
 - 李明 微信id：limingth
 
 ## 助教
+- 贾越凯 微信id: equation314
 - 田凯夫 微信id：tkf15944806118
 - 闭浩扬 微信id：scpointer
 - 杨金博 微信id：yangjinbo2000
