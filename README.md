@@ -13,9 +13,12 @@ Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作�
 - [**QA**](./QA.md)（常见问题解答）
 - **Online Ranking**（训练营在线排行榜）
   - [第一阶段排行榜：Rust Language Porgramming](https://learningos.github.io/rust-rustlings-ranking/)
+    -  [Rust Language Porgramming ClassRoom邀请链接](https://classroom.github.com/a/H1iQ2GNX) 
   - 第二阶段排行榜：OS Kernel Design&Implementation
      - [基于C语言的uCore Tutorial ClassRoom排行榜]( https://learningos.github.io/2023S-OS-uCore-Classroom-Rank-list/)
+       - [uCore Tutorial ClassRoom邀请链接](https://classroom.github.com/a/5vRW-e_W)
      - [基于Rust语言的rCore Tutorial ClassRoom排行榜]( https://learningos.github.io/2023S-OS-rCore-Classroom-Rank-list/) 
+       - [rCore Tutorial ClassRoom邀请链接](https://classroom.github.com/a/AFBsVzHi) 
 - [**Learning Resource**](./relatedinfo.md)（训练营学习资源）
 
 
