@@ -15,7 +15,7 @@
   - [Rust-based rCore Tutorial Kernel学习&实验](https://github.com/LearningOS/rCore-Tutorial-Guide-2023S)
 - 可选：（2023.07.01～2023.08.20）竞赛级训练：[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training) ,主要是**用Rust语言设计实现支持Linux APP的OS Kernel**，大约要支持<100个左右的Linux Syscalls，能通过上百个Linux App测试用例。如果有其它有趣的想法或愿意参加更有挑战的训练（比如实现支持Rust协程的OS，支持unikernel&微库形态的OS等），请与助教和老师联系。
 
-如有兴趣参加，请在2023年04月01日前请在[报名登记处]()填写相关个人信息，并加入[相关微信群]()。获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（2023.04.01～2023.05.01）的同学如果通过review，将可在2023.05.01～2023.07.01，开展第二阶段[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与到企业/科研院所的操作系统实习/实践/工作/学习等相关的活动。
+如有兴趣参加，请在2023年04月01日前请在填写[训练营报名登记表](http://chyyyuuu.mikecrm.com/2zxG8dp)填写相关个人信息，并加入[相关微信群](./2023os2train.jpg)。获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（2023.04.01～2023.05.01）的同学如果通过review，将可在2023.05.01～2023.07.01，开展第二阶段[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与到企业/科研院所的操作系统实习/实践/工作/学习等相关的活动。
 
 > 我们也在持续探索和改进开源操作系统训练营，即这个活动不仅仅局限在 2022.11.01～2023.02.01。我们希望建立的是一种长期持续发展的操作系统训练营模式，即各种学习资源都开源并整理集中在一起，导师/助教和学生/爱好者之间基于要做的实验或项目不定期/定期的进行交流。学生/爱好者完成了一定程度的学习和训练后，除了自身得到能力的提升外，还可获得相关证书和就业/学习等机会和相关推荐等，推动他在未来的进一步发展。
 
