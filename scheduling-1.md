@@ -5,11 +5,11 @@
 - [常见问题解答](./QA.md)
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
 - Online Ranking （训练营在线排行榜）
-  - [第一阶段排行：Rust Lang](https://learningos.github.io/classroom-grading/)
+  - [第一阶段排行：Rust Lang](https://learningos.github.io/rust-rustlings-ranking/)
 
 欢迎在校学生/工程师在2023年春夏季参加清华大学、CSDN、毛豆教育等共同举办的**2023年春夏季开源操作系统训练营**活动（2022.04.01～2023.08.01），本次活动分为两个阶段：
 
-- 第一阶段：（2023.04.01～2023.05.01）线上自学Rust编程和OS基础，并进行[Rust语言编程自学](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-0-%E8%87%AA%E5%AD%A6rust%E7%BC%96%E7%A8%8B%E5%A4%A7%E7%BA%A6714%E5%A4%A9)、[Rust语言编程实验](https://github.com/LearningOS/rustlings)、[RISC-V处理器学习](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-1-%E8%87%AA%E5%AD%A6risc-v%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%A7%E7%BA%A627%E5%A4%A9)
+- 第一阶段：（2023.04.01～2023.05.01）线上自学Rust编程和OS基础，并进行[Rust语言编程自学](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-0-%E8%87%AA%E5%AD%A6rust%E7%BC%96%E7%A8%8B%E5%A4%A7%E7%BA%A6714%E5%A4%A9)、[Rust语言编程实验](https://github.com/LearningOS/rustlings-template)、[RISC-V处理器学习](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-1-%E8%87%AA%E5%AD%A6risc-v%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%A7%E7%BA%A627%E5%A4%A9)
 - 第二阶段：（2023.05.01～2023.07.01）OS内核学习与实验
   - [C-based uCore Tutorial Kernel学习&实验](https://github.com/LearningOS/uCore-Tutorial-Guide-2023S)
   - [Rust-based rCore Tutorial Kernel学习&实验](https://github.com/LearningOS/rCore-Tutorial-Guide-2023S)
@@ -60,8 +60,8 @@
 
 2. 自学编程
 
-   - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/U37u3veU)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo）
-     - 要求：**必须完成** 。每完成几个小练习，就执行 ``git add; git commit -m"update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
+   - [Rust-lang Lab Test based on Rustlings](https://classroom.github.com/a/H1iQ2GNX)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo）
+     - 要求：**必须完成** 。完成所有练习后，执行 ``git add; git commit -m"update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
      - [学习系列视频：Rust中文社群线上学习室--通过 Rustlings 学 Rust](https://space.bilibili.com/24917186/video)
 
        **提示：基于github classroom的开发方式**
@@ -71,7 +71,7 @@
        > codespace 不是必须的。如果是本地的ubuntu中建立开发环境，可在shell中执行 `make ubuntu_local_setenv` 来自动安装配置开发环境（执行需要 `sudo` root 权限，仅需要执行一次）。
 
        1. 在网络浏览器中用自己的 github id 登录 github.com。
-       2. 接收 [Rust-lang Lab Test based on Rustlings 的github classroom在线邀请](https://classroom.github.com/a/U37u3veU)  ，根据提示一路选择OK即可。
+       2. 接收 [Rust-lang Lab Test based on Rustlings 的github classroom在线邀请](https://classroom.github.com/a/H1iQ2GNX)  ，根据提示一路选择OK即可。
        3. 完成第二步后，你的rustings实验练习 的 github repository 会被自动建立好，点击此github repository的链接，就可看到你要完成的实验了。
        4. 在你的第一个实验练习的网页的中上部可以看到一个醒目的 `code`  绿色按钮，点击后，可以进一步看到 `codespace` 标签和醒目的 `create codesapce on edu` 绿色按钮。请点击这个绿色按钮，就可以进入到在线的ubuntu +vscode环境中
        5. 再按照下面的环境安装提示在vscode的 `console` 中安装配置开发环境：rustc等工具。

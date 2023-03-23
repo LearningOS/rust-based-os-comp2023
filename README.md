@@ -12,8 +12,10 @@ Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作�
 - [**News**](./news.md)（2023 年开源操作系统训练营的新闻和纪要）
 - [**QA**](./QA.md)（常见问题解答）
 - **Online Ranking**（训练营在线排行榜）
-  - [第一阶段排行：Rust Lang & rCore Kernel](https://learningos.github.io/classroom-grading/)
-  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/) 
+  - [第一阶段排行榜：Rust Language Porgramming](https://learningos.github.io/rust-rustlings-ranking/)
+  - 第二阶段排行榜：OS Kernel Design&Implementation
+     - [uCore Tutorial ClassRoom排行榜]( https://learningos.github.io/2023S-OS-uCore-Classroom-Rank-list/)
+     - [rCore Tutorial ClassRoom排行榜]( https://learningos.github.io/2023S-OS-rCore-Classroom-Rank-list/) 
 - [**Learning Resource**](./relatedinfo.md)（训练营学习资源）
 
 
@@ -28,10 +30,11 @@ Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作�
 - 李明 微信id：limingth
 
 ## 助教
-- 贾越凯 微信id: equation314
+- 贾越凯 微信id：equation314
 - 田凯夫 微信id：tkf15944806118
 - 闭浩扬 微信id：scpointer
 - 杨金博 微信id：yangjinbo2000
+- 朱  懿 微信id：ZhiyuanSue
 
 ## 技术指导委员会
 
