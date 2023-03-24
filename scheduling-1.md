@@ -16,7 +16,7 @@
 - 可选：（完成第二阶段后～2023.08.20）OS竞赛级实战模拟训练：[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training) ,主要是**用Rust语言设计实现支持Linux APP的OS Kernel**，大约要支持<100个左右的Linux Syscalls，能通过上百个动静态链接的Linux App测试用例。
 - 可选：（完成第二阶段后～2023.08.20）[组件化操作系统设计与实现](https://github.com/rcore-os/arceos)，设计实现可灵活组合的内核模块，可灵活定制的内核框架，以及基于组合态OS的用户态应用程序。
 - 可选：（完成第二阶段后～2023.08.20）[可定制的hypervisor](https://github.com/LearningOS/RVM-Tutorial)，设计实现可在裸机或Linux中运行的Hypervisor，支持x86/ARM/RISC-V等多种硬件平台。
-- 可选：（完成第二阶段后～2023.08.20）如果有其它有趣的想法或愿意参加更有挑战的训练（比如实现支持Rust协程的OS，支持unikernel&微库形态的OS等）,欢迎提出。
+- 可选：（完成第二阶段后～2023.08.20）如果有其它有趣的想法或愿意参加更有挑战的训练（比如实现支持Rust协程的OS，支持unikernel&微库形态的OS等），欢迎提出，联系LearningOS开源社区负责人李明老师（微信id：limingth）和助教。
 
 
 如有兴趣参加，请在2023年04月01日前请在填写[训练营报名登记表](http://chyyyuuu.mikecrm.com/2zxG8dp)填写相关个人信息，并加入[相关微信群](./2023os2train.jpg)。获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（2023.04.01～2023.05.01）的同学如果通过review，将可在2023.05.01～2023.07.01，开展第二阶段[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与到企业/科研院所的操作系统实习/实践/工作/学习等相关的活动。
