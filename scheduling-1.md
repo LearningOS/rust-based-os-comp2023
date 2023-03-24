@@ -9,7 +9,7 @@
 
 欢迎在校学生/工程师在2023年春夏季参加清华大学、CSDN、毛豆教育等共同举办的**2023年春夏季开源操作系统训练营**活动（2022.04.01～2023.08.01），本次活动分为两个阶段：
 
-- 第一阶段：（2023.04.01～2023.05.01）线上自学Rust编程和OS基础，并进行[Rust语言编程自学](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-0-%E8%87%AA%E5%AD%A6rust%E7%BC%96%E7%A8%8B%E5%A4%A7%E7%BA%A6714%E5%A4%A9)、[Rust语言编程实验](https://github.com/LearningOS/rustlings-template)、[RISC-V处理器学习](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-1-%E8%87%AA%E5%AD%A6risc-v%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%A7%E7%BA%A627%E5%A4%A9)
+- 第一阶段：（2023.04.01～2023.05.01）线上自学Rust编程和OS基础，并进行[Rust语言编程自学](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-0-%E8%87%AA%E5%AD%A6rust%E7%BC%96%E7%A8%8B%E5%A4%A7%E7%BA%A6714%E5%A4%A9)、[Rust语言编程实验](https://github.com/LearningOS/rustlings-template)、[RISC-V处理器学习](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-1-%E8%87%AA%E5%AD%A6risc-v%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%A7%E7%BA%A627%E5%A4%A9) **注意：如第二阶段选择基于C语言的uCore Tutorial做OS Kernel实验，可跳过Rust语言编程自学和实验。**
 - 第二阶段：（2023.05.01～2023.07.01）OS内核学习与实验
   - [C-based uCore Tutorial Kernel学习&实验](https://github.com/LearningOS/uCore-Tutorial-Guide-2023S)
   - [Rust-based rCore Tutorial Kernel学习&实验](https://github.com/LearningOS/rCore-Tutorial-Guide-2023S)
