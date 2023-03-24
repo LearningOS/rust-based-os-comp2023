@@ -63,7 +63,7 @@ Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作�
 - 北京工商大学
 - 国防科技大学
 - CSDN
-- 毛豆教育
+- 阿图教育
 - 鹏城实验室
 - 启元实验室
 - 中关村实验室
