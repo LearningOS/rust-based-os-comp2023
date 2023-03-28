@@ -5,8 +5,11 @@
 - [常见问题解答](./QA.md)
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
 - Online Ranking （训练营在线排行榜）
-  - [第二阶段排行：OS Kernel Implementation in OSCOMP2022](https://os-autograding.github.io/classroom-grading-template/)
-
+  - [uCore Tutorial ClassRoom排名页面]( https://learningos.github.io/2023S-OS-uCore-Classroom-Rank-list/)
+  - [rCore Tutorial ClassRoom排名页面]( https://learningos.github.io/2023S-OS-rCore-Classroom-Rank-list/)
+- Classroom
+  - [uCore Tutorial ClassRoom邀请链接](https://classroom.github.com/a/5vRW-e_W)
+  - [rCore Tutorial ClassRoom邀请链接](https://classroom.github.com/a/AFBsVzHi)
 
 - 第二阶段：（2023.05.01～2023.07.01）线上自学OS基础知识，并进行OS实验
   - [C-based uCore Tutorial Kernel学习&实验](https://github.com/LearningOS/uCore-Tutorial-Guide-2023S)
