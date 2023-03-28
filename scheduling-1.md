@@ -6,7 +6,7 @@
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
 - Online Ranking （训练营在线排行榜）
   - [第一阶段排行：Rust Lang](https://learningos.github.io/rust-rustlings-ranking/)
-  - [rustling训练教室](https://classroom.github.com/a/U37u3veU)
+  - [rustlings Rust编程训练教室](https://classroom.github.com/a/U37u3veU)
 
 欢迎在校学生/工程师在2023年春夏季参加清华大学、CSDN、阿图教育等共同举办的**2023年春夏季开源操作系统训练营**活动（2022.04.01～2023.08.01），本次活动分为两个阶段：
 
