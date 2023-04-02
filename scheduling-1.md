@@ -6,7 +6,7 @@
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
 - Online Ranking （训练营在线排行榜）
   - [第一阶段排行：Rust Lang](https://learningos.github.io/rust-rustlings-ranking/)
-  - [rustlings Rust编程训练教室](https://classroom.github.com/a/U37u3veU)
+  - [rustlings Rust编程训练教室](https://classroom.github.com/a/H1iQ2GNX)
 
 欢迎在校学生/工程师在2023年春夏季参加清华大学、CSDN、阿图教育等共同举办的**2023年春夏季开源操作系统训练营**活动（2022.04.01～2023.08.01），本次活动分为两个阶段：
 
@@ -50,7 +50,7 @@
   - [学习记录的标杆2](https://kiprey.github.io/tags/uCore/)：湖南大学本科生肖政杭的自学ucore for x86的过程记录，是大家学习的榜样，供大家学习参考。
 
 - 在[第一阶段学习的讨论](https://github.com/LearningOS/rust-based-os-comp2023/discussions/)上的提问和回答问题情况 (成绩分数：30%)
-- 要求的[Rust-lang Lab Test based on Rustlings（采用Github Classroom模式的Rustling小练习）](https://classroom.github.com/a/U37u3veU) 的完成情况 (成绩分数：70%)
+- 要求的[Rust-lang Lab Test based on Rustlings（采用Github Classroom模式的Rustling小练习）](https://classroom.github.com/a/H1iQ2GNX) 的完成情况 (成绩分数：70%)
 
 
 #### step 0 自学rust编程（大约7~14天）
@@ -65,7 +65,7 @@
 
 2. 自学编程
 
-   - [2023春夏季OS训练营--rustling训练](https://classroom.github.com/a/U37u3veU)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo）
+   - [2023春夏季OS训练营--rustling训练](https://classroom.github.com/a/H1iQ2GNX)（采用Github Classroom模式的Rustling小练习，点击上述链接，形成自己的练习用repo）
      - 要求：**必须完成** 。完成所有练习后，执行 ``git add; git commit -m"update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。要求小练习全部通过GithubClassroom的CI自动评测。
      - [学习系列视频：Rust中文社群线上学习室--通过 Rustlings 学 Rust](https://space.bilibili.com/24917186/video)
 
