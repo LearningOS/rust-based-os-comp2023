@@ -8,7 +8,7 @@
   - [第一阶段排行：Rust Lang](https://learningos.github.io/rust-rustlings-ranking/)
   - [rustlings Rust编程训练教室](https://classroom.github.com/a/H1iQ2GNX)
 
-欢迎在校学生/工程师在2023年春夏季参加清华大学、CSDN、阿图教育等共同举办的**2023年春夏季开源操作系统训练营**活动（2022.04.01～2023.08.01），本次活动分为两个阶段：
+欢迎在校学生/工程师在2023年春夏季参加清华大学、CSDN、阿图教育等共同举办的**2023年春夏季开源操作系统训练营**活动（2023.04.01～2023.08.01），本次活动分为两个阶段：
 
 - 第一阶段：（2023.04.01～2023.05.01）线上自学Rust编程和OS基础，并进行[Rust语言编程自学](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-0-%E8%87%AA%E5%AD%A6rust%E7%BC%96%E7%A8%8B%E5%A4%A7%E7%BA%A6714%E5%A4%A9)、[Rust语言编程实验](https://github.com/LearningOS/rustlings-template)、[RISC-V处理器学习](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-1.md#step-1-%E8%87%AA%E5%AD%A6risc-v%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%A7%E7%BA%A627%E5%A4%A9) **注意：如第二阶段选择基于C语言的uCore Tutorial做OS Kernel实验，可跳过Rust语言编程自学和实验。**
 - 第二阶段：（2023.05.01～2023.07.01）OS内核学习与实验
@@ -20,9 +20,9 @@
 - 可选：（完成第二阶段后～2023.08.20）如果有其它有趣的想法或愿意参加更有挑战的训练（比如实现支持Rust协程的OS，支持unikernel&微库形态的OS等），欢迎提出，联系LearningOS开源社区负责人李明老师（微信id：limingth）和助教。
 
 
-如有兴趣参加，请在2023年04月01日前请在填写[训练营报名登记表](http://chyyyuuu.mikecrm.com/2zxG8dp)填写相关个人信息，并加入[相关微信群](./2023os2train.jpg)。获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（2023.04.01～2023.05.01）的同学如果通过review，将可在2023.05.01～2023.07.01，开展第二阶段[OS Kernel supporting Linux Apps实验](https://github.com/LearningOS/oscomp-kernel-training)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与到企业/科研院所的操作系统实习/实践/工作/学习等相关的活动。
+如有兴趣参加，请在2023年04月01日前请在填写[训练营报名登记表](http://chyyyuuu.mikecrm.com/2zxG8dp)填写相关个人信息，并加入[相关微信群](./2023os2train.jpg)。获得邀请后，将开始参与本次训练营活动。完成本次活动第一阶段（2023.04.01～2023.05.01）的同学如果通过review，将可在2023.05.01～2023.07.01，开展[第二阶段](https://github.com/LearningOS/rust-based-os-comp2023/blob/main/scheduling-2.md)。训练营结束后，部分表现突出的同学将获得训练营优秀证书。鼓励同学继续以开源社区的方式参与到企业/科研院所的操作系统实习/实践/工作/学习等相关的活动。
 
-> 我们也在持续探索和改进开源操作系统训练营，即这个活动不仅仅局限在 2022.11.01～2023.02.01。我们希望建立的是一种长期持续发展的操作系统训练营模式，即各种学习资源都开源并整理集中在一起，导师/助教和学生/爱好者之间基于要做的实验或项目不定期/定期的进行交流。学生/爱好者完成了一定程度的学习和训练后，除了自身得到能力的提升外，还可获得相关证书和就业/学习等机会和相关推荐等，推动他在未来的进一步发展。
+> 我们也在持续探索和改进开源操作系统训练营，即这个活动不仅仅局限在 2023.4.01～2023.8.01。我们希望建立的是一种长期持续发展的操作系统训练营模式，即各种学习资源都开源并整理集中在一起，导师/助教和学生/爱好者之间基于要做的实验或项目不定期/定期的进行交流。学生/爱好者完成了一定程度的学习和训练后，除了自身得到能力的提升外，还可获得相关证书和就业/学习等机会和相关推荐等，推动他在未来的进一步发展。
 
 ## 目标：
 
@@ -53,7 +53,7 @@
 - 要求的[Rust-lang Lab Test based on Rustlings（采用Github Classroom模式的Rustling小练习）](https://classroom.github.com/a/H1iQ2GNX) 的完成情况 (成绩分数：70%)
 
 
-#### step 0 自学rust编程（大约7~14天）
+#### step 1 自学rust编程（大约7~14天）
 
 前提条件： 要求有基本数据结构，算法基础，相对了解或熟悉C语言等编程.
 
@@ -103,15 +103,13 @@
      - 要求：大部分练习会做或能读懂。（**非必须完成**）
      - [exercism.io官方站点](https://exercism.io/)
 
-#### step 1 自学risc-v系统结构（大约2~7天）
+#### step 2 自学risc-v系统结构（大约2~7天）
 
 前提条件：要求有基本计算机组成原理，计算机系统结构基础。
 
 阅读《计算机组成与设计（RISC-V版）》第一、二章，可以在整体结构上对 RISC-V 体系建立基本认知。再进行后面的学习比较有效果。
 
-#### 自学材料和练习要求:
-
-1. 阅读书籍和在线课程
+1. 书籍和在线课程资料
 
    - 自学[PPT for RISC-V特权指令级架构](https://content.riscv.org/wp-content/uploads/2018/05/riscv-privileged-BCN.v7-2.pdf)
    - 自学[RISC-V手册：一本开源指令集的指南](http://riscvbook.com/chinese/RISC-V-Reader-Chinese-v2p1.pdf) 重点是第10章
@@ -124,10 +122,10 @@
 
    - （Option）[Berkeley CS61C: Great Ideas in Computer Architecture (Machine Structures)](http://www-inst.eecs.berkeley.edu/~cs61c/sp18/)
 
-   > Option的含义是：如果有足够的时间建议看看，否则在后续要用到时或需要查询进一步信息时再查阅这些内容。
+> Option的含义是：如果有足够的时间建议看看，否则在后续要用到时或需要查询进一步信息时再查阅这些内容。
 
-3. 通过要求
+#### 通过要求:
 
-   - 掌握RUST编程，理解RISC-V与OS相关的硬件特性（中断，异常，系统调用，寄存器，特权级，MMU...）。
+  - 掌握RUST编程，理解RISC-V与OS相关的硬件特性（中断，异常，系统调用，寄存器，特权级，MMU...）。
 
 One More Thing：当你看到这，感觉第一阶段还没开始，还在想下一步要干啥时，我们的建议是：**Just Do It NOW!**
