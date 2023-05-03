@@ -47,11 +47,13 @@
 
 ## 2022春季OS课实验框架讲解
 
-- [20220001 rcore-tutorial-v3 lab1](https://cloud.tsinghua.edu.cn/f/9440395fad1a44b690f9/)
-- [20220002 rcore-tutorial-v3 lab2](https://cloud.tsinghua.edu.cn/f/96e49fe5770b40199d61/)
-- [20220003 rcore-tutorial-v3 lab3](https://cloud.tsinghua.edu.cn/f/4e8c590689e448a2893f/)
-- [20220004 rcore-tutorial-v3 lab4](https://cloud.tsinghua.edu.cn/f/a44d31de255047ceb1fc/)
-- [20220005 rcore-tutorial-v3 lab5](https://cloud.tsinghua.edu.cn/f/7935a70766514c2ca08c/)
+- [20220001 rcore-tutorial-v3 ch1&ch2](https://cloud.tsinghua.edu.cn/f/254e6cc6921849e29e8c/)
+- [20220002 rcore-tutorial-v3 ch3](https://cloud.tsinghua.edu.cn/f/17a7c9d9b57f4838ae5f/)
+- [20220003 rcore-tutorial-v3 ch4](https://cloud.tsinghua.edu.cn/f/d44189eff077452e99a5/)
+- [20220004 rcore-tutorial-v3 ch5](https://cloud.tsinghua.edu.cn/f/e2a8b8b54037484fac73/)
+- [20220005 rcore-tutorial-v3 ch6](https://cloud.tsinghua.edu.cn/f/a5d5ece6e5b849a3ae8a/)
+- [20220006 rcore-tutorial-v3 ch8](https://cloud.tsinghua.edu.cn/f/b6b94ccebe084b31aa6b/)
+- [20220007 rcore-tutorial-v3 ch9](https://cloud.tsinghua.edu.cn/f/1c9706422ad54cad997c/)
 
 > 密码是 `xushanpu123`
 
