@@ -3,6 +3,7 @@
 Welcome to Open-Source OS Training Comp 2023（欢迎加入2023 年开源操作系统训练营）
 
 ## 重要信息
+- [**第一阶段训练安排**](./2023-autumn-scheduling-1.md) 
 - 2023.10.08：2023 年秋冬季开源操作系统训练营正式启动。
 - 2023.09.30：[2023秋冬季OS训练营培训课表安排](https://docs.qq.com/sheet/DUHZ3anNKUW53TXdL?tab=000001) 。
 
