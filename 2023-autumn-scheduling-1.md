@@ -4,6 +4,7 @@
 - [新闻与纪要](./news.md)
 - [常见问题解答](./QA.md)
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
+- [第一阶段课程直播](https://os2edu.cn/course/123/)
 - Online Ranking （训练营在线排行榜）
   - [第一阶段排行：Rust Lang](https://os2edu.cn/2023-autumn-rust-ranking/)
   - [rustlings Rust编程训练教室](https://classroom.github.com/a/gbr5Jk7V)
@@ -76,7 +77,7 @@
        
        11. 练习rustlings。使用vscode等编辑器，进入clone下来的目录下的`exercises`文件夹，依次完成对应的练习。使用`rustlings run 练习名称`去运行对应练习，也可以使用`rustlings hint 练习名称`查看题解。
        
-       12. 提交。当做完部分或所有练习之后，执行 ``git add; git commit -m "update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。你可以在github仓库页面的actions页面，看到你的CI提交结果，或者 http://os2edu.cn/2023-autumn-rust-ranking上面查看自己的评分。
+       12. 提交。当做完部分或所有练习之后，执行 ``git add; git commit -m "update"; git push`` 命令，把更新提交到GithubClassroom的CI进行自动评测。你可以在github仓库页面的actions页面，看到你的CI提交结果，或者 http://os2edu.cn/2023-autumn-rust-ranking 上面查看自己的评分。
        
        13. 上述步骤有任何问题都可以找助教。
    
