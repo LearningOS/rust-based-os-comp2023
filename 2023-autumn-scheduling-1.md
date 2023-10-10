@@ -5,6 +5,7 @@
 - [常见问题解答](./QA.md)
 - [Learning Resource](./relatedinfo.md) (训练营学习资源)
 - [第一阶段课程直播](https://os2edu.cn/course/123/)
+- [2023/10/09第一次课程ppt](https://cloud.tsinghua.edu.cn/d/51b02806997d459783e0/files/?p=%2FRust%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AD%A6%E4%B9%A0.pdf)
 - Online Ranking （训练营在线排行榜）
   - [第一阶段排行：Rust Lang](https://os2edu.cn/2023-autumn-rust-ranking/)
   - [rustlings Rust编程训练教室](https://classroom.github.com/a/gbr5Jk7V)
