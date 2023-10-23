@@ -51,10 +51,10 @@
 
 
 #### 基于Rust语言的rCore Tutorial实验指导
-- [实验文档](https://learningos.github.io/rCore-Tutorial-Guide-2023S/)
-- [API文档](https://github.com/LearningOS/rCore-Tutorial-Guide-2023S/#os-api-docs-of-rcore-tutorial-code-2022s) 
-- [实验代码](https://github.com/LearningOS/rCore-Tutorial-Code-2023S)
-- [测试用例](https://github.com/LearningOS/rCore-Tutorial-Test-2023S)
+- [实验文档](https://learningos.github.io/rCore-Tutorial-Guide-2023A/)
+- [API文档](https://github.com/LearningOS/rCore-Tutorial-Guide-2023A/#os-api-docs-of-rcore-tutorial-code-2022s) 
+- [实验代码](https://github.com/LearningOS/rCore-Tutorial-Code-2023A)
+- [测试用例](https://github.com/LearningOS/rCore-Tutorial-Test-2023A)
 
 
 #### [rCore实验讲解视频](https://www.yuque.com/docs/share/1b5b9260-8a80-4427-a612-78ec72b37e5f)
