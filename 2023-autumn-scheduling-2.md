@@ -25,7 +25,7 @@
   - [学习记录的标杆1](https://github.com/LearningOS/record)，浙江大学本科生徐文浩的2020开源操作系统训练营的过程记录，是大家学习的榜样，供大家学习参考。
   - [学习记录的标杆2](https://kiprey.github.io/tags/uCore/)：湖南大学本科生肖政杭的自学ucore for x86的过程记录，是大家学习的榜样，供大家学习参考。
 
-- 在[OS训练营github discussion](https://github.com/LearningOS/rust-based-os-comp2023/discussion) 上的提问和回答问题情况，在[第二阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2023/) 、 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) 上的Pull Request提交情况（代码改进、文档改进、文档错误等） (成绩分数：30%)
+- 在[OS训练营github discussions](https://github.com/LearningOS/rust-based-os-comp2023/discussions) 上的提问和回答问题情况，在[第二阶段OS学习项目](https://github.com/LearningOS/rust-based-os-comp2023/) 、 [rCore Tutorial v3的详细实验指导内容](https://rcore-os.github.io/rCore-Tutorial-Book-v3/) 上的Pull Request提交情况（代码改进、文档改进、文档错误等） (成绩分数：30%)
 
 - step 0 [第二阶段OS学习的5个实验](https://github.com/LearningOS/rust-based-os-comp2023#kernel-labs)的完成情况和总结报告 (成绩分数：70%)
   - [第二阶段总结报告的参考：杨攀同学的2021年开源操作系统训练营第一阶段总结报告](https://rcore-os.github.io/blog/2021/07/29/rcore-summary-yangpan/)
