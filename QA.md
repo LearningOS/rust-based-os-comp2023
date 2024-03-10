@@ -190,7 +190,7 @@ git push -f
 
 **方法一：（适合vscode 一般用户）**
 
-请看 [VSCode 可视化调试支持](https://learningos.github.io/rust-based-os-comp2022/0setup-devel-env.html#vscode)。
+请看 [VSCode 可视化调试支持](https://learningos.github.io/rust-based-os-comp2023/0setup-devel-env.html#vscode)。
 感谢  @myrfy 米明恒的贡献！
 
 **方法二：（适合vscode熟手）**
@@ -206,4 +206,4 @@ git push -f
 
 **方法三：（适合Linux 命令行熟手）**
 
-请看 [GDB 调试支持](https://learningos.github.io/rust-based-os-comp2022/0setup-devel-env.html#gdb)
+请看 [GDB 调试支持](https://learningos.github.io/rust-based-os-comp2023/0setup-devel-env.html#gdb)
